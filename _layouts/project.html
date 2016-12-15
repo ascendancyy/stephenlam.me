@@ -1,0 +1,24 @@
+---
+layout: default
+---
+
+<article class="content">
+  <header>
+    <h1>
+      {{ page.title | escape }}
+      {% if page.github-link %}
+        <a class="github" href="{{ page.github-link | escape }}">On Github</a>
+      {% endif %}
+    </h1>
+  </header>
+
+  <img src="/img/projects/{{ page.title | slugify }}.png" alt="">
+  {% if page.image-subtitle %}
+    <div class="subtitle">
+      {{ page.image-subtitle | markdownify }}
+    </div>
+  {% endif %}
+  <div class="description">
+    {{ page.description | markdownify }}
+  </div>
+</article>

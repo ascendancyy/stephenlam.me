@@ -1,0 +1,146 @@
+.gallery {
+  margin-right: -$medium-rem-space;
+  margin-left: -$medium-rem-space;
+
+  @include align-content(space-between);
+
+  &:hover img { opacity: .75; }
+}
+/*-------------------------------------------------------*/
+
+.card {
+  @extend %large-bottom-margin;
+
+  @include flex(0 0 100%);
+
+  @media (min-width: 576px) {
+    width: 50%;
+
+    @include flex(0 0 50%);
+  }
+}
+
+.card-wrapper {
+  @extend %full-height;
+
+  margin-right: $medium-rem-space;
+  margin-left: $medium-rem-space;
+  padding: 0 $medium-rem-space;
+
+  background-color: transparentize($blue-white-1, .3);
+  box-shadow: $shadow;
+
+  &:hover img { opacity: 1; }
+}
+/*-------------------------------------------------------*/
+
+.card-img-wrapper {
+  position: relative;
+  z-index: 0;
+
+  @extend %medium-bottom-margin;
+  margin-right: -$medium-rem-space;
+  margin-left: -$medium-rem-space;
+  overflow: hidden;
+
+  @include flex-shrink(0);
+  @include flex-basis(auto);
+
+  img {
+    @include transform(scale(1.01, 1.01) rotate(.01deg));
+    @include backface-visibility(hidden);
+
+    @include transition(opacity 150ms linear);
+  }
+}
+/*-------------------------------------------------------*/
+
+.card-title { margin-bottom: 0; }
+/*-------------------------------------------------------*/
+
+.card-links { @extend %medium-bottom-margin; }
+.card-links li { margin: $small-em-space $medium-rem-space $small-em-space 0; }
+
+.card-link {
+  display: block;
+  @extend %full-height;
+  padding: $small-em-space $medium-rem-space;
+
+  color: $text-color;
+  white-space: nowrap;
+
+  background-color: $blue-white-2;
+  border: 1px solid $blue-white-5;
+  box-shadow: 0 1px 2px transparentize($black, .85);
+
+  &:hover,
+  &:visited,
+  &:visited:hover {
+    color: $blue-white;
+  }
+
+  &:hover,
+  &:visited:hover {
+    background-color: $brand-color;
+    border: 1px solid shade($brand-color, 20%);
+    box-shadow: 0 1px 5px transparentize($black, .65);
+  }
+
+  &:visited { color: shade($brand-color, 15%); }
+
+  .disabled & {
+    color: $blue-white-6;
+
+    opacity: .8;
+    background-color: $blue-white-2;
+    border: 1px solid $blue-white-3;
+
+    pointer-events: none;
+  }
+}
+/*-------------------------------------------------------*/
+
+.card-subtitle {
+  @extend %medium-bottom-margin;
+
+  font-size: .95em;
+}
+/*-------------------------------------------------------*/
+
+.tech-list {
+  position: relative;
+
+  padding: $small-em-space $small-rem-space;
+
+  &:before {
+    content: 'Made with:';
+
+    @include position(relative, 0 null null 0);
+
+    margin-right: $medium-rem-space;
+  }
+
+  &:after {
+    content: '';
+
+    @include position(absolute, 0 0 null 0);
+
+    height: 1px;
+
+    background-color: $blue-white-4;
+  }
+}
+
+.tech-item {
+  display: block;
+  margin: $small-em-space $medium-rem-space $small-em-space 0;
+  padding: 0 $medium-rem-space;
+
+  font-size: .85em;
+  color: tint($text-color, 22%);
+
+  background-color: $blue-white-2;
+  border-radius: 4px;
+  border: 1px solid $blue-white-3;
+}
+/*-------------------------------------------------------*/

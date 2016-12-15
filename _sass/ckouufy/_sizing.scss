@@ -1,0 +1,55 @@
+$cover-height:   200px;
+$nav-height:     3.25rem;
+$content-width:  800px;
+
+$large-em-space: 1em;
+$medium-em-space: .5em;
+$small-em-space: .25em;
+
+$large-rem-space: 1rem;
+$medium-rem-space: .5rem;
+$small-rem-space: .25rem;
+/*-------------------------------------------------------*/
+
+%full-height { height: 100%; }
+
+%large-bottom-margin { margin-bottom: $large-em-space; }
+%medium-bottom-margin { margin-bottom: $medium-em-space; }
+/*-------------------------------------------------------*/
+
+html { box-sizing: border-box; }
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+/*-------------------------------------------------------*/
+
+html,
+body {
+  @extend %full-height;
+}
+/*-------------------------------------------------------*/
+
+.wrapper {
+  margin: 0 auto;
+  max-width: $content-width;
+}
+/*-------------------------------------------------------*/
+
+.flex {
+   @include display(flex);
+   @include align-items(center);
+}
+
+.flex-column { @include flex-direction(column); }
+
+.flex-wrap { @include flex-wrap(wrap); }
+
+.flex-justify-center { @include justify-content(center); }
+.flex-justify-space { @include justify-content(space-between); }
+
+.flex-align-stretch { @include align-items(stretch); }
+.flex-align-end { @include align-items(flex-end); }
+/*-------------------------------------------------------*/

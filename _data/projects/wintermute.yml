@@ -1,0 +1,25 @@
+card-subtitle: Software to manage static site projects
+category: programming
+description: "In helping create this site I use the plugin Jekyll Portfolio Generator\
+  \ which assumes a project folder with individual yaml files for each project. I\
+  \ wanted a way to manage all the projects without having to manually edit yaml files.\
+  \ Thus wintermute.\n\nI'm not all too familiar with yaml. Though basic yaml is simple\
+  \ enought it is nice not having to worry about what goes in the file. The program\
+  \ will take care of that for me automatically. Better yet it's not human. What I\
+  \ mean is that it won't forget to put a colon, misspell a key name, or make a mistake.\
+  \ It will behave in a consistent manner (barring bugs of course). Not having to\
+  \ manage the actual files means I can focus on the actual content. All the tools\
+  \ I need to create the content for each project would be displayed to me.\n\nPresenting\
+  \ the data in a way that means I can quickly scan the relevant information at the\
+  \ time is a pretty core idea of high efficiency. Trying to parse a raw file isn't\
+  \ the best way to manage content - especially when trying to manage it in the context\
+  \ of other information. This is a big help to me. I can create and modify projects\
+  \ in context of each other. With this program I won't end up with multiple variations\
+  \ of the same category or duplicate titles. And if there is ever need of another\
+  \ aspect to my projects I can write a simple form to extend that functionality.\
+  \ \n"
+image-subtitle: A program that manages all the project files on this site. Written
+  using PySide (Python bindings for the Qt framework).
+order: 1
+technology: [Git, Python, PySide]
+title: Wintermute

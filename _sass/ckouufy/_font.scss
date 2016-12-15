@@ -1,0 +1,41 @@
+$base-font-family:  "Noto Sans", $helvetica;
+$base-font-size:    16px;
+$base-font-weight:  400;
+$base-line-height:  1.5;
+/*-------------------------------------------------------*/
+
+html {
+  text-size-adjust: 100%;
+  font-size: $base-font-size;
+}
+
+body {
+  font-size: 1rem;
+  font-family: $base-font-family;
+  line-height: $base-line-height;
+  color: $text-color;
+}
+/*-------------------------------------------------------*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Cairo", $helvetica;
+}
+
+h2 {
+  font-size: 1.75em;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1.25em;
+  font-weight: 600;
+}
+/*-------------------------------------------------------*/
+
+footer { font-size: .9em; }
+/*-------------------------------------------------------*/

@@ -1,0 +1,79 @@
+.social-nav {
+  @include position(relative, 0 0 null 0);
+
+  max-width: $content-width;
+  height: $nav-height;
+
+  @include transform(translate3d(0, 0, 0));
+
+  &.docked {
+    position: fixed;
+
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.spacer {
+  display: none;
+  @include size(100% $nav-height);
+
+  &.show { display: block; }
+}
+/*-------------------------------------------------------*/
+
+.nav-wrapper {
+  margin: 0 $large-rem-space;
+  max-width: $content-width;
+  @extend %full-height;
+  overflow: hidden;
+
+  background-color: tint($orange-white, 30%);
+  box-shadow: $shadow;
+
+  @include transition(margin 125ms linear);
+
+  .docked & { margin: 0; }
+}
+/*-------------------------------------------------------*/
+
+nav { @extend %full-height; }
+/*-------------------------------------------------------*/
+
+.links {
+  @extend %full-height;
+
+  li { @extend %full-height; }
+
+  a {
+    position: relative;
+
+    margin-right: $medium-rem-space;
+    margin-left: $medium-rem-space;
+    @extend %full-height;
+  }
+
+  a:after {
+    content: '';
+
+    @include position(absolute, null 0 0 0);
+
+    height: 4px;
+
+    background-color: $brand-color;
+    @include transform(translateY(100%));
+
+    @include transition(transform 115ms 20ms $ease-in-out-circ);
+  }
+
+  a:hover:after,
+  a.active:after {
+    @include transform(translateY(0));
+  }
+
+  svg {
+    @extend %full-height;
+    padding: $large-em-space $medium-rem-space;
+  }
+}
+/*-------------------------------------------------------*/

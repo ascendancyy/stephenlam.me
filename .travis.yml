@@ -1,0 +1,13 @@
+language: ruby
+
+branches:
+  only:
+    - master
+
+env:
+  global:
+  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+
+script: JEKYLL_ENV=production bundle exec jekyll build && bundle exec htmlproofer ./_site --empty-alt-ignore true --disable-external
+
+sudo: false

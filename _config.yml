@@ -1,0 +1,58 @@
+# Locations
+source: .
+destination: ./_site
+
+plugins_dir: _plugins
+data_dir: _data
+
+layouts_dir: _layouts
+includes_dir: _includes
+
+# Files
+exclude:
+  - README
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - stephenlam.me.sublime-project
+  - stephenlam.me.sublime-workspace
+
+include: []
+keep_files:
+  - git
+
+portfolio_dir: projects
+skip_related_projects: true
+
+# Site settings
+encoding: "utf-8"
+timezone: America/Los_Angeles
+
+title: Stephen Lam
+email: ascendancy.sl@gmail.com
+description: >
+  The portfolio of Stephen Lam - design lover from Palmdale, California.
+
+baseurl: "" # the subpath of your site, e.g. /blog
+url: https://stephenlam.me
+permalink: pretty
+
+social:
+  deviantart: ascendancyy
+  github: ascendancyy
+  twitter: ascendancyy__
+
+# Google analytics
+google_analytics: UA-88937605-1
+
+# Build settings
+quiet: false
+verbose:  false
+
+markdown: kramdown
+sass:
+  style: compressed
+
+# Serve settings
+host: 0.0.0.0
+port: 3000
