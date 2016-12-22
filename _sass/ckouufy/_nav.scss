@@ -1,5 +1,6 @@
 .social-nav {
   @include position(relative, 0 null null null);
+  z-index: 1;
 
   width: 100%;
   max-width: $content-width;
