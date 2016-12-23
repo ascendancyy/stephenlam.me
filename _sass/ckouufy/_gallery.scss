@@ -59,43 +59,44 @@
 /*-------------------------------------------------------*/
 
 .card-links { @extend %medium-bottom-margin; }
-.card-links li { margin: $small-em-space $medium-rem-space $small-em-space 0; }
+
+.card-links li {
+  margin: $small-em-space $medium-rem-space $small-em-space 0;
+  height: 2em;
+}
 
 .card-link {
-  display: block;
   @extend %full-height;
   padding: $small-em-space $medium-rem-space;
 
-  color: $text-color;
+  color: $blue-white;
   white-space: nowrap;
 
-  background-color: $blue-white-2;
-  border: 1px solid $blue-white-5;
-  box-shadow: 0 1px 2px transparentize($black, .85);
+  background-color: $brand-color;
+  border-radius: 4px;
 
-  &:hover,
-  &:visited,
-  &:visited:hover {
+  &:hover {
     color: $blue-white;
+    background-color: shade($brand-color, 15%);
   }
-
-  &:hover,
-  &:visited:hover {
-    background-color: $brand-color;
-    border: 1px solid shade($brand-color, 20%);
-    box-shadow: 0 1px 5px transparentize($black, .65);
-  }
-
-  &:visited { color: shade($brand-color, 15%); }
 
   .disabled & {
     color: $blue-white-6;
 
     opacity: .8;
     background-color: $blue-white-2;
-    border: 1px solid $blue-white-3;
 
     pointer-events: none;
+
+    svg { fill: $blue-white-6; }
+  }
+
+  svg {
+    margin-right: $small-rem-space;
+    @extend %full-height;
+    padding: $small-em-space 0;
+
+    fill: $blue-white;
   }
 }
 /*-------------------------------------------------------*/
@@ -140,7 +141,6 @@
   color: tint($text-color, 22%);
 
   background-color: $blue-white-2;
-  border-radius: 4px;
   border: 1px solid $blue-white-3;
 }
 /*-------------------------------------------------------*/
