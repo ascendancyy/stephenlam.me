@@ -1,22 +1,4 @@
-.social-nav {
-  @include position(relative, 0 null null null);
-  z-index: 1;
-
-  width: 100%;
-  max-width: $content-width;
-  height: $nav-height;
-
-  @include transform(translate3d(0, 0, 0));
-
-  &.docked { position: fixed; }
-}
-
-.spacer {
-  display: none;
-  @include size(100% $nav-height);
-
-  &.show { display: block; }
-}
+.social-nav { height: $nav-height; }
 /*-------------------------------------------------------*/
 
 .nav-wrapper {
@@ -26,10 +8,6 @@
 
   background-color: tint($orange-white, 30%);
   box-shadow: $shadow;
-
-  @include transition(margin 100ms linear);
-
-  .docked & { margin: 0; }
 }
 /*-------------------------------------------------------*/
 
