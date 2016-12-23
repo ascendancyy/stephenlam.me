@@ -31,9 +31,19 @@ layout: default
 
         <ul class="card-links flex flex-wrap">
           {% if project.github-link %}
-            <li><a class="card-link" href="{{ project.github-link | escape }}">Github</a></li>
+            <li>
+              <a class="card-link flex" href="{{ project.github-link | escape }}">
+                {% include github.svg %}
+                Github
+              </a>
+            </li>
           {% else %}
-            <li class="disabled"><a class="card-link" href="{{ project.github-link | escape }}">Github</a></li>
+            <li class="disabled">
+              <a class="card-link flex" href="{{ project.github-link | escape }}">
+                {% include github.svg %}
+                Github
+              </a>
+            </li>
           {% endif %}
         </ul>
 
