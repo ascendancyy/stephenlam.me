@@ -27,7 +27,7 @@ h1 { margin-bottom: 0; }
 
 p {
   margin-top: 0;
-  @extend %medium-bottom-margin;
+  @extend %large-bottom-margin;
 }
 /*-------------------------------------------------------*/
 
@@ -42,11 +42,11 @@ ul {
 /*-------------------------------------------------------*/
 
 a {
-  color: $text-color;
+  color: $brand-color;
   text-decoration: none;
 }
 
-a:hover { color: $brand-color; }
+a:hover { text-decoration: underline; }
 /*-------------------------------------------------------*/
 
 img {
