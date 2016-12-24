@@ -1,17 +1,21 @@
 .code {
   padding-left: $medium-rem-space;
 
+  font-size: .95em;
   color: $text-color;
 }
 
 .highlight {
-  margin: 0 0 $medium-em-space;
+  margin: -$medium-em-space 0 $large-em-space;
   padding: 0;
 
   background: tint($orange-white, 30%);
   box-shadow: $shadow;
 
-  pre { margin: 0; }
+  pre {
+    margin: 0;
+    overflow-x: auto;
+  }
 }
 
 .highlight .c { color: #999988; font-style: italic } // Comment
@@ -34,8 +38,9 @@
   padding-right: $medium-rem-space;
   padding-left: $medium-rem-space;
 
-  color: $text-color;
+  color: $blue-white-7;
   background-color: $blue-white-3;
+  border-right: 1px solid $blue-white-5;
 
   pointer-events: none;
   user-select: none;
