@@ -58,11 +58,14 @@
 .card-title { margin-bottom: 0; }
 /*-------------------------------------------------------*/
 
-.card-links { @extend %medium-bottom-margin; }
-
-.card-links li {
-  margin: $small-em-space $medium-rem-space $small-em-space 0;
+.card-links {
+  @extend %medium-bottom-margin;
   height: 2em;
+
+  li {
+    margin: $small-em-space $medium-rem-space $small-em-space 0;
+    @extend %full-height;
+  }
 }
 
 .card-link {
@@ -94,7 +97,6 @@
   svg {
     margin-right: $small-rem-space;
     @extend %full-height;
-    padding: $small-em-space 0;
 
     fill: $blue-white;
   }
