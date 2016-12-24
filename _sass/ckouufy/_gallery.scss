@@ -99,6 +99,7 @@
   svg {
     margin-right: $small-rem-space;
     @extend %full-height;
+    padding: $small-em-space .1rem;
 
     fill: $blue-white;
   }
