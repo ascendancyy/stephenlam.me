@@ -35,7 +35,10 @@ description: >
 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: https://stephenlam.me
-permalink: pretty
+permalink: "/blog/:title.html"
+
+paginate: 5
+paginate_path: "/blog/page:num"
 
 social:
   deviantart: ascendancyy
@@ -49,6 +52,7 @@ google_analytics: UA-88937605-1
 quiet: false
 verbose:  false
 
+highlighter: rouge
 markdown: kramdown
 sass:
   style: compressed

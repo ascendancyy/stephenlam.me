@@ -81,6 +81,8 @@
   &:hover {
     color: $blue-white;
     background-color: shade($brand-color, 15%);
+
+    text-decoration: none;
   }
 
   .disabled & {

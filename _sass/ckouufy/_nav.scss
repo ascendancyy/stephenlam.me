@@ -17,7 +17,22 @@ nav { @extend %full-height; }
 .links {
   @extend %full-height;
 
-  li { @extend %full-height; }
+  li {
+    position: relative;
+
+    @extend %full-height;
+  }
+
+  .separator { padding-right: 2px; }
+
+  .separator:after {
+    content: '';
+
+    @include position(absolute, $small-em-space 0 $small-em-space null);
+    width: 2px;
+
+    background-color: $blue-white-3;
+  }
 
   a {
     position: relative;
@@ -25,6 +40,13 @@ nav { @extend %full-height; }
     margin-right: $medium-rem-space;
     margin-left: $medium-rem-space;
     @extend %full-height;
+
+    color: $text-color;
+  }
+
+  a:hover{
+    color: $brand-color;
+    text-decoration: none;
   }
 
   a:after {
@@ -40,14 +62,29 @@ nav { @extend %full-height; }
     @include transition(transform 80ms 20ms linear);
   }
 
+  a.active:after { background-color: $black; }
+  a.active:hover:after { background-color: $brand-color; }
+
   a:hover:after,
   a.active:after {
     @include transform(translateY(0));
   }
 
   svg {
+    width: 0;
     @extend %full-height;
-    padding: $large-em-space $medium-rem-space;
+    padding: 0;
+
+    opacity: 0;
+
+    @include transition(opacity 260ms 10ms linear);
+
+    @media (min-width: 440px) {
+      width: auto;
+      padding: $large-em-space $medium-rem-space $large-em-space 0;
+
+      opacity: 1;
+    }
   }
 }
 /*-------------------------------------------------------*/

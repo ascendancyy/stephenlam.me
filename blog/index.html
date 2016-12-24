@@ -1,0 +1,15 @@
+---
+layout: default
+---
+
+<div class="content">
+  <ul>
+  {% if paginator.posts.size > 0 %}
+    {% for post in paginator.posts %}
+      <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+    {% endfor %}
+  {% else %}
+    <p>A bit empty here...</p>
+  {% endif %}
+  </ul>
+</div>
