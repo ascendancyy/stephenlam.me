@@ -1,4 +1,31 @@
-body { background: linear-gradient(170deg, $orange-white 0, $blue-white-3 100%) top left / auto no-repeat fixed $orange-white; }
+@keyframes fade-up {
+  0% {
+    @include transform(translateY(3%));
+  }
+
+  100% {
+    @include transform(translateY(0));
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+/*-------------------------------------------------------*/
+
+body {
+  background: linear-gradient(170deg, $orange-white 0, $blue-white-3 100%) top left / auto no-repeat fixed $orange-white;
+
+  @include animation-name(fade-in);
+  @include animation-duration(300ms);
+  @include animation-timing-function($ease-in-sine);
+}
 /*-------------------------------------------------------*/
 
 header,
@@ -7,7 +34,13 @@ main {
 }
 
 header { padding: 0 0 $large-em-space; }
-main { padding: $large-em-space $large-rem-space; }
+
+main {
+  position: relative;
+  z-index: 1;
+
+  padding: $large-em-space $large-rem-space;
+}
 /*-------------------------------------------------------*/
 
 h1,
@@ -63,6 +96,12 @@ article img {
   @extend %large-bottom-margin;
 
   &:last-child { margin-bottom: 0; }
+
+  @include animation-name(fade-up, fade-in);
+  @include animation-timing-function($ease-out-quart, ease);
+  @include animation-duration(1300ms, 900ms);
+  @include animation-fill-mode(forwards, forwards);
+  @include animation-delay(0, 150ms);
 }
 
 .subtitle {
@@ -83,6 +122,9 @@ article img {
 /*-------------------------------------------------------*/
 
 footer {
+  position: relative;
+  z-index: 2;
+
   margin-right: $large-rem-space;
   margin-left: $large-rem-space;
   padding: $large-em-space $large-rem-space;
