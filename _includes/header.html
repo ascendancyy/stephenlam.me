@@ -24,7 +24,7 @@
             </a>
           </li>
 
-          <li class="separator">
+          <li>
             {% if page.url == "/blog/" %}
             <a class="flex flex-justify-center active" href="/blog">
             {% else %}
@@ -43,16 +43,6 @@
               <a class="flex flex-justify-center" href="https://github.com/{{ site.social.github }}/">
                 {% include github.svg %}
                 Github
-              </a>
-            </li>
-          {% endif %}
-          {% if site.social.deviantart %}
-            <li>
-              <a class="flex flex-justify-center" href="http://{{ site.social.deviantart }}.deviantart.com/">
-                <svg viewBox="0 91.912 136.46 214.31">
-                   <polygon fill="#05CC47" points="131.459,134.061 131.459,96.913 131.447,96.913 94.312,96.913 90.605,100.651 73.075,134.057 67.564,137.775 5.001,137.775 5.001,188.791 39.396,188.791 42.458,192.496 5.001,264.072 5.001,301.221 5.011,301.221 42.15,301.221 45.857,297.483 63.385,264.077 68.9,260.359 131.459,260.359 131.459,209.343 97.068,209.343 94.006,205.613 "/>
-                </svg>
-                DeviantArt
               </a>
             </li>
           {% endif %}

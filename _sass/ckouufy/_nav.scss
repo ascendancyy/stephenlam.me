@@ -79,7 +79,7 @@ nav { @extend %full-height; }
 
     @include transition(opacity 260ms 10ms linear);
 
-    @media (min-width: 440px) {
+    @media (min-width: 310px) {
       width: auto;
       padding: $large-em-space $medium-rem-space $large-em-space .1rem;
 
