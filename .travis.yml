@@ -1,13 +1,24 @@
 language: ruby
 
-branches:
-  only:
-    - master
+sudo: false
 
 env:
   global:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
 
-script: JEKYLL_ENV=production bundle exec jekyll build && bundle exec htmlproofer ./_site --empty-alt-ignore true --disable-external --check-html --check-opengraph --check-img-http --report-missing-names --allow-hash-href
+addons:
+  ssh_known_hosts:
+    - stephenlam.me
 
-sudo: false
+script: scripts/tests.sh
+
+before_deploy:
+  - openssl aes-256-cbc -K $encrypted_c190e59dec8d_key -iv $encrypted_c190e59dec8d_iv -in deploy_key.enc -out /tmp/${TRAVIS_BUILD_ID}_key -d
+  - eval "$(ssh-agent -s)"
+  - chmod 600 /tmp/${TRAVIS_BUILD_ID}_key
+  - ssh-add /tmp/${TRAVIS_BUILD_ID}_key
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: scripts/deploy.sh
