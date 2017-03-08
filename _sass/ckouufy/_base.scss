@@ -28,12 +28,9 @@ body {
 }
 /*-------------------------------------------------------*/
 
-header,
-main {
-  @extend %large-bottom-margin;
-}
+main { @extend %large-bottom-margin; }
 
-header { padding: 0 0 $large-em-space; }
+header { padding: 0; }
 
 main {
   position: relative;
@@ -130,7 +127,7 @@ footer {
   padding: $large-em-space $large-rem-space;
 
   background-color: transparentize($blue-white-1, .4);
-  box-shadow: $shadow;
+  box-shadow: $shadow-small;
 }
 /*-------------------------------------------------------*/
 

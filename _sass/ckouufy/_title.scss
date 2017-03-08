@@ -1,0 +1,37 @@
+@keyframes fade-down-large {
+  0% {
+    @include transform(translateY(-15%));
+  }
+
+  100% {
+    @include transform(translateY(0));
+  }
+}
+/*-------------------------------------------------------*/
+
+.title {
+  @include display(flex);
+  @include align-items(center);
+
+  margin: 0 auto;
+  max-width: $content-width;
+  padding: 40px $large-rem-space 0 $large-rem-space;
+
+  @include animation-name(fade-down-large, fade-in);
+  @include animation-timing-function($ease-out-quart, ease);
+  @include animation-duration(900ms, 880ms);
+  @include animation-fill-mode(forwards, forwards);
+  @include animation-delay(0, 150ms);
+
+}
+
+.title__content {
+  padding: $small-em-space 0;
+  overflow: hidden;
+
+  font-size: 305%;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+/*-------------------------------------------------------*/

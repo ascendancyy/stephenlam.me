@@ -1,90 +1,115 @@
-.social-nav { height: $nav-height; }
-/*-------------------------------------------------------*/
-
-.nav-wrapper {
-  margin: 0 $large-rem-space;
-  @extend %full-height;
-  overflow: hidden;
-
-  background-color: tint($orange-white, 30%);
-  box-shadow: $shadow;
+.topbar {
+  height: $nav-height;
+  background-color: $brand-color;
+  box-shadow: $shadow-large;
 }
 /*-------------------------------------------------------*/
 
-nav { @extend %full-height; }
+.topbar__content {
+  @include display(flex);
+
+  margin: 0 auto;
+  max-width: $content-width;
+  @extend %full-height;
+  padding: 0 $medium-rem-space;
+
+  overflow: hidden;
+}
 /*-------------------------------------------------------*/
 
-.links {
+.topbar__list {
+  @include display(flex);
+  @extend %full-height;
+}
+/*-------------------------------------------------------*/
+
+.topbar__list-item {
+  position: relative;
+  @extend %full-height;
+}
+
+.topbar__list-item:first-child {
+  margin-right: 0;
+
+  pointer-events: none;
+
+  @media (min-width: 300px) {
+    margin-right: ($large-rem-space * 1.5);
+  }
+}
+
+.topbar__list-item:after {
+  content: '';
+
+  @include position(absolute, 0 0 0 0);
+
+  opacity: 0;
+  background-color: transparentize($orange-white, 0.88);
+
+  @include transform(scale(0.7, 1));
+
+  pointer-events: none;
+
+  @include transition(opacity 123ms linear, transform 111ms linear);
+}
+
+.topbar__list-item:hover:after {
+  opacity: 1;
+  @include transform(scale(1, 1));
+}
+/*-------------------------------------------------------*/
+
+.topbar__link {
+  @include display(flex);
+  @include justify-content(center);
+  @include align-items(center);
+
+  position: relative;
+
+  margin-right: $medium-rem-space;
+  margin-left: $medium-rem-space;
   @extend %full-height;
 
-  li {
-    position: relative;
+  color: $blue-white;
+}
 
-    @extend %full-height;
+.topbar__link:hover{ text-decoration: none; }
+/*-------------------------------------------------------*/
+
+.topbar__icon {
+  width: 0;
+  @extend %full-height;
+  padding: 0;
+
+  opacity: 0;
+  fill: $blue-white;
+
+  @include transition(opacity 260ms 10ms linear);
+
+  @media (min-width: 300px) {
+    width: auto;
+    padding: ($medium-em-space * 2.25) $medium-rem-space ($medium-em-space * 2.25) .1rem;
+
+    opacity: 1;
   }
+}
+/*-------------------------------------------------------*/
 
-  .separator { padding-right: 2px; }
+.logo {
+  width: 0;
+  @extend %full-height;
+  padding: 0;
 
-  .separator:after {
-    content: '';
+  opacity: 0;
+  fill: $blue-white;
 
-    @include position(absolute, $small-em-space 0 $small-em-space null);
-    width: 2px;
+  @include transition(opacity 260ms 10ms linear);
 
-    background-color: $blue-white-3;
-  }
+  @media (min-width: 300px) {
+    width: auto;
+    padding: $medium-em-space $small-rem-space;
 
-  a {
-    position: relative;
-
-    margin-right: $medium-rem-space;
-    margin-left: $medium-rem-space;
-    @extend %full-height;
-
-    color: $text-color;
-  }
-
-  a:hover{
-    color: $brand-color;
-    text-decoration: none;
-  }
-
-  a:after {
-    content: '';
-
-    @include position(absolute, null 0 0 0);
-
-    height: 4px;
-
-    background-color: $brand-color;
-    @include transform(translateY(100%));
-
-    @include transition(transform 80ms 20ms linear);
-  }
-
-  a.active:after { background-color: $black; }
-  a.active:hover:after { background-color: $brand-color; }
-
-  a:hover:after,
-  a.active:after {
-    @include transform(translateY(0));
-  }
-
-  svg {
-    width: 0;
-    @extend %full-height;
-    padding: 0;
-
-    opacity: 0;
-
-    @include transition(opacity 260ms 10ms linear);
-
-    @media (min-width: 310px) {
-      width: auto;
-      padding: $large-em-space $medium-rem-space $large-em-space .1rem;
-
-      opacity: 1;
-    }
+    opacity: 1;
   }
 }
 /*-------------------------------------------------------*/

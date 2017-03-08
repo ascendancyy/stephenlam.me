@@ -28,7 +28,7 @@
   padding: 0 $medium-rem-space;
 
   background-color: transparentize($blue-white-1, .3);
-  box-shadow: $shadow;
+  box-shadow: $shadow-small;
 
   &:hover img { opacity: 1; }
 }

@@ -4,16 +4,6 @@ layout: default
 
 {% assign projects = site.data.projects | get_projects_from_files | sort:'order' %}
 
-<div id="aboutme" class="content">
-  <h2>About Me</h2>
-
-  <div class="bio">
-    <p>I'm passionate about making pleasing interfaces. I enjoy minimalism and appreciate the subtlety of it.</p>
-    <p>Web development is a powerful platform allowing for a wide array of applications to be created and shared. But being self-taught I remain wary of all the new bleeding-edge technologies being created. I don't want to use incorrect tools for a project.</p>
-    <p>I'm an Adobe Certified Associate with <strong>Photoshop</strong>. I know <strong>Python</strong> and some <strong>PySide</strong>.  I'm currently learning <strong>HTML</strong>, <strong>CSS</strong>, and <strong>Javascript</strong>. Once I feel comfortable with those technologies I plan on learning about deployment practices such a <strong>continuous integration</strong>. I would also like to learn <strong>vue.js</strong> at some point.</p>
-  </div>
-</div>
-
 <div id="works" class="content">
   <h2>Works</h2>
 
@@ -45,12 +35,6 @@ layout: default
               </a>
             </li>
           {% endif %}
-        </ul>
-
-        <ul class="tech-list flex flex-wrap">
-          {% for tech in project.technology %}
-            <li class="tech-item">{{ tech }}</li>
-          {% endfor %}
         </ul>
       </div>
     </li>
