@@ -20,6 +20,6 @@ description: "In helping create this site I use the plugin Jekyll Portfolio Gene
   \ \n"
 image-subtitle: A program that manages all the project files on this site. Written
   using PySide (Python bindings for the Qt framework).
-order: 1
+order: 2
 technology: [Git, Python, PySide]
 title: Wintermute
