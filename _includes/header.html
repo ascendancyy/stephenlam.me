@@ -2,10 +2,6 @@
   <div class="topbar">
     <div class="topbar__content">
       <ul class="topbar__list">
-        <li class="topbar__list-item">
-          {% include logo.svg class="logo" %}
-        </li>
-
         {% if site.social.github %}
           <li class="topbar__list-item">
             <a class="topbar__link" href="https://github.com/{{ site.social.github }}/">
@@ -26,6 +22,9 @@
   </div>
 
   <div class="title">
-    <h1 class="title__content">{{ site.title | escape }}</h1>
+    <h1 class="title__content">
+      {% include logo.svg class="logo" %}
+      {{ site.title | escape }}
+    </h1>
   </div>
 </header>

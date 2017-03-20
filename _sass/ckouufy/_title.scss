@@ -15,18 +15,18 @@
 
   margin: 0 auto;
   max-width: $content-width;
-  padding: 40px $large-rem-space 0 $large-rem-space;
+  padding: 30px $large-rem-space 30px $large-rem-space;
 
-  @include animation-name(fade-down-large, fade-in);
-  @include animation-timing-function($ease-out-quart, ease);
-  @include animation-duration(900ms, 880ms);
-  @include animation-fill-mode(forwards, forwards);
-  @include animation-delay(0, 150ms);
-
+  @include animation-name(fade-in);
+  @include animation-timing-function(linear);
+  @include animation-duration(555ms);
+  @include animation-fill-mode(forwards);
+  @include animation-delay(0);
 }
 
 .title__content {
-  padding: $small-em-space 0;
+  position: relative;
+  padding: 50px 0 $small-em-space 55px;
   overflow: hidden;
 
   line-height: 1;

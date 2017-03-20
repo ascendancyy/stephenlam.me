@@ -1,7 +1,7 @@
 .topbar {
   height: $nav-height;
-  background-color: $brand-color;
-  box-shadow: $shadow-large;
+  background-color: $black;
+  box-shadow: $shadow-small;
 }
 /*-------------------------------------------------------*/
 
@@ -26,16 +26,7 @@
 .topbar__list-item {
   position: relative;
   @extend %full-height;
-}
-
-.topbar__list-item:first-child {
-  margin-right: 0;
-
-  pointer-events: none;
-
-  @media (min-width: 300px) {
-    margin-right: ($large-rem-space * 1.5);
-  }
+  cursor: pointer;
 }
 
 .topbar__list-item:after {
@@ -96,20 +87,10 @@
 /*-------------------------------------------------------*/
 
 .logo {
-  width: 0;
-  @extend %full-height;
+  @include position(absolute, 0 null null 0);
+  @include size(88px);
   padding: 0;
 
-  opacity: 0;
-  fill: $blue-white;
-
-  @include transition(opacity 260ms 10ms linear);
-
-  @media (min-width: 300px) {
-    width: auto;
-    padding: $medium-em-space $small-rem-space;
-
-    opacity: 1;
-  }
+  fill: $brand-color;
 }
 /*-------------------------------------------------------*/
