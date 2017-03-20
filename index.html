@@ -7,35 +7,34 @@ layout: default
 <div id="works" class="content">
   <h2>Works</h2>
 
-  <ul class="gallery flex flex-wrap flex-align-stretch">
+  <ul class="gallery">
     {% for project in projects %}
     <li class="card {{ project.category }}" data-order="{{ project.order }}">
-      <div class="card-wrapper flex flex-column flex-align-stretch">
+      <div class="card-wrapper">
 
-        <div class="card-img-wrapper">
-          <img src="/img/projects/{{ project.title | slugify }}.png" alt="">
+        <img class="card__image" src="/img/projects/{{ project.title | slugify }}.png" alt="">
+        <div class="card__content">
+          <h3 class="card__title">{{ project.title }}</h3>
+          <p class="card__subtitle">{{ project.card-subtitle }}</p>
+
+          <ul class="card__links">
+            {% if project.github-link %}
+              <li>
+                <a class="card__link" href="{{ project.github-link | escape }}">
+                  {% include github.svg %}
+                  Github
+                </a>
+              </li>
+            {% else %}
+              <li class="disabled">
+                <a class="card__link" href="{{ project.github-link | escape }}">
+                  {% include github.svg %}
+                  Github
+                </a>
+              </li>
+            {% endif %}
+          </ul>
         </div>
-
-        <h3 class="card-title">{{ project.title }}</h3>
-        <p class="card-subtitle">{{ project.card-subtitle }}</p>
-
-        <ul class="card-links flex flex-wrap">
-          {% if project.github-link %}
-            <li>
-              <a class="card-link flex" href="{{ project.github-link | escape }}">
-                {% include github.svg %}
-                Github
-              </a>
-            </li>
-          {% else %}
-            <li class="disabled">
-              <a class="card-link flex" href="{{ project.github-link | escape }}">
-                {% include github.svg %}
-                Github
-              </a>
-            </li>
-          {% endif %}
-        </ul>
       </div>
     </li>
     {% endfor %}

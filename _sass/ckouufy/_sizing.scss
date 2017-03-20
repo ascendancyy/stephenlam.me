@@ -37,18 +37,8 @@ body {
 }
 /*-------------------------------------------------------*/
 
-.flex {
-   @include display(flex);
-   @include align-items(center);
+%flex {
+  @include display(flex);
+  @include align-items(center);
 }
-
-.flex-column { @include flex-direction(column); }
-
-.flex-wrap { @include flex-wrap(wrap); }
-
-.flex-justify-center { @include justify-content(center); }
-.flex-justify-space { @include justify-content(space-between); }
-
-.flex-align-stretch { @include align-items(stretch); }
-.flex-align-end { @include align-items(flex-end); }
 /*-------------------------------------------------------*/

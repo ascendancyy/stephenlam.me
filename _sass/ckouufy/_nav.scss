@@ -6,8 +6,6 @@
 /*-------------------------------------------------------*/
 
 .topbar__content {
-  @include display(flex);
-
   margin: 0 auto;
   max-width: $content-width;
   @extend %full-height;
@@ -18,7 +16,7 @@
 /*-------------------------------------------------------*/
 
 .topbar__list {
-  @include display(flex);
+  @extend %flex;
   @extend %full-height;
 }
 /*-------------------------------------------------------*/
@@ -51,11 +49,11 @@
 /*-------------------------------------------------------*/
 
 .topbar__link {
-  @include display(flex);
+  position: relative;
+
+  @extend %flex;
   @include justify-content(center);
   @include align-items(center);
-
-  position: relative;
 
   margin-right: $medium-rem-space;
   margin-left: $medium-rem-space;

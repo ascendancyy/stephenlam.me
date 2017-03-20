@@ -19,6 +19,6 @@ $blue-white-7:      shade($blue-white, 40%);
 $orange-white:      rgb(247, 245, 240);
 /*-------------------------------------------------------*/
 
-$shadow-small:       0 1px 5px transparentize($black, .88);
-$shadow-large:       0 1px 8px transparentize($black, .75);
+$shadow-small:       0 2px 5px transparentize($black, .8);;
+$shadow-large:       0 5px 10px transparentize($black, .77);
 /*-------------------------------------------------------*/
