@@ -108,44 +108,6 @@
 
 .card-subtitle {
   @extend %medium-bottom-margin;
-
-  font-size: .95em;
-}
-/*-------------------------------------------------------*/
-
-.tech-list {
-  position: relative;
-
-  padding: $small-em-space $small-rem-space;
-
-  &:before {
-    content: 'Made with:';
-
-    @include position(relative, 0 null null 0);
-
-    margin-right: $medium-rem-space;
-  }
-
-  &:after {
-    content: '';
-
-    @include position(absolute, 0 0 null 0);
-
-    height: 1px;
-
-    background-color: $blue-white-4;
-  }
-}
-
-.tech-item {
-  display: block;
-  margin: $small-em-space $medium-rem-space $small-em-space 0;
   padding: 0 $medium-rem-space;
-
-  font-size: .85em;
-  color: tint($text-color, 22%);
-
-  background-color: $blue-white-2;
-  border: 1px solid $blue-white-3;
 }
 /*-------------------------------------------------------*/
