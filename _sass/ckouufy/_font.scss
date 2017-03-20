@@ -1,6 +1,5 @@
-$base-font-family:  "Noto Sans", $helvetica;
+$base-font-family:  'Century Gothic', Arial, sans-serif;
 $base-font-size:    16px;
-$base-font-weight:  400;
 $base-line-height:  1.5;
 /*-------------------------------------------------------*/
 
@@ -13,30 +12,45 @@ body {
   font-size: 1rem;
   font-family: $base-font-family;
   line-height: $base-line-height;
-  letter-spacing: .15px;
+  letter-spacing: -0.8px;
   color: $text-color;
+
+  -moz-osx-font-smoothing: grayscale;
+   -webkit-font-smoothing: antialiased;
+           font-smoothing: antialiased;
+
+  .fonts-loaded & {
+    font-family: FuturaBT-Book, sans-serif;
+    letter-spacing: 0;
+  }
 }
 /*-------------------------------------------------------*/
+h1 { font-size: 396%; }
+h2 { font-size: 198%; }
+h3 { font-size: 136%; }
 
 h1,
 h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Cairo", $helvetica;
+h3 {
+  font-weight: 600;
+  letter-spacing: -1px;
+  color: $text-color;
+
+  .fonts-loaded & { letter-spacing: 0; }
+}
+
+h1 {
+  .fonts-loaded & { font-family: FuturaBT-Bold, sans-serif; }
 }
 
 h2 {
-  font-size: 1.75em;
-  font-weight: 700;
+  .fonts-loaded & { font-family: FuturaBT-Bold, sans-serif; }
 }
 
 h3 {
-  font-size: 1.25em;
-  font-weight: 600;
+  .fonts-loaded & {
+    font-family: FuturaBT-Medium, sans-serif;
+    font-weight: 400;
+  }
 }
-/*-------------------------------------------------------*/
-
-footer { font-size: .9em; }
 /*-------------------------------------------------------*/

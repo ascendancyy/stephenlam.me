@@ -29,9 +29,8 @@
   padding: $small-em-space 0;
   overflow: hidden;
 
-  font-size: 305%;
-  font-weight: 700;
   line-height: 1;
-  letter-spacing: 1px;
+
+  .fonts-loaded & { font-weight: 400; }
 }
 /*-------------------------------------------------------*/
