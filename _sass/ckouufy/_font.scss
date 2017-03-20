@@ -1,4 +1,4 @@
-$base-font-family:  'Century Gothic', Arial, sans-serif;
+$base-font-family:  Arial, sans-serif;
 $base-font-size:    16px;
 $base-line-height:  1.5;
 /*-------------------------------------------------------*/
@@ -12,7 +12,7 @@ body {
   font-size: 1rem;
   font-family: $base-font-family;
   line-height: $base-line-height;
-  letter-spacing: -0.8px;
+  letter-spacing: -0.25px;
   color: $text-color;
 
   -moz-osx-font-smoothing: grayscale;
@@ -48,9 +48,9 @@ h2 {
 }
 
 h3 {
+  font-weight: 400;
   .fonts-loaded & {
     font-family: FuturaBT-Medium, sans-serif;
-    font-weight: 400;
   }
 }
 /*-------------------------------------------------------*/
