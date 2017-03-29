@@ -1,42 +1,31 @@
 ---
-layout: default
 ---
 
 {% assign projects = site.data.projects | get_projects_from_files | sort:'order' %}
 
-<div id="works" class="content">
-  <h2>Works</h2>
+<!DOCTYPE html>
 
-  <ul class="gallery">
-    {% for project in projects %}
-    <li class="card {{ project.category }}" data-order="{{ project.order }}">
-      <div class="card-wrapper">
-
-        <img class="card__image" src="/img/projects/{{ project.title | slugify }}.png" alt="">
-        <div class="card__content">
-          <h3 class="card__title">{{ project.title }}</h3>
-          <p class="card__subtitle">{{ project.card-subtitle }}</p>
-
-          <ul class="card__links">
-            {% if project.github-link %}
-              <li>
-                <a class="card__link" href="{{ project.github-link | escape }}">
-                  {% include github.svg %}
-                  Github
-                </a>
-              </li>
-            {% else %}
-              <li class="disabled">
-                <a class="card__link" href="{{ project.github-link | escape }}">
-                  {% include github.svg %}
-                  Github
-                </a>
-              </li>
-            {% endif %}
-          </ul>
-        </div>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+  {% include head.html %}
+  <body>
+    {% include header.html %}
+    <main>
+      <div class="wrapper">
+        {% include gallery.html %}
       </div>
-    </li>
-    {% endfor %}
-  </ul>
-</div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fontfaceobserver/2.0.9/fontfaceobserver.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="/js/fonts.js"></script>
+
+    {% if jekyll.environment == 'production' and site.google_analytics %}
+      <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga("create", "{{ site.google_analytics }}", 'auto');
+        ga("send", "pageview");
+      </script>
+      <script async src="https://www.google-analytics.com/analytics.js"></script>
+    {% endif %}
+  </body>
+</html>

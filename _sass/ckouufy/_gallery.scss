@@ -1,3 +1,8 @@
+@keyframes zoom-in {
+  0% { @include transform(translateY(12%)); opacity: 0; }
+  100% { @include transform(translateY(0)); opacity: 1; }
+}
+
 .gallery {
   @extend %flex;
   @include flex-wrap(wrap);
@@ -20,9 +25,18 @@
 
     @include flex(0 0 50%);
   }
+
+  opacity: 0;
+  @include transform(translateY(12%));
+
+  @include animation-name(zoom-in);
+  @include animation-timing-function($ease-in-out-quad);
+  @include animation-duration(600ms);
+  @include animation-fill-mode(forwards);
+  @include animation-delay(123ms);
 }
 
-.card-wrapper {
+.card__wrapper {
   @extend %flex;
   @include align-items(stretch);
   @include flex-direction(column);
@@ -31,7 +45,9 @@
   margin-left: $large-rem-space;
   @extend %full-height;
 
-  color: $blue-white;
+  overflow: hidden;
+  border-radius: 5px;
+  border-bottom: 3px solid tint($brand-color, 30%);
   box-shadow: $shadow-small;
 
   will-change: transform;
@@ -45,20 +61,13 @@
 }
 /*-------------------------------------------------------*/
 
-.card__image {
-  @include flex-shrink(0);
-  @include flex-basis(auto);
-
-  background-color: $black;
-}
-
 .card__content {
   @extend %flex;
   @include flex-direction(column);
   @include align-items(flex-start);
   @include flex-grow(1);
 
-  background-color: $black;
+  background-color: $blue-white;
 }
 /*-------------------------------------------------------*/
 
@@ -66,7 +75,7 @@
   margin-bottom: 0;
   padding: 0 $medium-rem-space;
 
-  color: $blue-white;
+  color: $black;
 }
 /*-------------------------------------------------------*/
 
@@ -84,6 +93,8 @@
   }
 }
 
+.card__links-item--disabled { cursor: not-allowed; }
+
 .card__link {
   @extend %flex;
 
@@ -92,22 +103,16 @@
 
   color: $blue-white;
   white-space: nowrap;
+  text-decoration: none;
 
   background-color: $brand-color;
   border-radius: 4px;
 
   &:hover {
     color: $blue-white;
-    background-color: shade($brand-color, 15%);
-
     text-decoration: none;
-  }
 
-  .disabled & {
-    opacity: .7;
-    background-color: tint($black, 20%);
-
-    pointer-events: none;
+    background-color: shade($brand-color, 15%);
   }
 
   svg {
@@ -117,6 +122,13 @@
 
     fill: $blue-white;
   }
+}
+
+.card__links-item--disabled .card__link {
+  opacity: .7;
+  background-color: tint($black, 20%);
+
+  pointer-events: none;
 }
 /*-------------------------------------------------------*/
 

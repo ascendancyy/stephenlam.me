@@ -37,10 +37,6 @@ description: >
 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: https://stephenlam.me
-permalink: "/blog/:title.html"
-
-paginate: 5
-paginate_path: "/blog/page:num"
 
 social:
   github: ascendancyy

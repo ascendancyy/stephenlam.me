@@ -13,11 +13,6 @@ body {
   font-family: $base-font-family;
   line-height: $base-line-height;
   letter-spacing: -0.25px;
-  color: $text-color;
-
-  -moz-osx-font-smoothing: grayscale;
-   -webkit-font-smoothing: antialiased;
-           font-smoothing: antialiased;
 
   .fonts-loaded & {
     font-family: FuturaBT-Book, sans-serif;
@@ -34,7 +29,6 @@ h2,
 h3 {
   font-weight: 600;
   letter-spacing: -1px;
-  color: $text-color;
 
   .fonts-loaded & { letter-spacing: 0; }
 }

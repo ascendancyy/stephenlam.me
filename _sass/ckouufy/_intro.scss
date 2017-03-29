@@ -1,0 +1,93 @@
+@keyframes skew-up {
+  0% { @include transform(skewY(0)); }
+  100% { @include transform(skewY(0)); }
+}
+
+@keyframes fade-up {
+  0% { @include transform(translateY(4%)); }
+  100% { @include transform(translateY(0)); }
+}
+/*-------------------------------------------------------*/
+
+.intro {
+  position: relative;
+  height: 222px;
+
+  background: linear-gradient(170deg, $orange-white 0, shade($blue-white, 9%) 100%) top left / auto no-repeat fixed $orange-white;
+
+  border-bottom: none;
+  box-shadow: 0 -5px 18px -3px transparentize($black, 0.8) inset;
+
+  @media (min-width: 1440px) {
+    margin-left: $large-rem-space;
+
+    border-radius: 5px;
+    border-bottom: 3px solid tint($brand-color, 30%);
+    box-shadow: $shadow-small;
+
+    &:hover {
+      box-shadow: $shadow-large;
+      @include transform(translateZ(0) translateY(-4px));
+    }
+
+    @include transition(transform 188ms 33ms $ease-in-out-sine, box-shadow 109ms 33ms linear);
+
+    will-change: transform;
+  }
+
+  @include flex-shrink(0);
+}
+/*-------------------------------------------------------*/
+
+.intro__content {
+  @include display(flex);
+  @include flex-direction(column);
+  @include justify-content(center);
+
+  margin: 0 auto;
+  max-width: $content-width;
+  height: 100%;
+  padding: 0 $large-rem-space 0 $large-rem-space;
+
+  @include animation-name(fade-up);
+  @include animation-timing-function($ease-out-circ);
+  @include animation-duration(1444ms);
+  @include animation-fill-mode(forwards);
+  @include animation-delay(44ms);
+}
+
+.intro__title {
+  position: relative;
+  padding: 55px 0 $small-em-space 55px;
+  overflow: hidden;
+
+  color: $black;
+  line-height: 0.77;
+
+  .fonts-loaded & { font-weight: 400; }
+}
+
+.intro__name {
+  position: relative;
+  z-index: 1;
+
+  font-size: 0.787em;
+
+  @media (min-width: 350px) { font-size: 1em; }
+}
+
+.intro__logo {
+  @include position(absolute, 0 null null 0);
+  z-index: 0;
+
+  @include size(88px);
+  padding: 0;
+
+  fill: $brand-color;
+}
+
+.intro__links {
+  margin-top: -4px;
+  padding: 0 0 $small-em-space 55px;
+}
+/*-------------------------------------------------------*/

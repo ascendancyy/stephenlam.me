@@ -1,4 +1,3 @@
-$nav-height:     3.45rem;
 $content-width:  888px;
 
 $large-em-space: 1em;
@@ -28,12 +27,6 @@ html { box-sizing: border-box; }
 html,
 body {
   @extend %full-height;
-}
-/*-------------------------------------------------------*/
-
-.wrapper {
-  margin: 0 auto;
-  max-width: $content-width;
 }
 /*-------------------------------------------------------*/
 

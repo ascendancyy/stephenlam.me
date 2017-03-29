@@ -1,40 +1,26 @@
-@keyframes fade-up {
-  0% {
-    @include transform(translateY(3%));
-  }
-
-  100% {
-    @include transform(translateY(0));
-  }
-}
-
 @keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 /*-------------------------------------------------------*/
 
 body {
-  background: linear-gradient(170deg, $orange-white 0, $blue-white-3 100%) top left / auto no-repeat fixed $orange-white;
+  @include display(flex);
+  @include align-items(stretch);
+  @include justify-content(flex-start);
+
+  @include flex-direction(column);
+
+  @media (min-width: 1440px) {
+    @include flex-direction(row);
+    @include align-items(center);
+  }
+
+  background-color: $brand-color;
 
   @include animation-name(fade-in);
   @include animation-duration(300ms);
   @include animation-timing-function($ease-in-sine);
-}
-/*-------------------------------------------------------*/
-
-header { padding: 0; }
-
-main {
-  position: relative;
-  z-index: 1;
-
-  padding: $large-em-space $large-rem-space 0 $large-rem-space;
 }
 /*-------------------------------------------------------*/
 
@@ -72,30 +58,20 @@ a {
 a:hover { text-decoration: underline; }
 /*-------------------------------------------------------*/
 
-img {
-  display: block;
-  width: 100%;
+.wrapper {
+  margin: 0 auto;
+  max-width: $content-width;
+
+  @media (min-width: 1440px) { margin: 0; }
 }
-/*-------------------------------------------------------*/
 
-.content {
-  @extend %large-bottom-margin;
+main {
+  position: relative;
+  z-index: 1;
 
-  &:last-child { margin-bottom: 0; }
+  @include flex-grow(1);
+  @include flex-shrink(0);
 
-  @include animation-name(fade-up, fade-in);
-  @include animation-timing-function($ease-out-quart, ease);
-  @include animation-duration(1300ms, 900ms);
-  @include animation-fill-mode(forwards, forwards);
-  @include animation-delay(0, 150ms);
+  padding: $large-em-space $large-rem-space 0 $large-rem-space;
 }
-/*-------------------------------------------------------*/
-
-.description,
-.bio {
-  @extend %large-bottom-margin;
-}
-/*-------------------------------------------------------*/
-
-.disabled { cursor: not-allowed; }
 /*-------------------------------------------------------*/

@@ -1,0 +1,35 @@
+<div id="works" class="section">
+  <h2 class="section__header">Works</h2>
+
+  <ul class="gallery">
+    {% for project in projects %}
+    <li class="card {{ project.category }}" data-order="{{ project.order }}">
+      <div class="card__wrapper">
+
+        <div class="card__content">
+          <h3 class="card__title">{{ project.title }}</h3>
+            <p class="card__subtitle">{{ project.card-subtitle }}</p>
+
+          <ul class="card__links">
+            {% if project.github-link %}
+              <li class="card__links-item">
+                <a class="card__link" href="{{ project.github-link | escape }}">
+                  {% include github.svg %}
+                  Github
+                </a>
+              </li>
+            {% else %}
+              <li class="card__links-item card__links-item--disabled">
+                <a class="card__link" href="{{ project.github-link | escape }}">
+                  {% include github.svg %}
+                  Github
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>

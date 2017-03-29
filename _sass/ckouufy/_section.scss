@@ -1,0 +1,12 @@
+.section {
+  @extend %large-bottom-margin;
+  &:last-child { margin-bottom: 0; }
+
+  padding: $large-em-space $large-rem-space;
+}
+
+.section__header {
+  margin-bottom: $small-em-space;
+  margin-left: $small-rem-space;
+  color: $blue-white;
+}
