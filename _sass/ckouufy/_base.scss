@@ -8,15 +8,9 @@ body {
   @include display(flex);
   @include align-items(stretch);
   @include justify-content(flex-start);
-
   @include flex-direction(column);
 
-  @media (min-width: 1440px) {
-    @include flex-direction(row);
-    @include align-items(center);
-  }
-
-  background-color: $brand-color;
+  background: linear-gradient(170deg, $orange-white 0, shade($blue-white, 9%) 100%) top left / auto no-repeat fixed $orange-white;
 
   @include animation-name(fade-in);
   @include animation-duration(300ms);
@@ -61,8 +55,6 @@ a:hover { text-decoration: underline; }
 .wrapper {
   margin: 0 auto;
   max-width: $content-width;
-
-  @media (min-width: 1440px) { margin: 0; }
 }
 
 main {

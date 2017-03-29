@@ -16,7 +16,7 @@
 /*-------------------------------------------------------*/
 
 .card {
-  margin-bottom: ($large-em-space * 2);
+  margin-bottom: $large-em-space;
 
   @include flex(0 0 100%);
 
@@ -41,13 +41,11 @@
   @include align-items(stretch);
   @include flex-direction(column);
 
-  margin-right: $large-rem-space;
-  margin-left: $large-rem-space;
+  margin-right: $medium-rem-space;
+  margin-left: $medium-rem-space;
   @extend %full-height;
 
-  overflow: hidden;
-  border-radius: 5px;
-  border-bottom: 3px solid tint($brand-color, 30%);
+  border-bottom: 3px solid tint($brand-color, 33%);
   box-shadow: $shadow-small;
 
   will-change: transform;
@@ -134,7 +132,10 @@
 
 .card__subtitle {
   @include flex-grow(1);
+
   @extend %medium-bottom-margin;
   padding: 0 $medium-rem-space;
+
+  color: $black;
 }
 /*-------------------------------------------------------*/

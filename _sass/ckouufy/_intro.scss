@@ -11,29 +11,9 @@
 
 .intro {
   position: relative;
+
+  margin-bottom: $large-em-space;
   height: 222px;
-
-  background: linear-gradient(170deg, $orange-white 0, shade($blue-white, 9%) 100%) top left / auto no-repeat fixed $orange-white;
-
-  border-bottom: none;
-  box-shadow: 0 -5px 18px -3px transparentize($black, 0.8) inset;
-
-  @media (min-width: 1440px) {
-    margin-left: $large-rem-space;
-
-    border-radius: 5px;
-    border-bottom: 3px solid tint($brand-color, 30%);
-    box-shadow: $shadow-small;
-
-    &:hover {
-      box-shadow: $shadow-large;
-      @include transform(translateZ(0) translateY(-4px));
-    }
-
-    @include transition(transform 188ms 33ms $ease-in-out-sine, box-shadow 109ms 33ms linear);
-
-    will-change: transform;
-  }
 
   @include flex-shrink(0);
 }
@@ -47,7 +27,7 @@
   margin: 0 auto;
   max-width: $content-width;
   height: 100%;
-  padding: 0 $large-rem-space 0 $large-rem-space;
+  padding: 0 $medium-rem-space 0 $medium-rem-space;
 
   @include animation-name(fade-up);
   @include animation-timing-function($ease-out-circ);
@@ -86,8 +66,5 @@
   fill: $brand-color;
 }
 
-.intro__links {
-  margin-top: -4px;
-  padding: 0 0 $small-em-space 55px;
-}
+.intro__links { padding: 0 0 $small-em-space 55px; }
 /*-------------------------------------------------------*/
