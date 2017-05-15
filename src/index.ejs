@@ -1,0 +1,129 @@
+<%
+const projects = require('fs')
+  .readdirSync('./src/projects')
+  .map(file => require('./projects/' + file))
+
+projects.sort((a, b) => {
+  if (a.order < b.order) return -1
+  if (a.order > b.order) return 1
+  return 0
+})
+
+// https://stackoverflow.com/questions/1267283/how-can-i-pad-a-value-with-leading-zeros#answer-1268377
+function zeroPad (number, numZeros) {
+
+  const an = Math.abs(number)
+  const digitCount = 1 + Math.floor(Math.log(an) / Math.LN10)
+  if (digitCount >= numZeros) {
+    return number
+  }
+  const zeroString = Math.pow(10, numZeros - digitCount).toString ().substr (1)
+  return number < 0 ? '-' + zeroString + an : zeroString + an
+}
+
+projects.forEach(project => {
+  if (project.order === 0) {
+    project.order = '00'
+  } else {
+    project.order = zeroPad(project.order, 2)
+  }
+})
+%>
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="<%= webpack.publicPath %>apple-touch-icon.png?v=<%= process.env.VERSION %>">
+    <link rel="icon" type="image/png" href="<%= webpack.publicPath %>favicon-32x32.png?v=<%= process.env.VERSION %>" sizes="32x32">
+    <link rel="icon" type="image/png" href="<%= webpack.publicPath %>favicon-16x16.png?v=<%= process.env.VERSION %>" sizes="16x16">
+    <link rel="manifest" href="<%= webpack.publicPath %>manifest.json?v=<%= process.env.VERSION %>">
+    <link rel="mask-icon" href="<%= webpack.publicPath %>safari-pinned-tab.svg?v=<%= process.env.VERSION %>" color="#bf2626">
+    <link rel="shortcut icon" href="<%= webpack.publicPath %>favicon.ico?v=<%= process.env.VERSION %>">
+    <meta name="msapplication-TileColor" content="#b91d47">
+    <meta name="msapplication-TileImage" content="<%= webpack.publicPath %>mstile-144x144.png?v=<%= process.env.VERSION %>">
+    <meta name="msapplication-config" content="<%= webpack.publicPath %>browserconfig.xml?v=<%= process.env.VERSION %>">
+    <meta name="theme-color" content="#fcfafa">
+
+    <meta property="og:title" content="<%= htmlWebpackPlugin.options.title %>">
+    <meta property="og:description" content="<%= htmlWebpackPlugin.options.description %>">
+    <meta property="og:type" content="website">
+
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta name="description" content="<%= htmlWebpackPlugin.options.description %>">
+
+    <meta name="robots" content="nofollow, noodp, noydir">
+    <meta name="googlebot" content="index,follow">
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Stephen Lam</h1>
+        <p class="subheader">Design + Code</p>
+      </header>
+      <main>
+        <h2 class="section-header">Works</h2>
+        <ul class="projects">
+          <% for (const project of projects) { %>
+          <li class="project">
+            <div class="project__header" data-index="<%= project.order %>">
+              <svg class="plus" width="0" height="0" viewBox="0 0 24 24">
+                <path class="plus__horizontal" d="M19,13H5v-2h14V13z"/>
+                <path class="plus__vertical" d="M13,19h-2V5h2V19z"/>
+              </svg>
+              <div class="project__order"><%= project.order %></div>
+              <div class="project__title">
+                <%=project.title%>
+                <span class="project__subtitle">
+                  <%=project['card-subtitle']%>
+                </span>
+              </div>
+            </div>
+            <div class="project__content">
+              <div class="project__description">
+              <% if (project.description === 'this') { %>
+                <a class="italic" href="/"><%= project.description %></a>
+              <% } else { %>
+                <%= project.description %>
+              <% } %>
+              </div>
+              <div class="links">
+                <% if (project['demo-link']) { %>
+                  <a class="link" href="<%= project['demo-link'] %>">Demo</a>
+                <% } %>
+
+                <% if (project['live-link'] && project['demo-link']) { %>
+                  <div class="links__separator">|</div>
+                <% } %>
+
+                <% if (project['live-link']) { %>
+                  <a class="link" href="<%= project['live-link'] %>">Install</a>
+                <% } %>
+
+                <% if (project['live-link'] || project['demo-link']) { %>
+                  <div class="links__separator">|</div>
+                <% } %>
+
+                <% if (project['github-link']) { %>
+                  <a class="link" href="<%= project['github-link'] %>">Github</a>
+                <% } else { %>
+                  <a class="link link--disabled" href="#">Github</a>
+                <% } %>
+              </div>
+            </div>
+          </li>
+          <% } %>
+        </ul>
+      </main>
+    </div>
+    <canvas class="canvas">
+      <div class="canvas__fallback"></div>
+    </canvas>
+  </body>
+</html>

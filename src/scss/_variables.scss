@@ -1,0 +1,33 @@
+// Sizing ---------------------------------------------------------------------
+$spacer-x: 1rem !default;
+$spacer-y: 0.88em !default;
+
+// Colors
+$white: #fcfafa;
+$black: #212121;
+
+// Type -----------------------------------------------------------------------
+$base-font-family: monospace !default;
+$base-font-size: 16px !default;
+$base-font-weight: 400 !default;
+$base-line-height: 1.35 !default;
+
+$font-weight-normal: 400 !default;
+$font-weight-bold: 700 !default;
+
+$headings-margin-bottom: ($spacer-y / 2) !default;
+$headings-color: inherit !default;
+$headings-font-family: inherit !default;
+$headings-font-weight: 500 !default;
+$headings-line-height: 1.1 !default;
+
+$font-scale-1: 100% !default;
+$font-scale-2: 125% !default;
+$font-scale-3: 156% !default;
+$font-scale-4: 195% !default;
+$font-scale-5: 244% !default;
+$font-scale-6: 305% !default;
+$font-scale-7: 381% !default;
+$font-scale-8: 476% !default;
+$font-scale-9: 596% !default;
+$font-scale-10: 745% !default;

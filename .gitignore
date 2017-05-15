@@ -3,6 +3,16 @@ _site
 .sass-cache
 .jekyll-metadata
 
+# Webpack
+dist/
+
+# Node
+node_modules/
+npm-debug.log
+
+# Yarn
+yarn-error.log
+
 # Sublime
 *.sublime*
 
