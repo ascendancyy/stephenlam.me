@@ -1,28 +1,26 @@
-const webpack = require('webpack')
-const path = require('path')
-const fs = require('fs')
+const webpack = require('webpack');
+const path = require('path');
 
-const xml2js = require('xml2js')
+const xml2js = require('xml2js');
 
-const DEVELOPMENT = process.env.NODE_ENV === 'development'
-const PRODUCTION = process.env.NODE_ENV === 'production'
+const DEVELOPMENT = process.env.NODE_ENV === 'development';
 
-const project = require('./project.js')
-const VERSION = require('./package.json').version.toString()
+const project = require('./project.js');
+const VERSION = require('./package.json').version.toString();
 
-const settings = DEVELOPMENT
-  ? project.dev
-  : project.prod
+const settings = DEVELOPMENT ?
+  project.dev :
+  project.prod;
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const HTMLWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const ExtractText = new ExtractTextPlugin({
   filename: settings.cssFilename,
   allChunks: true,
   disable: DEVELOPMENT
-})
+});
 
 const cssLoader = [
   {
@@ -33,7 +31,7 @@ const cssLoader = [
     }
   },
   'postcss-loader?config=./postcss.config.js'
-]
+];
 const scssLoader = cssLoader.concat([{
   loader: 'sass-loader',
   options: {
@@ -42,7 +40,7 @@ const scssLoader = cssLoader.concat([{
     indentedSyntax: false,
     outputStyle: settings.scssOutputStyle
   }
-}])
+}]);
 
 let plugins = [
   new webpack.DefinePlugin({
@@ -54,28 +52,33 @@ let plugins = [
   new CopyWebpackPlugin([
     {
       from: path.resolve(__dirname, './src/favicons/'),
-      transform: function (content, contentPath) {
+      transform (content, contentPath) {
         if (contentPath.indexOf('manifest.json') !== -1) {
-          const manifest = JSON.parse(content.toString())
+          const manifest = JSON.parse(content.toString());
           for (const icon of manifest.icons) {
-            icon.src = project.publicPath + icon.src + VERSION
+            icon.src = project.publicPath + icon.src + VERSION;
           }
-          return new Buffer.from(JSON.stringify(manifest))
+
+          return new Buffer.from(JSON.stringify(manifest));
         } else if (contentPath.indexOf('browserconfig.xml') !== -1) {
-          let xml
-          xml2js.parseString(content.toString(), { explicitArray: false }, function (err, result) {
-            const config70 = result.browserconfig.msapplication.tile.square70x70logo.$
-            config70.src = project.publicPath + config70.src + VERSION
+          let xml;
+          const options = { explicitArray: false }
+          xml2js.parseString(content.toString(), options, (err, result) => {
+            const config70 = result.browserconfig.msapplication.tile
+              .square70x70logo.$;
+            config70.src = project.publicPath + config70.src + VERSION;
 
-            const config150 = result.browserconfig.msapplication.tile.square150x150logo.$
-            config150.src = project.publicPath + config150.src + VERSION
+            const config150 = result.browserconfig.msapplication.tile
+              .square150x150logo.$;
+            config150.src = project.publicPath + config150.src + VERSION;
 
-            const builder = new xml2js.Builder()
-            xml = new Buffer.from(builder.buildObject(result))
-          })
-          return xml
+            const builder = new xml2js.Builder();
+            xml = new Buffer.from(builder.buildObject(result));
+          });
+
+          return xml;
         } else {
-          return content
+          return content;
         }
       }
     }
@@ -83,7 +86,7 @@ let plugins = [
     copyUnmodified: true
   }),
   ExtractText
-]
+];
 
 if (DEVELOPMENT) {
   plugins = plugins.concat([
@@ -94,9 +97,12 @@ if (DEVELOPMENT) {
       description: project.description,
       chunksSortMode: 'dependency',
       inject: true,
-      minify: false
+      minify: {
+        collapseWhitespace: true,
+        collapseInlineTagWhitespace: true
+      }
     })
-  ])
+  ]);
 } else {
   plugins = plugins.concat([
     new webpack.LoaderOptionsPlugin({
@@ -113,6 +119,7 @@ if (DEVELOPMENT) {
       minify: {
         removeComments: true,
         collapseWhitespace: true,
+        collapseInlineTagWhitespace: true,
         sortAttributes: true,
         sortClassName: true
       }
@@ -123,21 +130,19 @@ if (DEVELOPMENT) {
 
       compress: {
         warnings: true,
-        dead_code: true
+        dead_code: true // eslint-disable-line camelcase
       },
       mangle: {
-          keep_fnames: false,
-          except: ['exports', 'require']
+        keep_fnames: false, // eslint-disable-line camelcase
+        except: ['exports', 'require']
       }
     })
-  ])
+  ]);
 }
 
 module.exports = {
   devtool: project.devtool,
-  entry: {
-    main: './src/js/main.js'
-  },
+  entry: { main: './src/js/main.js' },
   output: {
     filename: settings.outputFilename,
     chunkFilename: settings.chunkOutputFilename,
@@ -151,41 +156,41 @@ module.exports = {
     },
     extensions: ['*', '.js']
   },
+  /* eslint-disable object-curly-newline */
   module: {
     rules: [
       {
+        test: /\.variables\.scss$/,
+        loader: 'sass-extract-loader'
+      }, {
         test: /\.scss$/,
         use: ExtractText.extract({
           use: scssLoader,
           fallback: 'style-loader'
         })
-      },
-      {
+      }, {
         test: /\.css$/,
         use: ExtractText.extract({
           use: cssLoader,
           fallback: 'style-loader'
         })
-      },
-      {
+      }, {
         test: /\.js$/,
         use: ['babel-loader'],
         exclude: /node_modules/
-      },
-      {
+      }, {
         test: /\.(png|jpg|gif|svg)$/,
         use: [
           {
             loader: 'file-loader',
-            options: {
-              name: '[name].[ext]?[hash]'
-            }
+            options: { name: '[name].[ext]?[hash]' }
           }
         ]
       }
     ]
   },
-  plugins: plugins,
+  /* eslint-enable object-curly-newline */
+  plugins,
   devServer: {
     https: true,
     port: settings.port,
@@ -197,4 +202,4 @@ module.exports = {
     noInfo: true,
     quiet: true
   }
-}
+};

@@ -63,67 +63,37 @@ projects.forEach(project => {
 
   <body>
     <div class="wrapper">
-      <header>
-        <h1>Stephen Lam</h1>
-        <p class="subheader">Design + Code</p>
+      <header class="header">
+        <div class="title">
+            <span class="block"></span>
+          <h1 class="title__content">Stephen Lam</h1>
+        </div>
+        <div class="subtitle">
+            <span class="block"></span>
+            <p class="subtitle__content">Design<span class="yinyang"></span>Code</p>
+        </div>
       </header>
-      <main>
-        <h2 class="section-header">Works</h2>
-        <ul class="projects">
-          <% for (const project of projects) { %>
-          <li class="project">
-            <div class="project__header" data-index="<%= project.order %>">
-              <svg class="plus" width="0" height="0" viewBox="0 0 24 24">
-                <path class="plus__horizontal" d="M19,13H5v-2h14V13z"/>
-                <path class="plus__vertical" d="M13,19h-2V5h2V19z"/>
-              </svg>
-              <div class="project__order"><%= project.order %></div>
-              <div class="project__title">
-                <%=project.title%>
-                <span class="project__subtitle">
-                  <%=project['card-subtitle']%>
-                </span>
+      <main role="main" class="main">
+        <div class="links links--animate">
+          <a href="#" class="link">Home</a>
+          <button id="works" class="link link--accent" type="button">Show Works</button>
+        </div>
+        <div class="modal" style="display: none;">
+          <ul class="projects">
+            <% for (const project of projects) { %>
+            <li class="project">
+              <div class="project__wrapper">
+                <div class="project__content">
+                  <span class="project__order"><%= project.order %></span>
+                  <span class="project__title"><%= project.title %></span>
+                </div>
               </div>
-            </div>
-            <div class="project__content">
-              <div class="project__description">
-              <% if (project.description === 'this') { %>
-                <a class="italic" href="/"><%= project.description %></a>
-              <% } else { %>
-                <%= project.description %>
-              <% } %>
-              </div>
-              <div class="links">
-                <% if (project['demo-link']) { %>
-                  <a class="link" href="<%= project['demo-link'] %>">Demo</a>
-                <% } %>
-
-                <% if (project['live-link'] && project['demo-link']) { %>
-                  <div class="links__separator">|</div>
-                <% } %>
-
-                <% if (project['live-link']) { %>
-                  <a class="link" href="<%= project['live-link'] %>">Install</a>
-                <% } %>
-
-                <% if (project['live-link'] || project['demo-link']) { %>
-                  <div class="links__separator">|</div>
-                <% } %>
-
-                <% if (project['github-link']) { %>
-                  <a class="link" href="<%= project['github-link'] %>">Github</a>
-                <% } else { %>
-                  <a class="link link--disabled" href="#">Github</a>
-                <% } %>
-              </div>
-            </div>
-          </li>
-          <% } %>
-        </ul>
+            </li>
+            <% } %>
+          </ul>
+          <div class="modal__backdrop"></div>
+        </div>
       </main>
     </div>
-    <canvas class="canvas">
-      <div class="canvas__fallback"></div>
-    </canvas>
   </body>
 </html>

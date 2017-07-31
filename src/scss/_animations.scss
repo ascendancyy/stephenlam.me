@@ -1,9 +1,100 @@
+@keyframes header-intro {
+  0% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes header__content-intro {
+}
+
+
+@keyframes title-intro {
+  0% {
+    opacity: 0;
+    transform: translateX(-32%) scaleX(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) scaleX(1);
+  }
+}
+
+@keyframes filler-intro {
+  0% { transform: translateX(0%) scaleY(1) scaleX(0); }
+  50% { transform: translateX(0%) scaleY(1) scaleX(1); }
+
+  100% {
+    background-color: currentColor;
+    transform: translateX(102%) scaleY(1) scaleX(1);
+  }
+}
+
+// ----------------------------------------------------------------------------
 @keyframes fade-in {
   0% { opacity: 0; }
   100% { opacity: 1; }
 }
 
-@keyframes slide-in {
-  0% { transform: translateX(-64%); }
-  100% { transform: translateX(0); }
+// ----------------------------------------------------------------------------
+$properties: opacity, transform;
+
+.title { @include transition-toggle(title, null, $properties); }
+.subtitle { @include transition-toggle(subtitle, null, $properties); }
+
+// ----------------------------------------------------------------------------
+$link-children: '.link';
+$project-children: [
+  '.project__wrapper',
+  '.project__content',
+  '.modal__backdrop',
+  '.modal__nav'
+];
+
+@include transition-toggle(links, $link-children, $properties) {
+  .link {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+};
+
+@include transition-toggle(projects, $project-children, $properties) {
+  .project__wrapper,
+  .modal__backdrop {
+    opacity: 0;
+  }
+
+  .modal__nav { transform: translateY(-100%); }
+  .project__content { transform: scaleX(2.1); }
+  .project__wrapper { transform: translateX(-15px) scaleX(0.5); }
+};
+
+// ----------------------------------------------------------------------------
+.projects--swiped-left-active,
+.projects--swiped-right-active {
+  .projects {
+    transition: opacity 410ms cubic-bezier(0.32, 0.61, 0.41, 0.95),
+                transform 420ms cubic-bezier(0.32, 0.61, 0.41, 0.95);
+    will-change: opacity, transform;
+  }
+
+  .modal__backdrop { transition: opacity 333ms cubic-bezier(0.36, 0.58, 0.56, 1); }
+}
+
+.projects--swiped-left-to,
+.projects--swiped-right-to {
+  .projects,
+  .modal__backdrop {
+    // sass-lint:disable-block no-important
+    opacity: 0 !important;
+  }
+}
+
+.projects--swiped-left-to .projects {
+  // sass-lint:disable-block no-important
+  transform: translateX(-140%) !important;
+}
+
+.projects--swiped-right-to .projects {
+  // sass-lint:disable-block no-important
+  transform: translateX(140%) !important;
 }

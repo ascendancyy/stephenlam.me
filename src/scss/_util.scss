@@ -1,0 +1,78 @@
+@function get ($map, $key, $default: 0) {
+  @return if(map-has-key($map, $key), map-get($map, $key), $default);
+}
+
+@mixin classless($class, $elm: 'body') {
+  @if is-superselector($elm, &) {
+    &:not(#{$class}) {
+      @content;
+    }
+  } @else {
+    #{$elm}:not(#{$class}) & {
+      @content;
+    }
+  }
+}
+
+// ----------------------------------------------------------------------------
+@mixin intro($elm) {
+  @if map-has-key($intro, $elm) {
+    $map: map-get($intro, $elm);
+
+    @if map-has-key($map, name) {
+      $name: get($map, name);
+      $duration: get($map, duration, 100ms);
+      $delay: get($map, delay, 0ms);
+      $easing: get($map, easing, linear);
+
+      animation: $duration $easing $name;
+      animation-delay: $delay;
+
+    } @else {
+      @error '`#{$element}` has no animation name';
+    }
+  } @else {
+    @error '`#{$element}` not supported in intro';
+  }
+}
+
+// ----------------------------------------------------------------------------
+@mixin transition-toggle($name, $children, $props) {
+  $transition: ();
+
+  $settings: map-get($toggle, $name);
+
+  $duration: map-get($settings, duration);
+  $delay: map-get($settings, delay);
+  $easing: map-get($settings, easing);
+
+  @each $prop in $props {
+    $transition: append(
+      $transition,
+      #{$prop} #{$duration} #{$easing},
+      comma
+    );
+  }
+
+  @if $children and length($children) > 0 {
+    .#{$name}--enter-active,
+    .#{$name}--leave-active {
+      #{$children} {
+        transition: $transition;
+        transition-delay: $delay;
+      }
+    }
+
+    .#{$name}--enter,
+    .#{$name}--leave-to {
+      @content;
+    }
+  } @else {
+    & {
+      transition: $transition;
+      transition-delay: $delay;
+
+      @content;
+    }
+  }
+}

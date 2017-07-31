@@ -1,0 +1,79 @@
+$intro-duration: 485ms;
+$intro-delay: 64ms;
+$intro-easing: cubic-bezier(0.81, 0.15, 0.26, 0.99);
+
+$base-intro: (
+  duration: $intro-duration,
+  delay: $intro-delay,
+  easing: $intro-easing
+);
+
+$title-intro: (
+  name: title-intro,
+  duration: $intro-duration,
+  delay: $intro-delay,
+  easing: $intro-easing
+);
+
+$intro: (
+  header: (
+    name: header-intro,
+    duration: $intro-duration,
+    delay: $intro-delay,
+    easing: $intro-easing
+  ),
+
+  header__content: (
+    name: header__content-intro,
+    duration: $intro-duration,
+    delay: $intro-delay,
+    easing: $intro-easing
+  ),
+
+  links: (
+    name: links-intro,
+    delay: $intro-delay * 0.8,
+    duration: $intro-duration * 0.9,
+    easing: cubic-bezier(0.45, 0.83, 0.54, 0.9)
+  ),
+
+  title: $title-intro,
+  subtitle: $title-intro,
+
+  block: (
+    name: filler-intro,
+    duration: $intro-duration,
+    delay: inherit,
+    easing: $intro-easing
+  )
+);
+
+// ----------------------------------------------------------------------------
+$toggle-duration: 256ms;
+$toggle-offset: $toggle-duration * 0.2;
+$toggle-easing: cubic-bezier(0.31, 0.75, 0.4, 0.95);
+
+$toggle: (
+  links: (
+    duration: $toggle-duration - 40ms,
+    delay: 0ms,
+    easing: cubic-bezier(0.23, 1, 0.73, 0.94)
+  ),
+
+  title: (
+    duration: $toggle-duration,
+    delay: 24ms,
+    easing: cubic-bezier(0.42, 0.3, 0.04, 1)
+  ),
+  subtitle: (
+    duration: $toggle-duration,
+    delay: 15ms,
+    easing: cubic-bezier(0.165, 0.84, 0.44, 1)
+  ),
+
+  projects: (
+    duration: $toggle-duration,
+    delay: inherit,
+    easing: $toggle-easing
+  )
+);

@@ -1,75 +1,139 @@
-import { hsvToRgb } from 'src/js/color'
+const DEVELOPMENT = process.env.NODE_ENV === 'development';
 
-const frame = 16
-const raf = window.requestAnimationFrame ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            window.msRequestAnimationFrame ||
-            function raf (callback) { return setTimeout(callback, frame) }
+export { hsvToRgb } from 'src/js/color';
 
-function viewport () {
-  const docElm = document.documentElement
+export const raf = window.requestAnimationFrame ||
+                   window.webkitRequestAnimationFrame ||
+                   window.mozRequestAnimationFrame ||
+                   window.msRequestAnimationFrame ||
+                   function raf (callback) { return setTimeout(callback, 16); };
+
+export function nextFrame (func) {
+  return raf(function frame () {
+    raf(func);
+  });
+}
+
+export function viewport () {
+  const docElm = document.documentElement;
 
   return {
     width: Math.max(docElm.clientWidth, window.innerWidth || 0),
     height: Math.max(docElm.clientHeight, window.innerHeight || 0)
-  }
+  };
 }
+
+let rng = Math.random;
+DEVELOPMENT && loadSR().then(seedrandom => { rng = seedrandom('2501'); });
 
 function loadSR () {
   return new Promise(resolve => {
     require.ensure(['seedrandom'], require => {
-      resolve(require('seedrandom'))
-    }, 'devdeps')
-  })
+      resolve(require('seedrandom'));
+    }, 'devdeps');
+  });
 }
 
-function inlineStyles (url) {
-  const success = 200
-  const done = 4
+export function random (lower = 0, upper = 1) {
+  return rng() * (upper - lower) + lower;
+}
 
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
+export function addClass (elm, cls) {
+  // eslint-disable-next-line no-param-reassign, no-cond-assign
+  if (!cls || !(cls = cls.trim())) {
+    return;
+  }
 
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === done && xhr.status === success) {
-        const style = document.createElement('style')
-
-        style.innerHTML = xhr.responseText
-        document.head.appendChild(style)
-        resolve()
-      }
+  if (elm.classList) {
+    if (cls.indexOf(' ') > -1) {
+      // eslint-disable-next-line id-length
+      cls.split(/\s+/).forEach(c => elm.classList.add(c));
+    } else {
+      elm.classList.add(cls);
     }
-
-    xhr.onerror = reject
-    xhr.open('GET', url, true)
-    xhr.send()
-  })
-}
-
-function loadStyles (url) {
-  const success = 200
-  const done = 4
-
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-
-    xhr.returnType = 'text'
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === done && xhr.status === success) {
-        const link = document.createElement('link')
-
-        link.rel = 'stylesheet'
-        link.href = url
-        document.head.appendChild(link)
-        resolve()
-      }
+  } else {
+    const cur = ` ${elm.getAttribute('class') || ''} `;
+    if (cur.indexOf(` ${cls} `) < 0) {
+      elm.setAttribute('class', (cur + cls).trim());
     }
-
-    xhr.onerror = reject
-    xhr.open('GET', url)
-    xhr.send()
-  })
+  }
 }
 
-export { raf, viewport, hsvToRgb, loadSR, inlineStyles, loadStyles }
+export function removeClass (elm, cls) {
+  // eslint-disable-next-line no-param-reassign, no-cond-assign
+  if (!cls || !(cls = cls.trim())) {
+    return;
+  }
+
+  if (elm.classList) {
+    if (cls.indexOf(' ') > -1) {
+      // eslint-disable-next-line id-length
+      cls.split(/\s+/).forEach(c => elm.classList.remove(c));
+    } else {
+      elm.classList.remove(cls);
+    }
+    if (!elm.classList.length) {
+      elm.removeAttribute('class');
+    }
+  } else {
+    let cur = ` ${elm.getAttribute('class') || ''} `;
+    const tar = ` ${cls} `;
+    while (cur.indexOf(tar) >= 0) {
+      cur = cur.replace(tar, ' ');
+    }
+    cur = cur.trim();
+    if (cur) {
+      elm.setAttribute('class', cur);
+    } else {
+      elm.removeAttribute('class');
+    }
+  }
+}
+
+export function style (element, property) {
+  return window.getComputedStyle(element).getPropertyValue(property);
+}
+
+export function inlineStyles (url, callback) {
+  return new Promise(function request (resolve, reject) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function ready () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        const styleElm = document.createElement('style');
+
+        styleElm.innerHTML = xhr.responseText;
+        document.head.appendChild(styleElm);
+        callback && (styleElm.onload = callback);
+        resolve();
+      }
+    };
+
+    xhr.onerror = reject;
+    xhr.open('GET', url, true);
+    xhr.send();
+  });
+}
+
+export function loadStyles (url, callback) {
+  return new Promise(function request (resolve, reject) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.returnType = 'text';
+    xhr.onreadystatechange = function ready () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        const link = document.createElement('link');
+
+        link.rel = 'stylesheet';
+        link.href = url;
+        document.head.appendChild(link);
+        callback && (link.onload = callback);
+        resolve();
+      }
+    };
+
+    xhr.onerror = reject;
+    xhr.open('GET', url);
+    xhr.send();
+  });
+}

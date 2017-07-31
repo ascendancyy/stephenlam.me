@@ -1,330 +1,311 @@
-/*eslint no-magic-numbers: ["off"]*/
-const DEVELOPMENT = process.env.NODE_ENV === 'development'
+import { addClass, raf, viewport, random } from 'src/js/util';
+import { getFlowColor } from 'src/js/color';
 
-import memoize from 'fast-memoize'
-import { easeInOutExpo } from 'src/js/easings'
-import { raf, viewport, loadSR } from 'src/js/util'
+// =================
+// shared references
+// =================
 
-let rng = Math.random
+const {
+  abs,
+  sin,
+  cos
+} = Math;
 
-DEVELOPMENT && loadSR().then(seedrandom => { rng = seedrandom('2501') })
+// The sin of milliseconds divised by ~318 will equal to 1 turn per second.
+const PER_SECOND = 318.571085;
 
-const canvas = document.querySelector('.canvas')
-const ctx = canvas.getContext('2d')
+const pixelRatio = window.devicePixelRatio || 1,
+      reduceMotion = matchMedia('(prefers-reduced-motion)').matches;
 
-// Settings
-const globalAlpha = 0.8
-const maxDeviation = 0.16
-const verticalLock = false
-const easing = easeInOutExpo
+const canvas = document.createElement('canvas');
 
-const varianceAmount = 0.2
-const varianceInterval = 8192
-const varianceDuration = 4096
+const fallback = document.createElement('div');
+addClass(fallback, 'canvas__fallback');
 
-// Persist
-let points = []
-let translateX = 0
-let translateY = 0
-let varianceStart = 0
+addClass(canvas, 'canvas');
+canvas.appendChild(fallback);
+document.body.appendChild(canvas);
+
+// TODO: Improve error handling
+let ctx;
+try {
+  ctx = canvas.getContext('2d');
+} catch (error) {
+  console.log(error);
+}
+
+let { width: parentWidth, height: parentHeight } = viewport();
+const initialHeight = parentHeight;
 
 function resizeCanvas (event) {
-  const {
-     width,
-     height
-   } = viewport()
+  const { width, height } = viewport();
 
-  canvas.width = width
-  canvas.height = height
+  parentWidth = width;
+  parentHeight = height;
 
-  ctx.globalAlpha = globalAlpha
-
-  genNewPoints(width, height)
-  raf(draw)
+  canvas.width = parentWidth;
+  canvas.height = parentHeight;
 }
 
-window.addEventListener('resize', resizeCanvas)
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
 
-export function init () {
-  const {
-    width,
-    height
-  } = viewport()
+const directions = ['x', 'y'];
 
-  const initialX = width * -maxDeviation
-  const initalXOffset = -64
 
-  points = [
-    {
-      x: initialX,
-      y: height * 0.4,
-      variance: {
-        progress: 0,
-        horizontal: {
-          locked: true,
-          amount: variance(genHVariance(width), easing)
-        },
-        vertical: {
-          locked: verticalLock,
-          amount: variance(genVVariance(height), easing)
-        }
-      }
-    },
-    {
-      x: initialX + initalXOffset,
-      y: height * 0.4 + height * 0.4 * rng() * 0.64,
-      variance: {
-        progress: 0,
-        horizontal: {
-          locked: true,
-          amount: variance(genHVariance(width), easing)
-        },
-        vertical: {
-          locked: verticalLock,
-          amount: variance(genVVariance(height), easing)
-        }
-      }
+// =======
+// helpers
+// =======
+
+const getSpace = {
+  x (deviation, previous = 0) {
+    const { min = 10, max = 100 } = deviation;
+    const space = Math.min(Math.max(parentWidth * 0.064, min), max);
+
+    return Math.floor(random(1, 2) * space) + previous;
+  },
+
+  y (deviation, previous = 0) {
+    const { min = 10, max = 100 } = deviation;
+
+    let next = random(0, 0.64) * initialHeight + max;
+    let delta = next - previous;
+
+    while (abs(delta) > max || abs(delta) <= min) {
+      next = random(0, 0.64) * initialHeight + max;
+      delta = next - previous;
     }
-  ]
 
-  resizeCanvas()
+    return Math.floor(next);
+  }
+};
+
+function pointIsVisible (x) { return x < parentWidth; }
+
+// ==============
+// flow instances
+// ==============
+
+function *createPoints (deviation, lastPoint) {
+  const last = {
+    x: lastPoint.x,
+    y: lastPoint.y
+  };
+
+  const padding = getSpace.x(deviation.x);
+  while (last.x < parentWidth + padding) {
+    directions.forEach(axis =>
+      last[axis] = getSpace[axis](deviation[axis], last[axis]));
+
+    yield Object.assign({}, last, {
+      visible: true,
+      variance: {
+        progress: 0,
+        x: random(0.5, 1),
+        y: random(0.008, 0.064)
+      }
+    });
+  }
 }
 
-// eslint-disable-next-line
-export function draw (timestamp) {
-  const pointsLoopStart = 2
+function *initialPoints (deviation) {
+  const x = 0,
+        y = initialHeight * random(0.4, 0.5);
 
-  const varianceWavelength = 512
-  const colorWavelength = 4096
+  yield {
+    x,
+    y,
+    visible: true,
+    variance: {
+      progress: 0,
+      x: undefined,
+      y: random(0.008, 0.064)
+    }
+  };
 
-  let colorInput = Math.sin(timestamp / colorWavelength)
+  yield {
+    x,
+    y: getSpace.y(deviation.y, y),
+    visible: true,
+    variance: {
+      progress: 0,
+      x: undefined,
+      y: random(0.008, 0.064)
+    }
+  };
+}
 
-  const {
-    width,
-    height
-  } = viewport()
+function createFlow (deviation) {
+  const region = {
+    top: initialHeight,
+    bottom: 0
+  };
 
-  if (timestamp - varianceStart > varianceInterval) {
-    varianceStart = timestamp
-    genRandVariance(width, height, timestamp)
+  function addPoints () {
+    const lastPoint = points[points.length - 1];
+    if (lastPoint.x > parentWidth + 10) {
+      return;
+    }
+    const newPoints = Array.from(createPoints(deviation, lastPoint));
+    points.push(...newPoints);
   }
 
-  ctx.clearRect(0, 0, width, height)
+  const points = Array.from(initialPoints(deviation));
+  addPoints();
 
-  ctx.save()
-  ctx.translate(translateX, translateY)
+  window.addEventListener('resize', addPoints);
 
-  for (let idx = 0; idx < points.length; idx++) {
-    points[idx].variance.progress = Math.sin(
-      timestamp / varianceWavelength +
-      Math.cos(idx)
-    )
-    if (idx >= pointsLoopStart) {
-      ctx.beginPath()
+  return {
+    points,
+    region
+  };
+}
 
-      const leftPoint = points[idx - 2]
-      let leftPointY = leftPoint.y
-
-      if (!leftPoint.variance.vertical.locked) {
-        leftPointY += leftPoint
-                        .variance
-                        .vertical
-                        .amount(timestamp) * leftPoint.variance.progress
+const flows = [
+  {
+    alpha: 0.64,
+    speed: Math.PI * 1.61803398875,
+    deviation: {
+      x: {
+        min: 30,
+        max: 300
+      },
+      y: {
+        min: 25,
+        max: 190
       }
-      ctx.moveTo(leftPoint.x, leftPointY)
+    }
+  }
+].map(object => Object.assign(createFlow(object.deviation), object));
 
-      const midPoint = points[idx - 1]
-      let midPointY = midPoint.y
+if (process.env.NODE_ENV === 'development') {
+  window.flows = flows;
+}
 
-      if (!midPoint.variance.vertical.locked) {
-        midPointY += midPoint
-                          .variance
-                          .vertical
-                          .amount(timestamp) * midPoint.variance.progress
-      }
-      ctx.lineTo(midPoint.x, midPointY)
+// =========
+// animation
+// =========
 
-      const rightPoint = points[idx]
-      let rightPointY = rightPoint.y
+function clearRegion (region) {
+  const padding = 16;
+  const height = region.bottom - region.top;
+  ctx.clearRect(0, region.top - padding, parentWidth, height + (padding * 2));
+}
 
-      if (!rightPoint.variance.vertical.locked) {
-        rightPointY += rightPoint
-                         .variance
-                         .vertical
-                         .amount(timestamp) * rightPoint.variance.progress
-      }
+function drawTriangle (context, points) {
+  context.beginPath();
+  points.forEach(function drawLine (point, index) {
+    const action = index === 0 ? 'moveTo' : 'lineTo';
+    ctx[action](point.x, point.y);
+  });
+  context.closePath();
+}
 
-      if (!rightPoint.variance.horizontal.locked) {
-        const slope = (rightPointY - midPointY) / (rightPoint.x - midPoint.x)
-        const xIntercept = rightPointY - rightPoint.x * slope
+function updateTriangle (points, computed, end, speed) {
+  let min = Number.MAX_SAFE_INTEGER,
+      max = Number.MIN_SAFE_INTEGER;
 
-        const calx = (rightPoint.x - midPoint.x) *
-                     rightPoint.variance.horizontal.amount(timestamp) +
-                     midPoint.x
-        const caly = calx * slope + xIntercept
+  const trPoints = [end - 2, end - 1, end];
+  const triangle = trPoints.reduce(function setPoint (collect, ptIdx, rdIdx) {
+    const point = points[ptIdx];
+    let { x: pointX } = point,
+        pointY = computed[ptIdx];
 
-        ctx.lineTo(calx, caly)
+    if (!pointY) {
+      pointY = point.y +
+               (point.variance.y * point.variance.progress * initialHeight);
+      computed[ptIdx] = pointY;
+    }
+
+    min = Math.min(min, pointY);
+    max = Math.max(max, pointY);
+
+    if (rdIdx === 2) {
+      const [, middle] = collect;
+      const slope = (pointY - middle.y) / (point.x - middle.x);
+      const intercept = pointY - point.x * slope;
+
+      let { x: horizontal } = point.variance;
+      let progress = 1;
+      if (horizontal) {
+        const now = performance.now();
+        progress = sin(now / PER_SECOND / speed / 4 + cos(ptIdx)) * 0.25 + 0.75;
       } else {
-        ctx.lineTo(rightPoint.x, rightPointY)
+        horizontal = 1;
       }
 
-      colorInput -= Math.PI * 2 / -50 * 1.512
-      ctx.fillStyle = genColor(
-        colorInput, 0.9 -
-        (leftPointY + midPointY + rightPointY) / height / 6
-      )
-      ctx.fill()
-      ctx.closePath()
+      pointX = (point.x - middle.x) * horizontal * progress + middle.x;
+      pointY = pointX * slope + intercept;
     }
-  }
 
-  ctx.restore()
+    collect.push({
+      x: pointX,
+      y: pointY
+    });
 
-  raf(draw)
+    return collect;
+  }, []);
+
+  return [triangle, [min, max]];
 }
 
-function genNewPoints (width, height) {
-  if (!points.length) {
-    return points
-  }
+// eslint-disable-next-line object-curly-newline
+function updatePoints ({ alpha, points, speed, region }) {
+  const computed = [],
+        now = performance.now();
+  let color = sin(now / PER_SECOND / speed / 4);
 
-  let lastPointX = points[points.length - 1].x
+  ctx.save();
+  ctx.scale(1, parentHeight / initialHeight);
 
-  if (lastPointX > width) {
-    return points
-  }
+  clearRegion(region);
+  region.top = Number.MAX_SAFE_INTEGER;
+  region.bottom = Number.MIN_SAFE_INTEGER;
 
-  const prevY = points[points.length - 1].y
+  for (let index = 0; index < points.length; index++) {
+    const point = points[index];
+    const { visible } = point;
 
-  while (lastPointX < width + width * 0.16) {
-    lastPointX += genX(lastPointX, width)
-    points.push({
-      x: lastPointX,
-      y: genY(prevY, height),
-      variance: {
-        progress: 0,
-        horizontal: {
-          locked: false,
-          amount: variance(genHVariance(width), easing)
-        },
-        vertical: {
-          locked: verticalLock,
-          amount: variance(genVVariance(height), easing)
-        }
+    if (!pointIsVisible(point.x)) {
+      if (visible) {
+        point.visible = false;
       }
-    })
-  }
-
-  return points
-}
-
-function genX (prevX, width) {
-  const minSpace = 32
-  const maxSpace = 128
-  const spacing = Math.min(Math.max(width * 0.064, minSpace), maxSpace)
-
-  return Math.floor((rng() + 1) * spacing)
-}
-
-function genY (prevY, height) {
-  let nextY = rng() * 0.64 * height + 0.16 * height
-  let deviation = nextY - prevY
-
-  while (Math.abs(deviation) > maxDeviation * height) {
-    nextY = rng() * 0.64 * height + 0.16 * height
-    deviation = nextY - prevY
-  }
-
-  return Math.floor(nextY)
-}
-
-function variance (initial, easingFunction) {
-  let calculatedValue = initial
-  let previousValue = null
-  let newValue = null
-  let start = null
-
-  return function amount (timestamp, value) {
-    if (value) {
-      newValue = value
-      previousValue = calculatedValue
-
-      start = timestamp
+    } else if (!visible) {
+      point.visible = true;
+    } else if (visible) {
+      point.variance.progress = sin(now / PER_SECOND / speed + cos(index));
     }
 
-    if (newValue && timestamp - start <= varianceDuration) {
-      calculatedValue = easingFunction(
-        timestamp - start,
-        previousValue,
-        newValue - previousValue,
-        varianceDuration
-      )
-    } else if (newValue) {
-      newValue = null
-      previousValue = null
-      start = null
+    if (index >= 2 && points[index - 2].visible) {
+      const [triangle, minMax] = updateTriangle(points, computed, index, speed);
+      region.top = Math.min(region.top, minMax[0]);
+      region.bottom = Math.max(region.bottom, minMax[1]);
+
+      drawTriangle(ctx, triangle);
+      ctx.fillStyle = getFlowColor(color, alpha);
+      ctx.fill();
+
+      color -= 0.16;
     }
-
-    return calculatedValue
   }
+
+  ctx.restore();
 }
 
-function genHVariance (width) {
-  const varianceFloor = 0.5
-
-  return Math.min(rng() + varianceFloor, 1)
-}
-
-function genVVariance (height) {
-  return maxDeviation * height * rng() * varianceAmount
-}
-
-function genRandVariance (width, height, timestamp) {
-  const chanceMin = 0.64
-
-  for (let idx = 0; idx < points.length; idx++) {
-    const point = points[idx]
-
-    rng() > chanceMin &&
-      point.variance.horizontal.amount(timestamp, genHVariance(width))
-    rng() > chanceMin &&
-      point.variance.vertical.amount(timestamp, genVVariance(height))
+function tick () {
+  flows.forEach(updatePoints);
+  if (reduceMotion) {
+    return;
   }
+  raf(tick);
 }
 
-const genColor = memoize((rotate, alpha) => {
-  const rgbValues = 255
-  const rgbFloor = 153
-  const rgbRange = rgbValues - rgbFloor
 
-  const greenOffset = 0.666
-  const blueOffset = 1.333
+// ==========
+// initialize
+// ==========
 
-  const red = Math.ceil(Math.cos(rotate) * rgbRange + rgbFloor)
-  const green = Math.ceil(
-    Math.cos(rotate + Math.PI * greenOffset) *
-    rgbRange +
-    rgbFloor
-  )
-  const blue = Math.ceil(
-    Math.cos(rotate + Math.PI * blueOffset) *
-    rgbRange +
-    rgbFloor
-  )
-
-  return `rgba(${red}, ${green}, ${blue}, ${alpha})`
-})
-
-document.addEventListener('mousemove', event => {
-  const {
-    width,
-    height
-  } = viewport()
-
-  const halfVW = width / 2
-  const halfVH = height / 2
-
-  translateX = (event.screenX - halfVW) /
-               halfVW * halfVW * 0.08 * halfVW / halfVH
-  translateY = (event.screenY - halfVH) / halfVH * halfVH * 0.08
-})
+// TODO: ugly.
+'requestIdleCallback' in window ?
+  ctx && requestIdleCallback(tick) :
+  ctx && tick();

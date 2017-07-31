@@ -1,14 +1,19 @@
-import FontFaceObserver from 'fontfaceobserver'
+import FontFaceObserver from 'fontfaceobserver';
 
-import { loadStyles } from 'src/js/util'
+import { addClass, inlineStyles } from 'src/js/util';
 
-export function loadFonts () {
-  // eslint-disable-next-line
-  const fontURL = 'https://fonts.googleapis.com/css?family=Roboto+Mono:400,700:latin'
-  const libreFranklin = new FontFaceObserver('Roboto Mono')
+function loadFonts () {
+  const playfairDisplay = new FontFaceObserver('Playfair Display');
+  const ptSans = new FontFaceObserver('PT Sans');
 
-  libreFranklin.load()
-    .then(() => { document.documentElement.className += ' fonts-loaded' })
+  Promise.all([playfairDisplay.load(), ptSans.load()])
+    .then(() => { addClass(document.body, 'fonts-loaded'); });
 
-  Promise.all([loadStyles(fontURL)])
+  Promise.all([
+    // eslint-disable-next-line max-len
+    inlineStyles('https://fonts.googleapis.com/css?family=Playfair+Display:400,700,700i,900i'),
+    inlineStyles('https://fonts.googleapis.com/css?family=PT+Sans')
+  ]);
 }
+
+loadFonts();
