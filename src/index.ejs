@@ -62,38 +62,23 @@ projects.forEach(project => {
   </head>
 
   <body>
-    <div class="wrapper">
-      <header class="header">
-        <div class="title">
-            <span class="block"></span>
-          <h1 class="title__content">Stephen Lam</h1>
-        </div>
-        <div class="subtitle">
-            <span class="block"></span>
-            <p class="subtitle__content">Design<span class="yinyang"></span>Code</p>
-        </div>
-      </header>
-      <main role="main" class="main">
-        <div class="links links--animate">
-          <a href="#" class="link">Home</a>
-          <button id="works" class="link link--accent" type="button">Show Works</button>
-        </div>
-        <div class="modal" style="display: none;">
-          <ul class="projects">
-            <% for (const project of projects) { %>
-            <li class="project">
-              <div class="project__wrapper">
-                <div class="project__content">
-                  <span class="project__order"><%= project.order %></span>
-                  <span class="project__title"><%= project.title %></span>
-                </div>
-              </div>
-            </li>
-            <% } %>
-          </ul>
-          <div class="modal__backdrop"></div>
-        </div>
-      </main>
-    </div>
+    <header class="header">
+      <h1 class="title">Stephen Lam</h1>
+      <p class="subtitle">Design<span class="yinyang"></span>Code</p>
+    </header>
+    <main role="main" class="main">
+      <ul class="projects">
+        <% for (const project of projects) { %>
+        <li class="project">
+          <div class="project__wrapper">
+            <div class="project__content">
+              <span class="project__order"><%= project.order %></span>
+              <span class="project__title"><%= project.title %></span>
+            </div>
+          </div>
+        </li>
+        <% } %>
+      </ul>
+    </main>
   </body>
 </html>

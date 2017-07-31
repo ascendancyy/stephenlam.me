@@ -13,8 +13,8 @@
 // ----------------------------------------------------------------------------
 body {
   display: flex;
-  justify-content: center;
   align-items: center;
+  flex-direction: column;
 
   color: $black;
   font-weight: $base-font-weight;
@@ -24,7 +24,6 @@ body {
   letter-spacing: 0;
 
   background-color: darken($white, 2%);
-  overflow: hidden;
 
   transition: color 200ms cubic-bezier(0.165, 0.84, 0.44, 1),
               background-color 200ms cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -46,153 +45,27 @@ body {
 .main { padding-top: $spacer-y * 1.6; }
 
 // ----------------------------------------------------------------------------
-
-.modal {
-  @include position(absolute, 0 0 0 0);
-  z-index: 10;
-
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-
-  &__nav {
-    position: relative;
-    z-index: 102;
-
-    width: 80%;
-    padding: 0 5px;
-  }
-
-  &__nav-content {
-    padding: 5px;
-
-    // TODO: use/create theme mixin.
-    .dark & { background-color: $white; }
-    .light & { background-color: $black; }
-  }
-
-  &__backdrop {
-    @include position(fixed, 0 0 0 0);
-    z-index: 100;
-
-    background-color: transparentize(tint($black, 32%), 0.64);
-
-    transition: opacity 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-}
-
 .projects {
-  position: relative;
-  z-index: 101;
-
   display: flex;
-  align-items: stretch;
+  align-content: space-between;
   flex-wrap: wrap;
-  flex-grow: 1;
 
-  margin: 10px 0 0;
-  width: 80%;
+  margin: 20px 0;
 }
 
+// ----------------------------------------------------------------------------
 .project {
-  position: relative;
-
-  display: flex;
   flex: 0 0 100%;
 
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   width: 100%;
 
-  @media (min-width: 570px) {
+  @media (min-width: 361px) {
     flex: 0 0 50%;
     width: 50%;
   }
 }
 
 .project__wrapper {
-  position: relative;
-
-  flex-grow: 1;
-
   margin: 0 5px;
-  height: 100%;
-
-  background-color: $white;
-  box-shadow: 0 1px 8px transparentize($black, 0.81);
-
-  transform-origin: 0 50%;
-
-  will-change: transform;
-
-  // TODO: use/create theme mixin.
-  .dark & { background-color: $black; }
-}
-
-.project__content {
-  @include position(absolute, 0 0 0 0);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  transform-origin: 100% 100%;
-}
-
-.project__order {
-  margin-right: 5px;
-
-  user-select: none;
-  pointer-events: none;
-
-  opacity: 0.5;
-}
-
-.project__order,
-.project__title {
-  font-size: $font-scale-3;
-}
-
-// ----------------------------------------------------------------------------
-.links {
-  display: flex;
-
-  &--animate {
-    @include intro(links);
-    animation-fill-mode: backwards;
-  }
-}
-
-.link {
-  padding: 5px 10px;
-
-  color: currentColor;
-  text-decoration: none;
-
-  cursor: pointer;
-
-  appearance: none;
-  outline: none;
-  border: 1px solid transparentize($black, 0.8);
-
-  border-radius: 3px;
-
-  transition: background-color 166ms cubic-bezier(0.165, 0.84, 0.44, 1);
-
-  will-change: opacity, transform;
-
-  & + & { margin-left: $spacer-x; }
-
-  // TODO: use/create theme mixin.
-  .dark & {
-    border: 1px solid transparentize(black, 0);
-    background-color: transparentize(tint($black, 8%), 0);
-  }
-
-  .light & { background-color: transparentize(tint($white, 11%), 0); }
-}
-
-.link--accent {
-  color: $white;
-  background-image: linear-gradient(-45deg, transparentize(#7649d1, 0.15),
-                                            transparentize(#a93da0, 0.15));
 }

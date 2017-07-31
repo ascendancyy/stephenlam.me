@@ -11,8 +11,6 @@ import 'scss/waves.scss';
 import 'src/js/fonts';
 
 // the rest
-import 'src/js/prep';
 import 'src/js/ascii';
 import 'src/js/flow';
 import 'src/js/theme';
-import 'src/js/projects';
