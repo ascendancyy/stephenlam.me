@@ -198,7 +198,6 @@ module.exports = {
 
     compress: true,
 
-    noInfo: true,
-    quiet: true
+    noInfo: true
   }
 };
