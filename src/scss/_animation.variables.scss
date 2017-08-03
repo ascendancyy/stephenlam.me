@@ -17,5 +17,5 @@ $intro: (
     easing: $intro-easing
   ),
   title: $title-intro,
-  subtitle: $title-intro,
+  subtitle: map-merge($title-intro, (delay: $intro-delay * 1.35)),
 );
