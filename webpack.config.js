@@ -62,7 +62,7 @@ let plugins = [
           return new Buffer.from(JSON.stringify(manifest));
         } else if (contentPath.indexOf('browserconfig.xml') !== -1) {
           let xml;
-          const options = { explicitArray: false }
+          const options = { explicitArray: false };
           xml2js.parseString(content.toString(), options, (err, result) => {
             const config70 = result.browserconfig.msapplication.tile
               .square70x70logo.$;
@@ -82,9 +82,11 @@ let plugins = [
         }
       }
     }
+  /* eslint-disable object-curly-newline */
   ], {
     copyUnmodified: true
   }),
+  /* eslint-enable object-curly-newline */
   ExtractText
 ];
 
