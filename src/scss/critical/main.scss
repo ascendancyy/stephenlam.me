@@ -1,14 +1,12 @@
 @import 'bourbon';
-@import 'main.variables';
-@import 'animation.variables';
+
+@import '../variables/main';
+@import '../variables/animation';
+@import '../util';
+
 @import 'reset';
-@import 'util';
-
-@import 'header';
-@import 'canvas';
-
 @import 'animations';
-@import 'miscellaneous';
+@import 'header';
 
 // ----------------------------------------------------------------------------
 body {
@@ -35,3 +33,5 @@ body {
 
 // ----------------------------------------------------------------------------
 .main { padding-top: $spacer-y * 1.6; }
+
+

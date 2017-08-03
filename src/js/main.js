@@ -6,7 +6,8 @@ if (!window.Promise) {
 
 // styling
 import 'normalize.css';
-import 'scss/waves.scss';
+import 'critical/main.scss';
+import 'waves/waves.scss';
 import 'src/js/fonts';
 
 // the rest

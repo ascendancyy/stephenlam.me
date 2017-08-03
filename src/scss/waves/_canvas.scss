@@ -9,6 +9,6 @@
 
   &__fallback {
     @include position(fixed, 0 0 0 0);
-    background: url('../img/background.svg') 50% 0% / cover no-repeat fixed;
+    background: url('../../img/background.svg') 50% 0% / cover no-repeat fixed;
   }
 }

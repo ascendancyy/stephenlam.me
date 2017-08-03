@@ -12,11 +12,19 @@ const settings = DEVELOPMENT ?
   project.dev :
   project.prod;
 
+// eslint-disable-next-line id-length
+const StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const ExtractText = new ExtractTextPlugin({
+const InternalCSS = new ExtractTextPlugin({
+  filename: 'internal.css',
+  allChunks: true,
+  disable: DEVELOPMENT
+});
+
+const ExternalCSS = new ExtractTextPlugin({
   filename: settings.cssFilename,
   allChunks: true,
   disable: DEVELOPMENT
@@ -88,7 +96,13 @@ let plugins = [
     copyUnmodified: true
   }),
   /* eslint-enable object-curly-newline */
-  ExtractText
+  InternalCSS,
+  ExternalCSS,
+  new StyleExtHtmlWebpackPlugin({
+    enabled: !DEVELOPMENT,
+    filename: 'internal.css',
+    minify: true
+  })
 ];
 
 if (DEVELOPMENT) {
@@ -155,7 +169,11 @@ module.exports = {
   resolve: {
     alias: {
       src: path.resolve(__dirname, './src'),
-      scss: path.resolve(__dirname, './src/scss')
+
+      scss: path.resolve(__dirname, './src/scss'),
+      critical: path.resolve(__dirname, './src/scss/critical'),
+      waves: path.resolve(__dirname, './src/scss/waves'),
+      variables: path.resolve(__dirname, './src/scss/variables')
     },
     extensions: ['*', '.js']
   },
@@ -163,17 +181,31 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.scss$/,
-        use: ExtractText.extract({
+        test: /normalize\.css$/,
+        use: InternalCSS.extract({
+          use: cssLoader,
+          fallback: 'style-loader'
+        })
+      }, {
+        test: /critical\/[\w.-]+\.scss$/,
+        use: InternalCSS.extract({
           use: scssLoader,
           fallback: 'style-loader'
         })
       }, {
+        test: /\.scss$/,
+        use: ExternalCSS.extract({
+          use: scssLoader,
+          fallback: 'style-loader'
+        }),
+        exclude: path.resolve(__dirname, './src/scss/critical')
+      }, {
         test: /\.css$/,
-        use: ExtractText.extract({
+        use: ExternalCSS.extract({
           use: cssLoader,
           fallback: 'style-loader'
-        })
+        }),
+        exclude: /normalize/
       }, {
         test: /\.js$/,
         use: ['babel-loader'],
