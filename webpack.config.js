@@ -43,6 +43,7 @@ const scssLoader = cssLoader.concat([{
 }]);
 
 let plugins = [
+  new webpack.optimize.ModuleConcatenationPlugin(),
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
@@ -198,7 +199,6 @@ module.exports = {
 
     compress: true,
 
-    noInfo: true,
-    quiet: true
+    noInfo: true
   }
 };
