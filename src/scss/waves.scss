@@ -18,7 +18,7 @@ body {
 
   color: $black;
   font-weight: $base-font-weight;
-  font-family: 'PT Sans', serif;
+  font-family: 'PT Sans', $base-font-family;
   line-height: $base-line-height;
   word-spacing: 0;
   letter-spacing: 0;
