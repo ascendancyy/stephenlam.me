@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------
 body {
   display: flex;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
 
@@ -25,15 +26,6 @@ body {
 
   background-color: darken($white, 2%);
 
-  transition: color 200ms cubic-bezier(0.165, 0.84, 0.44, 1),
-              background-color 200ms cubic-bezier(0.165, 0.84, 0.44, 1);
-
-  // TODO: use/create theme mixin.
-  &.dark {
-    color: $white;
-    background-color: $black;
-  }
-
   @include classless($font-loaded-class) {
     font-family: $base-font-family;
     word-spacing: 0.05px;
@@ -43,29 +35,3 @@ body {
 
 // ----------------------------------------------------------------------------
 .main { padding-top: $spacer-y * 1.6; }
-
-// ----------------------------------------------------------------------------
-.projects {
-  display: flex;
-  align-content: space-between;
-  flex-wrap: wrap;
-
-  margin: 20px 0;
-}
-
-// ----------------------------------------------------------------------------
-.project {
-  flex: 0 0 100%;
-
-  margin-bottom: 5px;
-  width: 100%;
-
-  @media (min-width: 361px) {
-    flex: 0 0 50%;
-    width: 50%;
-  }
-}
-
-.project__wrapper {
-  margin: 0 5px;
-}

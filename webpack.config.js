@@ -160,9 +160,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.variables\.scss$/,
-        loader: 'sass-extract-loader'
-      }, {
         test: /\.scss$/,
         use: ExtractText.extract({
           use: scssLoader,
