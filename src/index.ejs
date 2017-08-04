@@ -63,8 +63,10 @@ projects.forEach(project => {
 
   <body>
     <main role="main" class="main">
-      <h1 class="title">Stephen Lam</h1>
+      <h1 class="title"><%= htmlWebpackPlugin.options.title %></h1>
       <p class="subtitle">Design + Code</p>
     </main>
+
+    <%=htmlWebpackPlugin.files.webpackManifest%>
   </body>
 </html>

@@ -8,7 +8,7 @@ module.exports = {
     devtool: '#source-map',
 
     outputFilename: '[name].[chunkhash:14].js',
-    chunkOutputFilename: '[id].[name].[chunkhash:14].js',
+    chunkOutputFilename: '[id].[chunkhash:14].js',
 
     cssFilename: '[name].[contenthash:14].css',
     scssOutputStyle: 'compressed',
@@ -19,7 +19,7 @@ module.exports = {
     devtool: '#eval-source-map',
 
     outputFilename: '[name].js',
-    chunkOutputFilename: '[id].[name].js',
+    chunkOutputFilename: '[id].js',
 
     cssFilename: '[name].css',
     scssOutputStyle: 'expanded',
@@ -27,4 +27,4 @@ module.exports = {
     port: 8080,
     host: '0.0.0.0'
   }
-}
+};

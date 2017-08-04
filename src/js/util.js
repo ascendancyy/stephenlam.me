@@ -24,15 +24,8 @@ export function viewport () {
 }
 
 let rng = Math.random;
-DEVELOPMENT && loadSR().then(seedrandom => { rng = seedrandom('2501'); });
-
-function loadSR () {
-  return new Promise(resolve => {
-    require.ensure(['seedrandom'], require => {
-      resolve(require('seedrandom'));
-    }, 'devdeps');
-  });
-}
+DEVELOPMENT && import(/* webpackChunkName: "devdeps" */ 'seedrandom')
+  .then(seedrandom => rng = seedrandom('2501'));
 
 export function random (lower = 0, upper = 1) {
   return rng() * (upper - lower) + lower;
