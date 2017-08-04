@@ -2,12 +2,19 @@ import FontFaceObserver from 'fontfaceobserver';
 
 import { addClass, inlineStyles } from 'src/js/util';
 
-function loadFonts () {
-  const playfairDisplay = new FontFaceObserver('Playfair Display');
-  const ptSans = new FontFaceObserver('PT Sans');
+const playfairDisplay = new FontFaceObserver('Playfair Display', {
+  style: 'italic',
+  weight: 700
+});
 
+const ptSans = new FontFaceObserver('PT Sans', {
+  style: 'normal',
+  weight: 400
+});
+
+function loadFonts () {
   Promise.all([playfairDisplay.load(), ptSans.load()])
-    .then(() => { addClass(document.body, 'fonts-loaded'); });
+    .then(() => addClass(document.body, 'fonts-loaded'));
 
   Promise.all([
     // eslint-disable-next-line max-len
