@@ -24,6 +24,8 @@ body {
 
   background-color: darken($white, 2%);
 
+  overflow: hidden;
+
   @include classless($font-loaded-class) {
     font-family: $base-font-family;
     word-spacing: 0.05px;
@@ -32,6 +34,6 @@ body {
 }
 
 // ----------------------------------------------------------------------------
-.main { padding-top: $spacer-y * 1.6; }
+.main { padding: $spacer-y $spacer-x * 2; }
 
 
