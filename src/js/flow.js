@@ -43,12 +43,15 @@ function resizeCanvas (event) {
   parentWidth = width;
   parentHeight = height;
 
-  canvas.width = parentWidth;
-  canvas.height = parentHeight;
+  canvas.width = parentWidth * pixelRatio;
+  canvas.height = parentHeight * pixelRatio;
+
+  canvas.style.width = `${width}px`;
+  canvas.style.height = `${height}px`;
 }
 
 window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+window.addEventListener('load', resizeCanvas, { once: true });
 
 const directions = ['x', 'y'];
 
@@ -256,7 +259,7 @@ function updatePoints ({ alpha, points, speed, region }) {
   let color = sin(now / PER_SECOND / speed / 4);
 
   ctx.save();
-  ctx.scale(1, parentHeight / initialHeight);
+  ctx.scale(pixelRatio, parentHeight / initialHeight * pixelRatio);
 
   clearRegion(region);
   region.top = Number.MAX_SAFE_INTEGER;
