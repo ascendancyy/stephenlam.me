@@ -51,7 +51,12 @@ const scssLoader = cssLoader.concat([{
 
 const base = {
   devtool: project.devtool,
-  entry: { main: './src/js/main.js' },
+  entry: {
+    main: [
+      './src/js/promise.js',
+      './src/js/main.js'
+    ]
+  },
   output: {
     filename: settings.outputFilename,
     chunkFilename: settings.chunkOutputFilename,
