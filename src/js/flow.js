@@ -17,7 +17,8 @@ const PER_SECOND = 318.571085;
 const pixelRatio = window.devicePixelRatio || 1,
       reduceMotion = matchMedia('(prefers-reduced-motion)').matches;
 
-const canvas = document.createElement('canvas');
+const canvas = document.createElement('canvas'),
+      ctx = canvas.getContext('2d');
 
 const fallback = document.createElement('div');
 addClass(fallback, 'canvas__fallback');
@@ -25,14 +26,6 @@ addClass(fallback, 'canvas__fallback');
 addClass(canvas, 'canvas');
 canvas.appendChild(fallback);
 document.body.appendChild(canvas);
-
-// TODO: Improve error handling
-let ctx;
-try {
-  ctx = canvas.getContext('2d');
-} catch (error) {
-  console.log(error);
-}
 
 let { width: parentWidth, height: parentHeight } = viewport();
 const initialHeight = parentHeight;
@@ -181,10 +174,6 @@ const flows = [
   }
 ].map(object => Object.assign(createFlow(object.deviation), object));
 
-if (process.env.NODE_ENV === 'development') {
-  window.flows = flows;
-}
-
 // =========
 // animation
 // =========
@@ -308,7 +297,6 @@ function tick () {
 // initialize
 // ==========
 
-// TODO: ugly.
 'requestIdleCallback' in window ?
-  ctx && requestIdleCallback(tick) :
-  ctx && tick();
+  requestIdleCallback(tick) :
+  tick();
