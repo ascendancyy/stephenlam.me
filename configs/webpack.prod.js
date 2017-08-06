@@ -4,8 +4,7 @@ const project = require('./project.js'),
       settings = project.prod;
 
 const webpack = require('webpack'),
-      HTMLWebpackPlugin = require('html-webpack-plugin'),
-      InlineManifest = require('inline-manifest-webpack-plugin');
+      HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const base = {
   plugins: [
@@ -35,7 +34,6 @@ const base = {
         sortClassName: true
       }
     }),
-    new InlineManifest({ name: 'webpackManifest'}),
     new webpack.optimize.UglifyJsPlugin({
       comments: false,
       sourceMap: true,
