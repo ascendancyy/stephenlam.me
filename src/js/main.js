@@ -9,6 +9,9 @@ import 'critical/main.scss';
 import 'waves/waves.scss';
 import 'src/js/fonts';
 
-// the rest
-import 'src/js/ascii';
-import 'src/js/flow';
+// flow
+import 'src/js/flow/flow';
+import 'src/js/flow/caption';
+
+// misc
+import 'src/js/blink';

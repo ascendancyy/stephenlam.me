@@ -1,25 +1,21 @@
 import FontFaceObserver from 'fontfaceobserver';
 
-import { addClass, inlineStyles } from 'src/js/util';
+import { addClass, loadStyles } from 'src/js/util';
 
-const playfairDisplay = new FontFaceObserver('Playfair Display', {
-  style: 'italic',
-  weight: 700
-});
-
-const ptSans = new FontFaceObserver('PT Sans', {
-  style: 'normal',
-  weight: 400
-});
+const fonts = {
+  Lusitana: new FontFaceObserver('Lusitana', { weight: 700 }),
+  Oxygen: new FontFaceObserver('Oxygen', { weight: 400 }),
+  OxygenLight: new FontFaceObserver('Oxygen', { weight: 300 })
+};
 
 function loadFonts () {
-  Promise.all([playfairDisplay.load(), ptSans.load()])
+  const timeout = 5000;
+  Promise.all(Object.values(fonts).map(font => font.load(null, timeout)))
     .then(() => addClass(document.body, 'fonts-loaded'));
 
   Promise.all([
-    // eslint-disable-next-line max-len
-    inlineStyles('https://fonts.googleapis.com/css?family=Playfair+Display:400,700,700i,900i'),
-    inlineStyles('https://fonts.googleapis.com/css?family=PT+Sans')
+    loadStyles('https://fonts.googleapis.com/css?family=Lusitana:700'),
+    loadStyles('https://fonts.googleapis.com/css?family=Oxygen:300,400')
   ]);
 }
 

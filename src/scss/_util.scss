@@ -25,7 +25,14 @@
       $delay: get($map, delay, 0ms);
       $easing: get($map, easing, linear);
 
-      animation: $duration $easing $name;
+      @if length($name) > 1 {
+        animation-name: $name;
+        animation-duration: $duration;
+        animation-timing-function: $easing;
+      } @else {
+        animation: $duration $easing $name;
+      }
+
       animation-delay: $delay;
 
     } @else {

@@ -8,6 +8,12 @@ export const raf = window.requestAnimationFrame ||
                    window.msRequestAnimationFrame ||
                    function raf (callback) { return setTimeout(callback, 16); };
 
+export const cancelRaf = window.cancelAnimationFrame ||
+                         window.webkitCancelAnimationFrame ||
+                         window.mozCancelAnimationFrame ||
+                         window.msCancelAnimationFrame ||
+                         clearTimeout;
+
 export function nextFrame (func) {
   return raf(function frame () {
     raf(func);

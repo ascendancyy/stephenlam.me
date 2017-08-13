@@ -1,52 +1,61 @@
-import { addClass, raf, viewport, random } from 'src/js/util';
+import { raf, viewport, random } from 'src/js/util';
 import { getFlowColor } from 'src/js/color';
+
+const {
+  abs,
+  sin,
+  cos,
+  floor
+} = Math;
 
 // =================
 // shared references
 // =================
 
-const {
-  abs,
-  sin,
-  cos
-} = Math;
+let flowTime = 0,
+    flowLastTime = 0,
+    flowHover = false;
 
-// The sin of milliseconds divised by ~318 will equal to 1 turn per second.
-const PER_SECOND = 318.571085;
-
-const pixelRatio = window.devicePixelRatio || 1,
+// The sin of milliseconds divided by ~318 will equal to 1 turn per second.
+const PER_SECOND = 318.571085,
+      pixelRatio = window.devicePixelRatio || 1,
       reduceMotion = matchMedia('(prefers-reduced-motion)').matches;
 
-const canvas = document.createElement('canvas'),
-      ctx = canvas.getContext('2d');
+const canvas = document.querySelector('.flow__canvas');
 
-const fallback = document.createElement('div');
-addClass(fallback, 'canvas__fallback');
+canvas.addEventListener('mouseenter', function canvasHover () {
+  flowHover = true;
+}, { passive: true });
 
-addClass(canvas, 'canvas');
-canvas.appendChild(fallback);
-document.body.appendChild(canvas);
+canvas.addEventListener('mouseleave', function canvasLeave () {
+  flowHover = false;
+}, { passive: true });
+
+let ctx;
+try {
+  ctx = canvas.getContext('2d');
+  canvas.style.cursor = 'pointer';
+} catch (error) {
+  process.env.NODE_ENV === 'development' && console.log(error);
+}
 
 let { width: parentWidth, height: parentHeight } = viewport();
 const initialHeight = parentHeight;
 
 function resizeCanvas (event) {
-  const { width, height } = viewport();
+  const { width, height } = canvas.getBoundingClientRect();
 
   parentWidth = width;
   parentHeight = height;
 
   canvas.width = parentWidth * pixelRatio;
   canvas.height = parentHeight * pixelRatio;
-
-  canvas.style.width = `${width}px`;
-  canvas.style.height = `${height}px`;
 }
 
 window.addEventListener('resize', resizeCanvas);
 window.addEventListener('load', resizeCanvas, { once: true });
 
-const directions = ['x', 'y'];
+canvas.addEventListener('click', respawnFlows);
 
 
 // =======
@@ -58,29 +67,37 @@ const getSpace = {
     const { min = 10, max = 100 } = deviation;
     const space = Math.min(Math.max(parentWidth * 0.064, min), max);
 
-    return Math.floor(random(1, 2) * space) + previous;
+    return floor(random(1, 2) * space) + previous;
   },
 
   y (deviation, previous = 0) {
     const { min = 10, max = 100 } = deviation;
 
-    let next = random(0, 0.64) * initialHeight + max;
-    let delta = next - previous;
+    let next = random(-0.5, 0.5) * initialHeight + max,
+        delta = next - previous;
 
-    while (abs(delta) > max || abs(delta) <= min) {
-      next = random(0, 0.64) * initialHeight + max;
+    while (abs(delta) > max ||
+           abs(delta) <= min ||
+           next <= 16 ||
+           next >= initialHeight - 16) {
+      next = random(-0.5, 0.5) * initialHeight + max;
       delta = next - previous;
     }
 
-    return Math.floor(next);
+    return floor(next);
   }
 };
 
-function pointIsVisible (x) { return x < parentWidth; }
+function pointIsVisible (x) { return x < parentWidth + 16; }
+
 
 // ==============
 // flow instances
 // ==============
+
+function updateAllFlows () {
+  flows.forEach(updatePoints);
+}
 
 function *createPoints (deviation, lastPoint) {
   const last = {
@@ -90,7 +107,7 @@ function *createPoints (deviation, lastPoint) {
 
   const padding = getSpace.x(deviation.x);
   while (last.x < parentWidth + padding) {
-    directions.forEach(axis =>
+    ['x', 'y'].forEach(axis =>
       last[axis] = getSpace[axis](deviation[axis], last[axis]));
 
     yield Object.assign({}, last, {
@@ -106,7 +123,7 @@ function *createPoints (deviation, lastPoint) {
 
 function *initialPoints (deviation) {
   const x = 0,
-        y = initialHeight * random(0.4, 0.5);
+        y = initialHeight * random(0.5, 0.6);
 
   yield {
     x,
@@ -157,18 +174,24 @@ function createFlow (deviation) {
   };
 }
 
+function respawnFlows (event) {
+  event.preventDefault();
+  ctx.clearRect(0, 0, parentWidth, parentHeight);
+  flows.map(object => Object.assign(object, createFlow(object.deviation)));
+}
+
 const flows = [
   {
     alpha: 0.64,
     speed: Math.PI * 1.61803398875,
     deviation: {
       x: {
-        min: 30,
+        min: 60,
         max: 300
       },
       y: {
         min: 25,
-        max: 190
+        max: 200
       }
     }
   }
@@ -220,7 +243,7 @@ function updateTriangle (points, computed, end, speed) {
       let { x: horizontal } = point.variance;
       let progress = 1;
       if (horizontal) {
-        const now = performance.now();
+        const now = flowTime;
         progress = sin(now / PER_SECOND / speed / 4 + cos(ptIdx)) * 0.25 + 0.75;
       } else {
         horizontal = 1;
@@ -243,9 +266,16 @@ function updateTriangle (points, computed, end, speed) {
 
 // eslint-disable-next-line object-curly-newline
 function updatePoints ({ alpha, points, speed, region }) {
-  const computed = [],
-        now = performance.now();
-  let color = sin(now / PER_SECOND / speed / 4);
+  const start = performance.now();
+
+  const delta = performance.now() - flowLastTime,
+        add = flowHover ? delta : delta * 0.4;
+
+  flowTime += Math.min(add, 17.77);
+  flowLastTime = start;
+
+  const computed = [];
+  let color = sin(flowTime / PER_SECOND / speed / 4);
 
   ctx.save();
   ctx.scale(pixelRatio, parentHeight / initialHeight * pixelRatio);
@@ -265,7 +295,7 @@ function updatePoints ({ alpha, points, speed, region }) {
     } else if (!visible) {
       point.visible = true;
     } else if (visible) {
-      point.variance.progress = sin(now / PER_SECOND / speed + cos(index));
+      point.variance.progress = sin(flowTime / PER_SECOND / speed + cos(index));
     }
 
     if (index >= 2 && points[index - 2].visible) {
@@ -284,19 +314,21 @@ function updatePoints ({ alpha, points, speed, region }) {
   ctx.restore();
 }
 
-function tick () {
-  flows.forEach(updatePoints);
-  if (reduceMotion) {
-    return;
-  }
-  raf(tick);
-}
-
 
 // ==========
 // initialize
 // ==========
 
-'requestIdleCallback' in window ?
-  requestIdleCallback(tick) :
-  tick();
+if (ctx) {
+  'requestIdleCallback' in window ?
+    requestIdleCallback(tick) :
+    tick();
+}
+
+function tick () {
+  updateAllFlows();
+  if (reduceMotion) {
+    return;
+  }
+  raf(tick);
+}

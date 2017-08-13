@@ -32,9 +32,30 @@
   </head>
 
   <body>
-    <main role="main" class="main">
-      <h1 class="title"><%= htmlWebpackPlugin.options.title %></h1>
-      <p class="subtitle">Design + Code</p>
+    <header class="header">
+      <nav>
+        <ul class="links">
+          <a href="https://blog.stephenlam.me" class="link">Blog</a>
+          <a href="https://github.com/ascendancyy"
+             target="_blank" rel="noopener noreferrer" class="link">
+            Github
+          </a>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="main">
+      <div class="plate">
+        <h1 class="title">Stephen<br>Lam</h1>
+        <p class="subtitle">Design + Code</p>
+      </div>
+
+      <figure class="flow">
+        <canvas class="flow__canvas">
+          <div class="flow__canvas-fallback"></div>
+        </canvas>
+        <figcaption class="flow__caption">Flow</figcaption>
+      </figure>
     </main>
 
     <% if (process.env.NODE_ENV === 'production') { %>

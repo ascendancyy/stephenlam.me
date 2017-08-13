@@ -1,11 +1,19 @@
-@keyframes title-intro {
-  0% {
-    opacity: 0;
-    transform: translateX(-45%) scaleX(1);
-  }
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
 
-  100% {
-    opacity: 1;
-    transform: translateX(0) scaleX(1);
-  }
+@keyframes title-intro {
+  0% { transform: translateY(32px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes canvas-intro {
+  0% { transform: translateY(-64px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes tr-spin {
+  0% { transform: translateY(-50%) translateX(-48%) rotate(0); }
+  100% { transform: translateY(-50%) translateX(-48%) rotate(1turn); }
 }

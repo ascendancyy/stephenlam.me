@@ -1,21 +1,21 @@
-$intro-duration: 485ms;
+$intro-duration: 460ms;
 $intro-delay: 64ms;
-$intro-easing: cubic-bezier(0.81, 0.15, 0.26, 0.99);
+$intro-easing: cubic-bezier(0.31, 0.42, 0.26, 0.99);
 
 $title-intro: (
-  name: title-intro,
+  name: (title-intro, fade-in),
   duration: $intro-duration,
-  delay: $intro-delay,
+  delay: $intro-delay * 2.5,
   easing: $intro-easing
 );
 
 $intro: (
-  header: (
-    name: header-intro,
-    duration: $intro-duration,
+  canvas: (
+    name: (canvas-intro, fade-in),
+    duration: $intro-duration * 1.45,
     delay: $intro-delay,
-    easing: $intro-easing
+    easing: cubic-bezier(0.215, 0.61, 0.355, 1)
   ),
   title: $title-intro,
-  subtitle: map-merge($title-intro, (delay: $intro-delay * 1.35)),
+  subtitle: map-merge($title-intro, (delay: $intro-delay * 2.5)),
 );

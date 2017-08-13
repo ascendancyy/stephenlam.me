@@ -1,0 +1,64 @@
+.flow {
+  margin: 0;
+  height: 100%;
+
+  pointer-events: none;
+}
+
+.flow__caption {
+  @include position(absolute, 0 null null 5px);
+
+  margin-top: -20px;  // compensate for letter-spacing
+
+  color: $black;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 20px;
+  user-select: none;
+  text-align: right;
+  text-transform: uppercase;
+
+  opacity: 0;
+
+  transform: translate(-50%, -50%) scaleX(-1) rotateX(180deg);
+
+  transition: opacity 100ms linear;
+
+  writing-mode: vertical-rl;
+
+  @media (max-width: 525px) { left: 15px; }
+  @media (max-width: 300px) { left: 10px; }
+}
+
+.flow__canvas {
+  @include position(absolute, 0 null null 50px);
+  z-index: 130;
+
+  width: calc(100% - 74px);
+  height: 100%;
+
+  user-select: none;
+  pointer-events: auto;
+
+  background-color: $black;
+
+  transition: filter 240ms linear;
+
+  @include intro(canvas);
+  animation-fill-mode: backwards;
+
+  filter: grayscale(100%);
+
+  &:hover { filter: none; }
+
+  @media (max-width: 300px) {
+    left: 30px;
+    width: calc(100% - 30px);
+  }
+}
+
+.flow__canvas-fallback {
+  @include size(100%);
+  background: url('../../img/background.svg') 50% 0% / cover no-repeat fixed;
+}
