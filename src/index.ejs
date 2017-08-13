@@ -66,5 +66,9 @@ projects.forEach(project => {
       <h1 class="title"><%= htmlWebpackPlugin.options.title %></h1>
       <p class="subtitle">Design + Code</p>
     </main>
+
+    <% if (process.env.NODE_ENV === 'production') { %>
+      <script async src="https://www.google-analytics.com/analytics.js"></script>
+    <% } %>
   </body>
 </html>
