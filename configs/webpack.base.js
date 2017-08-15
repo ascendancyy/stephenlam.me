@@ -130,6 +130,7 @@ const base = {
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../src/favicons/'),
+        to: `[name].[ext]?v=${VERSION}`,
         transform (content, contentPath) {
           if (contentPath.indexOf('manifest.json') !== -1) {
             const manifest = JSON.parse(content.toString());

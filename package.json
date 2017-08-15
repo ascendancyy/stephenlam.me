@@ -37,6 +37,7 @@
     "html-loader": "^0.4.5",
     "html-webpack-plugin": "^2.30.1",
     "node-sass": "^4.5.2",
+    "offline-plugin": "^4.8.3",
     "pixrem": "^3.0.2",
     "postcss-calc": "^6.0.0",
     "postcss-flexbugs-fixes": "^3.0.0",

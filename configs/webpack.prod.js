@@ -1,10 +1,12 @@
 /* eslint-disable object-curly-newline */
 
 const project = require('./project.js'),
-      settings = project.prod;
+      settings = project.prod,
+      VERSION = require('../package.json').version.toString();
 
 const webpack = require('webpack'),
-      HTMLWebpackPlugin = require('html-webpack-plugin');
+      HTMLWebpackPlugin = require('html-webpack-plugin'),
+      OfflinePlugin = require('offline-plugin');
 
 const base = {
   plugins: [
@@ -46,6 +48,23 @@ const base = {
         keep_fnames: false, // eslint-disable-line camelcase
         except: ['exports', 'require']
       }
+    }),
+    new OfflinePlugin({
+      version: VERSION,
+      autoUpdate: 86400000,
+
+      AppCache: false,
+      ServiceWorker: {
+        output: 'jet-alone.js',
+        events: true
+      },
+      caches: {
+        main: ['index.html', 'main.*.js', 'manifest.*.js', 'main.*.css'],
+        additional: [':rest:', 'ga.*.js'],
+        optional: [':externals:', 'background.svg?*']
+      },
+      excludes: ['**/.*', '**/*.map', 'internal.css', 'devdeps.*.js'],
+      safeToUseOptionalCaches: true
     })
   ]
 };
