@@ -5,14 +5,9 @@
     content: '';
 
     @include position(absolute, 50% null null 4px);
+    @include size(8px);
 
-    width: 0;
-    height: 0;
-    border-width: 7.45px 4px 0;
-    border-style: solid;
-    border-color: $accent transparent transparent;
-
-    transform-origin: 50% 33%;
+    background: url('../../img/triangle.svg') center / cover no-repeat scroll;
 
     animation: 3s linear tr-spin;
     animation-iteration-count: infinite;
