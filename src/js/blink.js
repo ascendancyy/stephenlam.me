@@ -5,7 +5,8 @@ document.documentElement.insertBefore(display, document.head);
 
 const frames = [
   'Bring <blink> back',
-  'Bring <     > back'
+  // Prevent spaces from collapsing comment
+  'Bring <\u00A0\u00A0\u00A0\u00A0\u00A0> back'
 ];
 
 let head = 0,
