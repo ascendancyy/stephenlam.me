@@ -1,3 +1,5 @@
+/* eslint-disable object-curly-newline */
+
 module.exports = {
   plugins: [
     require('pixrem')(),
@@ -7,4 +9,4 @@ module.exports = {
     require('postcss-flexbugs-fixes')(),
     require('autoprefixer')()
   ]
-}
+};

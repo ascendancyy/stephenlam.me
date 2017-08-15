@@ -36,8 +36,15 @@ const cssLoader = [
       sourceMap: true,
       importLoaders: 1
     }
-  },
-  'postcss-loader?config=./configs/postcss.config.js'
+  }, {
+    loader: 'postcss-loader',
+    options: {
+      sourceMap: true,
+      config: {
+        path: './configs/postcss.config.js'
+      }
+    }
+  }
 ];
 const scssLoader = cssLoader.concat([{
   loader: 'sass-loader',
