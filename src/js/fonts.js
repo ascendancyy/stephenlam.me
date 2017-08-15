@@ -1,6 +1,6 @@
 import FontFaceObserver from 'fontfaceobserver';
 
-import { addClass, loadStyles } from 'src/js/util';
+import { addClass, inlineStyles } from 'src/js/util';
 
 const fonts = {
   Lusitana: new FontFaceObserver('Lusitana', { weight: 700 }),
@@ -14,8 +14,8 @@ function loadFonts () {
     .then(() => addClass(document.body, 'fonts-loaded'));
 
   Promise.all([
-    loadStyles('https://fonts.googleapis.com/css?family=Lusitana:700'),
-    loadStyles('https://fonts.googleapis.com/css?family=Oxygen:300,400')
+    inlineStyles('https://fonts.googleapis.com/css?family=Lusitana:700'),
+    inlineStyles('https://fonts.googleapis.com/css?family=Oxygen:300,400')
   ]);
 }
 
