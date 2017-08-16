@@ -3,7 +3,7 @@
 SITE=stage.stephenlam.me
 
 if [ -n "$TRAVIS_BUILD_ID" ]; then
-    if [ "$TRAVIS_BRANCH" = "master" ] || [ "$TRAVIS_BRANCH" = "flow" ]; then
+    if [ "$TRAVIS_BRANCH" = "master" ] || [ "$TRAVIS_BRANCH" = "space" ]; then
         SITE=stephenlam.me
     fi
 
