@@ -20,6 +20,24 @@
 
   overflow: hidden;
 
+  @include intro(plate);
+  animation-fill-mode: both;
+
+  will-change: transform;
+
+  &:before {
+    content: '';
+
+    @include position(absolute, 0 0 0 0);
+
+    background-color: $white;
+
+    transform-origin: 0 0;
+
+    @include intro(plate-background);
+    animation-fill-mode: both;
+  }
+
   &:after {
     content: 'A display for ants';
 

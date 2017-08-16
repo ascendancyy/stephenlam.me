@@ -1,11 +1,18 @@
 $intro-duration: 460ms;
-$intro-delay: 64ms;
+$intro-delay: 32ms;
 $intro-easing: cubic-bezier(0.31, 0.42, 0.26, 0.99);
 
 $title-intro: (
   name: (title-intro, fade-in),
   duration: $intro-duration,
-  delay: $intro-delay * 2.5,
+  delay: $intro-delay * 1.5 + ($intro-duration / 2),
+  easing: $intro-easing
+);
+
+$plate-intro: (
+  name: plate-intro,
+  duration: $intro-duration,
+  delay: $intro-delay * 1.5,
   easing: $intro-easing
 );
 
@@ -16,6 +23,30 @@ $intro: (
     delay: $intro-delay,
     easing: cubic-bezier(0.215, 0.61, 0.355, 1)
   ),
+  caption: (
+    name: fade-in,
+    duration: $intro-duration * 1.45,
+    delay: $intro-delay,
+    easing: $intro-easing
+  ),
+
+  header: (
+    name: fade-in,
+    duration: $intro-duration * 0.66,
+    delay: $intro-delay,
+    easing: $intro-easing
+  ),
+
+  plate: $plate-intro,
+  plate-background: map-merge($plate-intro, (name: plate-background-intro)),
+
   title: $title-intro,
-  subtitle: map-merge($title-intro, (delay: $intro-delay * 2.5)),
+  subtitle: map-merge($title-intro, (delay: map-get($title-intro, delay) + $intro-delay)),
+
+  links-border: (
+    name: (fade-in, links-border-intro),
+    duration: $intro-duration * 1.5,
+    delay: $intro-delay * 2,
+    easing: cubic-bezier(0.215, 0.61, 0.14, 0.88)
+  )
 );

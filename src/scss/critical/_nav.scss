@@ -1,6 +1,9 @@
 .header {
   position: relative;
 
+  @include intro(header);
+  animation-fill-mode: both;
+
   &:before {
     content: '';
 
@@ -43,6 +46,9 @@
     height: 1px;
 
     background-color: $accent;
+
+    @include intro(links-border);
+    animation-fill-mode: both;
   }
 
   @media (max-width: 375px), (max-height: 320px) { height: 48px; }

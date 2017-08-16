@@ -25,6 +25,9 @@
 
   transition: opacity 100ms linear;
 
+  @include intro(caption);
+  animation-fill-mode: both;
+
   writing-mode: vertical-rl;
 
   @media (max-width: 525px) { left: 15px; }
