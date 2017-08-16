@@ -1,6 +1,6 @@
 {
   "name": "stephenlam.me",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./configs/webpack.base.js --hot --inline",
