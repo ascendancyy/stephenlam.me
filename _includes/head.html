@@ -1,0 +1,26 @@
+{% capture title %}{{ page.title | default: site.title | escape }}{% endcapture %}
+{% capture description %}{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}{% endcapture %}
+
+<head>
+  <meta charset="utf-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="{{ title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ site.url }}">
+
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+
+  <meta name="robots" content="nofollow, noodp, noydir">
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
+
+  <link href="https://fonts.gstatic.com" rel='preconnect' crossorigin>
+  <link href="https://cdnjs.cloudflare.com" rel='preconnect' crossorigin>
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto+Mono" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+</head>

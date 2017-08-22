@@ -1,0 +1,66 @@
+# Locations
+source: .
+destination: ./_site
+
+layouts_dir: _layouts
+includes_dir: _includes
+
+# Defaults
+defaults:
+  -
+    scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+# Files
+exclude:
+  - README
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - yarn.lock
+  - gulpfile.js
+  - postcss.config.js
+  - blog.sublime-project
+  - blog.sublime-workspace
+  - vendor/
+  - node_modules/
+  - scripts/
+
+# Site settings
+encoding: "utf-8"
+timezone: America/Los_Angeles
+
+title: Stephen Lam
+email: admin@stephenlam.me
+description: >
+  The blog of Stephen Lam.
+
+baseurl: "" # the subpath of your site, e.g. /blog
+url: https://blog.stephenlam.me
+
+social:
+  github: ascendancyy
+  google_analytics: "UA-88937605-2"
+
+# Build settings
+quiet: false
+verbose:  false
+
+highlighter: rouge
+markdown: kramdown
+
+plugins:
+  - jekyll-feed
+  - jekyll-paginate
+
+paginate: 8
+paginate_path: "/page/:num/"
+
+permalink: /:year/:month/:title.html
+
+# Serve settings
+host: 0.0.0.0
+port: 3000

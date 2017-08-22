@@ -1,0 +1,77 @@
+// Variables
+@import 'bourbon';
+@import 'variables';
+
+// Components
+@import 'reset';
+@import 'header';
+
+@import 'posts';
+@import 'pagination';
+@import 'syntax';
+
+// -----------------------------------------------------------------------------
+body {
+  display: flex;
+
+  font-weight: $base-font-weight;
+  font-family: 'Open Sans', $base-font-family;
+  line-height: $base-line-height;
+  word-spacing: unset;
+  letter-spacing: unset;
+
+  background-color: $white;
+
+  &:not(#{$font-loaded-class}) {
+    font-family: $base-font-family;
+    word-spacing: 0.2px;
+    letter-spacing: 0.35px;
+  }
+}
+
+// -----------------------------------------------------------------------------
+.wrapper {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 auto;
+  width: 70%;
+  max-width: 666px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+
+  flex-grow: 1;
+
+  margin-top: $spacer-y;
+  margin-bottom: $spacer-y;
+}
+
+// -----------------------------------------------------------------------------
+blockquote {
+  position: relative;
+
+  margin: auto 0;
+  padding: 0 19px;
+
+  font-size: $font-scale-5;
+  line-height: $headings-line-height;
+
+  footer { font-size: $font-scale-2; }
+
+  p { margin-bottom: $spacer-y * 0.4; }
+
+  p:before {
+    content: '“';
+
+    position: absolute;
+    top: -10px;
+    left: 0;
+
+    color: $accent;
+    font-size: $font-scale-5;
+    line-height: $headings-line-height;
+  }
+}

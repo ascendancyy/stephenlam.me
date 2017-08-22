@@ -1,0 +1,38 @@
+// Sizing ---------------------------------------------------------------------
+$spacer-x: 0.6rem;
+$spacer-y: 1.1em;
+
+$padding: 4px;
+
+// Colors
+$white: #f2f0f0;
+$black: #212121;
+$accent: #bf2626;
+
+// Type -----------------------------------------------------------------------
+$font-loaded-class: '.fonts-loaded';
+
+$base-font-family: sans-serif;
+$base-font-size: 16px;
+$base-font-weight: 400;
+$base-line-height: 1.38;
+
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+
+$headings-margin-bottom: ($spacer-y / 2);
+$headings-color: inherit;
+$headings-font-family: inherit;
+$headings-font-weight: 500;
+$headings-line-height: 1;
+
+$font-scale-1: 1rem;
+$font-scale-2: 1.25rem;
+$font-scale-3: 1.56rem;
+$font-scale-4: 1.95rem;
+$font-scale-5: 2.44rem;
+$font-scale-6: 3.05rem;
+$font-scale-7: 3.81rem;
+$font-scale-8: 4.76rem;
+$font-scale-9: 5.96rem;
+$font-scale-10: 7.45rem;

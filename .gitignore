@@ -1,0 +1,14 @@
+# Build Files
+js/
+css/
+_site/
+
+# Node
+node_modules/
+
+# Jekyll
+.sass-cache
+.jekyll-metadata
+
+# Sublime
+*.sublime-*

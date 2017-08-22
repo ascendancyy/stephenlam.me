@@ -1,0 +1,48 @@
+---
+layout: default
+---
+
+{% if paginator.posts %}
+  <ul class="posts">
+      {% for post in paginator.posts %}
+        <li class="post">
+          <h2 class="title"><a href="{{ post.url }}">{{ post.title }}</a></h2>
+          <span title="{{ post.date | date_to_rfc822 }}"
+                class="date date--west">
+            {{ post.date | date: "%B %d, %Y" }}
+          </span>
+        </li>
+      {% endfor %}
+  </ul>
+{% else %}
+  <blockquote>
+    <p>The net is vast and infinite.</p>
+    <footer>— Motoko Kusanagi</footer>
+  </blockquote>
+{% endif %}
+
+{% if paginator.total_pages > 1 %}
+<nav class="pagination">
+  {% if paginator.previous_page %}
+    <a class="page" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">Prev</a>
+  {% else %}
+    <span class="page page--disabled">Prev</span>
+  {% endif %}
+
+  {% for page in (1..paginator.total_pages) %}
+    {% if page == paginator.page %}
+      <span class="page page--active">{{ page }}</span>
+    {% elsif page == 1 %}
+      <a class="page" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a>
+    {% else %}
+      <a class="page" href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
+    {% endif %}
+  {% endfor %}
+
+  {% if paginator.next_page %}
+    <a class="page" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next</a>
+  {% else %}
+    <span class="page page--disabled">Next</span>
+  {% endif %}
+</nav>
+{% endif %}

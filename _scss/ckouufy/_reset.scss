@@ -1,0 +1,45 @@
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  box-sizing: border-box;
+
+  font-size: $base-font-size;
+  text-size-adjust: 100%;
+}
+
+// ----------------------------------------------------------------------------
+a { text-decoration: none; }
+
+ol,
+ul {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+
+  list-style: none;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: $spacer-y;
+}
+
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+pre {
+  margin-top: 0;
+  margin-bottom: 0;
+  overflow: auto;
+}

@@ -1,0 +1,348 @@
+options:
+  formatter: stylish
+files:
+  include:
+    - '**/*.s+(a|c)ss'
+rules:
+  # Mixins
+  mixins-before-declarations: 0
+
+  # Line Spacing
+  one-declaration-per-line: 1
+  empty-line-between-blocks: 1
+  single-line-per-selector: 1
+
+  # Disallows
+  no-attribute-selectors: 1
+  no-color-hex: 0
+  no-color-keywords: 0
+  no-color-literals: 0
+  no-css-comments: 1
+  no-debug: 1
+  no-duplicate-properties: 1
+  no-empty-rulesets: 1
+  no-extends: 1
+  no-ids: 0
+  no-important: 1
+  no-invalid-hex: 1
+  no-mergeable-selectors: 1
+  no-misspelled-properties:
+    - 1
+    - extra-properties:
+      - grid-gap
+  no-qualifying-elements: 1
+  no-trailing-whitespace: 1
+  no-trailing-zero: 1
+  no-transition-all: 1
+  no-universal-selectors: 0
+  no-vendor-prefixes:
+    - 1
+    - excluded-identifiers:
+      - webkit
+  no-warn: 1
+  property-units: 0
+
+  # Nesting
+  force-attribute-nesting: 1
+  force-element-nesting: 0
+  force-pseudo-nesting: 0
+
+  # Name Formats
+  class-name-format:
+    - 1
+    - convention: hyphenatedbem
+  function-name-format: 1
+  id-name-format: 0
+  mixin-name-format: 1
+  placeholder-name-format: 1
+  variable-name-format: 1
+
+  # Style Guide
+  bem-depth:
+    - 1
+    - max-depth: 1
+  border-zero:
+    - 1
+    - convention: none
+  brace-style:
+    - 1
+    - style: 1tbs
+    - allow-single-line: true
+  clean-import-paths: 0
+  declarations-before-nesting: 1
+  empty-args: 1
+  hex-length: 1
+  hex-notation: 1
+  indentation: 0
+  leading-zero:
+    - 1
+    - include: true
+  nesting-depth:
+    - 1
+    - max-depth: 2
+  pseudo-element: 0
+  property-sort-order:
+    - 1
+    - order:
+      - content
+
+      - box-sizing
+
+      - position
+      - top
+      - right
+      - bottom
+      - left
+      - z-index
+
+      - float
+      - clear
+
+      - vertical-align
+
+      - display
+      - justify-content
+      - align-items
+      - align-content
+      - align-self
+
+      - flex-flow
+      - flex-direction
+      - flex-wrap
+
+      - flex
+      - flex-grow
+      - flex-shrink
+      - flex-basis
+
+      - order
+
+      - grid
+      - grid-template
+      - grid-template-rows
+      - grid-template-columns
+      - grid-template-areas
+
+      - grid-auto-rows
+      - grid-auto-columns
+      - grid-auto-flow
+
+      - grid-gap
+      - grid-row-gap
+      - grid-column-gap
+
+      - grid-area
+
+      - grid-row
+      - grid-row-start
+      - grid-row-end
+
+      - grid-column
+      - grid-column-start
+      - grid-column-end
+
+      - columns
+      - column-width
+      - column-count
+
+      - column-fill
+      - column-span
+      - column-gap
+
+      - column-rule
+      - column-rule-width
+      - column-rule-style
+      - column-rule-color
+
+      - table-layout
+      - border-collapse
+      - border-spacing
+      - empty-cells
+      - caption-side
+
+      - margin
+      - margin-top
+      - margin-right
+      - margin-bottom
+      - margin-left
+
+      - min-width
+      - width
+      - max-width
+
+      - min-height
+      - height
+      - max-height
+
+      - padding
+      - padding-top
+      - padding-right
+      - padding-bottom
+      - padding-left
+
+      - color
+
+      - font
+      - font-style
+      - font-variant
+      - font-weight
+      - font-size
+      - font-family
+      - font-stretch
+
+      - quotes
+      - tab-size
+      - line-height
+      - word-spacing
+      - letter-spacing
+      - font-size-adjust
+      - user-select
+
+      - direction
+      - text-align
+      - text-align-last
+      - text-justify
+
+      - white-space
+      - word-break
+      - word-wrap
+
+      - text-indent
+      - text-transform
+      - text-decoration
+      - text-decoration-color
+      - text-decoration-line
+      - text-decoration-style
+
+      - text-rendering
+      - text-shadow
+      - text-overflow
+
+      - cursor
+      - pointer-events
+      - appearance
+      - opacity
+      - visibility
+      - backface-visibility
+
+      - list-style
+      - list-style-type
+      - list-style-image
+      - list-style-position
+
+      - outline
+      - outline-color
+      - outline-style
+      - outline-width
+      - outline-offset
+
+      - border
+      - border-width
+      - border-style
+      - border-color
+
+      - border-top
+      - border-top-width
+      - border-top-style
+      - border-top-color
+
+      - border-right
+      - border-right-width
+      - border-right-style
+      - border-right-color
+
+      - border-bottom
+      - border-bottom-width
+      - border-bottom-style
+      - border-bottom-color
+
+      - border-left
+      - border-left-width
+      - border-left-style
+      - border-left-color
+
+      - border-image
+      - border-image-source
+      - border-image-slice
+      - border-image-width
+      - border-image-outset
+      - border-image-repeat
+
+      - border-radius
+      - border-top-left-radius
+      - border-top-right-radius
+      - border-bottom-left-radius
+      - border-bottom-right-radius
+
+      - background
+      - background-image
+      - background-position
+      - background-size
+      - background-repeat
+      - background-origin
+      - background-clip
+      - background-attachment
+      - background-color
+      - box-shadow
+
+      - fill
+      - fill-opacity
+      - fill-rule
+
+      - stroke
+      - stroke-dasharray
+      - stroke-dashoffset
+
+      - perspective
+      - perspective-origin
+
+      - transform
+      - transform-origin
+      - transform-style
+
+      - overflow
+      - overflow-x
+      - overflow-y
+      - resize
+
+      - transition
+      - transition-property
+      - transition-duration
+      - transition-timing-function
+      - transition-delay
+
+      - animation
+      - animation-name
+      - animation-duration
+      - animation-timing-function
+      - animation-delay
+      - animation-iteration-count
+      - animation-direction
+      - animation-fill-mode
+      - animation-play-state
+
+      - will-change
+
+      - page-break-before
+      - page-break-after
+      - page-break-inside
+
+      - counter-reset
+      - counter-increment
+  quotes: 1
+  shorthand-values: 1
+  url-quotes: 1
+  variable-for-property: 1
+  zero-unit: 1
+
+  # Inner Spacing
+  space-after-colon: 1
+  space-after-comma: 1
+  space-around-operator: 1
+  space-before-brace: 1
+  space-before-colon: 1
+  space-between-parens: 1
+
+  # Final Items
+  trailing-semicolon: 1
+  final-newline: 1

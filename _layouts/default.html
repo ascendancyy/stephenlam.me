@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+  {% include head.html %}
+  <body>
+    <div class="wrapper">
+      {% include header.html %}
+      <main class="main">
+        {{ content }}
+      </main>
+    </div>
+    <script src="/js/main.js" async></script>
+    {% if jekyll.environment == 'production' and site.social.google_analytics %}
+      <script async src="https://www.google-analytics.com/analytics.js"></script>
+    {% endif %}
+  </body>
+</html>

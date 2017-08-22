@@ -1,0 +1,36 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:before,
+  &:after {
+    content: '';
+
+    flex-grow: 1;
+    height: 1px;
+
+    opacity: 0.1;
+    background-color: $black;
+  }
+
+  &:before { margin-right: $padding * 2; }
+  &:after { margin-left: $padding * 2; }
+}
+
+.page {
+  padding: $padding ($padding * 2);
+
+  & + & { margin-left: $padding; }
+
+  &:first-child { margin-right: $spacer-x; }
+  &:last-child { margin-left: $spacer-x; }
+}
+
+.page--active {
+  padding: $padding ($padding * 2);
+  color: $white;
+  background-color: $black;
+}
+
+.page--disabled { opacity: 0.5; }
