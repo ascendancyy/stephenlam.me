@@ -2,17 +2,17 @@ $intro-duration: 460ms;
 $intro-delay: 32ms;
 $intro-easing: cubic-bezier(0.31, 0.42, 0.26, 0.99);
 
-$title-intro: (
-  name: (title-intro, fade-in),
-  duration: $intro-duration,
-  delay: $intro-delay * 1.5 + ($intro-duration / 2),
-  easing: $intro-easing
-);
-
 $plate-intro: (
   name: plate-intro,
   duration: $intro-duration,
-  delay: $intro-delay * 1.5,
+  delay: $intro-delay * 1.9,
+  easing: $intro-easing
+);
+
+$title-intro: (
+  name: (title-intro, fade-in),
+  duration: $intro-duration,
+  delay: $intro-delay * 1.9 + ($intro-duration / 2),
   easing: $intro-easing
 );
 
@@ -47,6 +47,6 @@ $intro: (
     name: (fade-in, links-border-intro),
     duration: $intro-duration * 1.5,
     delay: $intro-delay * 2,
-    easing: cubic-bezier(0.215, 0.61, 0.14, 0.88)
+    easing: cubic-bezier(0, 0.75, 0.34, 1)
   )
 );
