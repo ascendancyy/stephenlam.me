@@ -13,10 +13,9 @@ function loadFonts () {
   Promise.all(Object.values(fonts).map(font => font.load(null, timeout)))
     .then(() => addClass(document.body, 'fonts-loaded'));
 
-  Promise.all([
-    inlineStyles('https://fonts.googleapis.com/css?family=Lusitana:700'),
-    inlineStyles('https://fonts.googleapis.com/css?family=Oxygen:300,400')
-  ]);
+  inlineStyles(
+    'https://fonts.googleapis.com/css?family=Lusitana:700|Oxygen:300,400'
+  );
 }
 
 loadFonts();
