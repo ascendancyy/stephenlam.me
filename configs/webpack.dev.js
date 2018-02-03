@@ -5,6 +5,7 @@ const base = require('./webpack.base.js');
 
 module.exports = merge(base, {
   devServer: {
+    hot: true,
     port: settings.port,
     host: settings.host,
     disableHostCheck: true,
