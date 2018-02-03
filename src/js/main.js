@@ -14,9 +14,14 @@ import 'waves/waves.scss';
 
 loadFonts();
 
-if (process.env.NODE_ENV === 'production') {
-  import(/* webpackChunkName: "ga" */ 'src/js/ga').then(analytics => analytics.default());
+const PRODUCTION = process.env.NODE_ENV === 'production';
 
+if (PRODUCTION) {
+  import(/* webpackChunkName: "ga" */ 'src/js/ga')
+    .then(analytics => analytics.default());
+}
+
+if (PRODUCTION) {
   // eslint-disable-next-line global-require
   const runtime = require('offline-plugin/runtime');
   runtime.install({
