@@ -5,6 +5,7 @@ const merge = require('webpack-merge');
 const base = require('./webpack.base.js');
 
 const OfflinePlugin = require('offline-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = merge(base, {
   plugins: [
@@ -12,17 +13,36 @@ module.exports = merge(base, {
       minimize: true,
       debug: false,
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      comments: false,
+    new UglifyJsPlugin({
       sourceMap: true,
 
-      compress: {
-        warnings: true,
-        dead_code: true,
-      },
-      mangle: {
-        keep_fnames: false,
-        except: ['exports', 'require'],
+      cache: true,
+      parallel: true,
+
+      uglifyOptions: {
+        ecma: 8,
+        ie8: true,
+        safari10: true,
+
+        toplevel: true,
+        compress: {
+          warnings: false,
+
+          dead_code: true,
+          pure_funcs: [
+            'console.log',
+            'console.group',
+            'console.groupCollapsed',
+            'console.groupEnd',
+          ],
+        },
+        mangle: {
+          keep_fnames: false,
+          reserved: ['exports', 'require'],
+        },
+        output: {
+          comments: false,
+        },
       },
     }),
     new OfflinePlugin({
