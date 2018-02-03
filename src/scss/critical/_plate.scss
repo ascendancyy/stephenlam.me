@@ -2,7 +2,7 @@
   @include intro(plate);
 
   position: absolute;
-  top: 90%;
+  top: 0;
   z-index: 131;
 
   display: flex;
@@ -17,8 +17,6 @@
 
   backface-visibility: hidden;
   background-color: $accent;
-
-  transform: translateY(-100%);
 
   overflow: hidden;
 
@@ -68,12 +66,18 @@
   }
 }
 
+// ----------------------------------------------------------------------------
+.title,
+.subtitle {
+  color: $white;
+}
+
+// ----------------------------------------------------------------------------
 .title {
   @include intro(title);
 
   margin: 0 0 0 6%;
 
-  color: $white;
   font-weight: $font-weight-bold;
   font-size: $font-scale-7;
   font-family: Lusitana, serif;
@@ -120,10 +124,9 @@
 
   position: relative;
 
-  margin: 20px 0 0 6%;
+  margin: 10px 0 0 6%;
 
-  color: $white;
-  font-size: $font-scale-1;
+  font-size: $font-scale-2;
   font-family: Oxygen, sans-serif;
 
   animation-fill-mode: backwards;
@@ -135,7 +138,7 @@
 
   @media (max-width: 375px), (max-height: 360px) { margin-top: 10px; }
 
-  @media (max-height: 360px) { font-size: $font-scale-1 * 0.85; }
+  @media (max-height: 360px) { font-size: $font-scale-2 * 0.85; }
 
   @media (max-height: 200px) { display: none; }
 }
