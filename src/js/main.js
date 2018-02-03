@@ -2,9 +2,6 @@
 import 'src/js/flow/flow';
 import 'src/js/flow/caption';
 
-// misc
-import 'src/js/blink';
-
 // styling
 import loadFonts from 'src/js/loadFonts';
 
