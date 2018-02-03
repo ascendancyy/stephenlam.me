@@ -15,8 +15,8 @@ module.exports = {
     node: true,
     es6: true,
   },
+  parser: 'babel-eslint',
   parserOptions: {
-    parser: 'babel-eslint',
     sourceType: 'module',
     allowImportExportEverywhere: true,
   },
@@ -24,6 +24,7 @@ module.exports = {
     'semi': ['error', 'always'],
     'quotes': ['error', 'single'],
     'operator-linebreak': ['warn', 'after'],
+    'no-mixed-operators': 'off',
 
     'no-console': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -34,6 +35,8 @@ module.exports = {
       ignorePropertyModificationsFor: [
         'acc', // for reduce accumulators
         'el', // for el.style
+        'region', // flow
+        'computed', // flow
       ],
     }],
 
