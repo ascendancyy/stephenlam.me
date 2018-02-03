@@ -40,7 +40,7 @@ const cssLoader = [
     options: {
       sourceMap: true,
       config: {
-        path: './configs/postcss.config.js',
+        path: './postcss.config.js',
       },
     },
   },
