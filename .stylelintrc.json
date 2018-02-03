@@ -425,9 +425,10 @@
             "custom-properties",
             { "type": "at-rule", "name": "extend" },
             "declarations",
+            { "type": "at-rule", "name": "include", "parameter": "classless" },
+            { "type": "at-rule", "name": "include", "parameter": "intro" },
             { "type": "at-rule", "name": "media" },
             "at-rules",
-            { "type": "at-rule", "name": "include", "parameter": "classless" },
             "rules"
          ],
          {
