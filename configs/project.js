@@ -11,7 +11,7 @@ module.exports = {
     chunkOutputFilename: '[id].[chunkhash:14].js',
 
     cssFilename: '[name].[contenthash:14].css',
-    scssOutputStyle: 'compressed'
+    scssOutputStyle: 'compressed',
   },
   dev: {
     devtool: '#eval-source-map',
@@ -23,6 +23,6 @@ module.exports = {
     scssOutputStyle: 'expanded',
 
     port: 8080,
-    host: '0.0.0.0'
-  }
+    host: '0.0.0.0',
+  },
 };

@@ -6,7 +6,7 @@ export const raf = window.requestAnimationFrame ||
                    window.webkitRequestAnimationFrame ||
                    window.mozRequestAnimationFrame ||
                    window.msRequestAnimationFrame ||
-                   function raf (callback) { return setTimeout(callback, 16); };
+                   function raf(callback) { return setTimeout(callback, 16); };
 
 export const cancelRaf = window.cancelAnimationFrame ||
                          window.webkitCancelAnimationFrame ||
@@ -14,30 +14,32 @@ export const cancelRaf = window.cancelAnimationFrame ||
                          window.msCancelAnimationFrame ||
                          clearTimeout;
 
-export function nextFrame (func) {
-  return raf(function frame () {
+export function nextFrame(func) {
+  // eslint-disable-next-line prefer-arrow-callback
+  return raf(function frame() {
     raf(func);
   });
 }
 
-export function viewport () {
+export function viewport() {
   const docElm = document.documentElement;
 
   return {
     width: Math.max(docElm.clientWidth, window.innerWidth || 0),
-    height: Math.max(docElm.clientHeight, window.innerHeight || 0)
+    height: Math.max(docElm.clientHeight, window.innerHeight || 0),
   };
 }
 
 let rng = Math.random;
-DEVELOPMENT && import(/* webpackChunkName: "devdeps" */ 'seedrandom')
-  .then(seedrandom => rng = seedrandom('2501'));
-
-export function random (lower = 0, upper = 1) {
+if (DEVELOPMENT) {
+  import(/* webpackChunkName: "devdeps" */ 'seedrandom')
+    .then((seedrandom) => { rng = seedrandom('2501'); });
+}
+export function random(lower = 0, upper = 1) {
   return rng() * (upper - lower) + lower;
 }
 
-export function addClass (elm, cls) {
+export function addClass(elm, cls) {
   // eslint-disable-next-line no-param-reassign, no-cond-assign
   if (!cls || !(cls = cls.trim())) {
     return;
@@ -45,7 +47,6 @@ export function addClass (elm, cls) {
 
   if (elm.classList) {
     if (cls.indexOf(' ') > -1) {
-      // eslint-disable-next-line id-length
       cls.split(/\s+/).forEach(c => elm.classList.add(c));
     } else {
       elm.classList.add(cls);
@@ -58,7 +59,7 @@ export function addClass (elm, cls) {
   }
 }
 
-export function removeClass (elm, cls) {
+export function removeClass(elm, cls) {
   // eslint-disable-next-line no-param-reassign, no-cond-assign
   if (!cls || !(cls = cls.trim())) {
     return;
@@ -66,7 +67,6 @@ export function removeClass (elm, cls) {
 
   if (elm.classList) {
     if (cls.indexOf(' ') > -1) {
-      // eslint-disable-next-line id-length
       cls.split(/\s+/).forEach(c => elm.classList.remove(c));
     } else {
       elm.classList.remove(cls);
@@ -89,21 +89,23 @@ export function removeClass (elm, cls) {
   }
 }
 
-export function style (element, property) {
+export function style(element, property) {
   return window.getComputedStyle(element).getPropertyValue(property);
 }
 
-export function inlineStyles (url, callback) {
-  return new Promise(function request (resolve, reject) {
+export function inlineStyles(url, callback) {
+  return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
 
-    xhr.onreadystatechange = function ready () {
+    xhr.onreadystatechange = function ready() {
       if (xhr.readyState === 4 && xhr.status === 200) {
         const styleElm = document.createElement('style');
 
         styleElm.innerHTML = xhr.responseText;
         document.head.appendChild(styleElm);
-        callback && (styleElm.onload = callback);
+        if (typeof callback === 'function') {
+          callback();
+        }
         resolve();
       }
     };
@@ -114,19 +116,21 @@ export function inlineStyles (url, callback) {
   });
 }
 
-export function loadStyles (url, callback) {
-  return new Promise(function request (resolve, reject) {
+export function loadStyles(url, callback) {
+  return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
 
     xhr.returnType = 'text';
-    xhr.onreadystatechange = function ready () {
+    xhr.onreadystatechange = function ready() {
       if (xhr.readyState === 4 && xhr.status === 200) {
         const link = document.createElement('link');
 
         link.rel = 'stylesheet';
         link.href = url;
         document.head.appendChild(link);
-        callback && (link.onload = callback);
+        if (typeof callback === 'function') {
+          link.onload = callback;
+        }
         resolve();
       }
     };

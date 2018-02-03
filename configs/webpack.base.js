@@ -1,32 +1,31 @@
-/* eslint-disable object-curly-newline */
+const DEVELOPMENT = process.env.NODE_ENV === 'development';
+const VERSION = require('../package.json').version.toString();
 
-const DEVELOPMENT = process.env.NODE_ENV === 'development',
-      PRODUCTION = process.env.NODE_ENV === 'production',
-      VERSION = require('../package.json').version.toString();
+const webpack = require('webpack');
+const path = require('path');
+const xml2js = require('xml2js');
+const bourbon = require('bourbon');
 
-const webpack = require('webpack'),
-      path = require('path'),
-      xml2js = require('xml2js');
+const project = require('./project.js');
 
-const project = require('./project.js'),
-      settings = DEVELOPMENT ?
-        project.dev :
-        project.prod;
+const settings = DEVELOPMENT ?
+  project.dev :
+  project.prod;
 
-const StyleExtPlugin = require('style-ext-html-webpack-plugin'),
-      ExtractTextPlugin = require('extract-text-webpack-plugin'),
-      CopyWebpackPlugin = require('copy-webpack-plugin');
+const StyleExtPlugin = require('style-ext-html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const InternalCSS = new ExtractTextPlugin({
   filename: 'internal.css',
   allChunks: true,
-  disable: DEVELOPMENT
+  disable: DEVELOPMENT,
 });
 
 const ExternalCSS = new ExtractTextPlugin({
   filename: settings.cssFilename,
   allChunks: true,
-  disable: DEVELOPMENT
+  disable: DEVELOPMENT,
 });
 
 const cssLoader = [
@@ -34,26 +33,26 @@ const cssLoader = [
     loader: 'css-loader',
     options: {
       sourceMap: true,
-      importLoaders: 1
-    }
+      importLoaders: 1,
+    },
   }, {
     loader: 'postcss-loader',
     options: {
       sourceMap: true,
       config: {
-        path: './configs/postcss.config.js'
-      }
-    }
-  }
+        path: './configs/postcss.config.js',
+      },
+    },
+  },
 ];
 const scssLoader = cssLoader.concat([{
   loader: 'sass-loader',
   options: {
-    includePaths: [require('bourbon').includePaths],
+    includePaths: [bourbon.includePaths],
     sourceMap: true,
     indentedSyntax: false,
-    outputStyle: settings.scssOutputStyle
-  }
+    outputStyle: settings.scssOutputStyle,
+  },
 }]);
 
 const base = {
@@ -61,14 +60,14 @@ const base = {
   entry: {
     main: [
       './src/js/promise.js',
-      './src/js/main.js'
-    ]
+      './src/js/main.js',
+    ],
   },
   output: {
     filename: settings.outputFilename,
     chunkFilename: settings.chunkOutputFilename,
     path: path.join(__dirname, '../dist'),
-    publicPath: project.publicPath
+    publicPath: project.publicPath,
   },
   resolve: {
     alias: {
@@ -77,9 +76,9 @@ const base = {
       scss: path.resolve(__dirname, '../src/scss'),
       critical: path.resolve(__dirname, '../src/scss/critical'),
       waves: path.resolve(__dirname, '../src/scss/waves'),
-      variables: path.resolve(__dirname, '../src/scss/variables')
+      variables: path.resolve(__dirname, '../src/scss/variables'),
     },
-    extensions: ['*', '.js']
+    extensions: ['*', '.js'],
   },
   module: {
     rules: [
@@ -87,42 +86,42 @@ const base = {
         test: /normalize\.css$/,
         use: InternalCSS.extract({
           use: cssLoader,
-          fallback: 'style-loader'
-        })
+          fallback: 'style-loader',
+        }),
       }, {
         test: /critical\/[\w.-]+\.scss$/,
         use: InternalCSS.extract({
           use: scssLoader,
-          fallback: 'style-loader'
-        })
+          fallback: 'style-loader',
+        }),
       }, {
         test: /\.scss$/,
         use: ExternalCSS.extract({
           use: scssLoader,
-          fallback: 'style-loader'
+          fallback: 'style-loader',
         }),
-        exclude: path.resolve(__dirname, '../src/scss/critical')
+        exclude: path.resolve(__dirname, '../src/scss/critical'),
       }, {
         test: /\.css$/,
         use: ExternalCSS.extract({
           use: cssLoader,
-          fallback: 'style-loader'
+          fallback: 'style-loader',
         }),
-        exclude: /normalize/
+        exclude: /normalize/,
       }, {
         test: /\.js$/,
         use: ['babel-loader'],
-        exclude: /node_modules/
+        exclude: /node_modules/,
       }, {
         test: /\.(png|jpg|gif|svg)$/,
         use: [
           {
             loader: 'file-loader',
-            options: { name: '[name].[ext]?[hash]' }
-          }
-        ]
-      }
-    ]
+            options: { name: '[name].[ext]?[hash]' },
+          },
+        ],
+      },
+    ],
   },
   plugins: [
     new webpack.NamedModulesPlugin(),
@@ -131,20 +130,22 @@ const base = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        VERSION: JSON.stringify(VERSION)
-      }
+        VERSION: JSON.stringify(VERSION),
+      },
     }),
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../src/favicons/'),
         to: `[name].[ext]?v=${VERSION}`,
-        transform (content, contentPath) {
+        transform(content, contentPath) {
           if (contentPath.indexOf('manifest.json') !== -1) {
             const manifest = JSON.parse(content.toString());
-            for (const icon of manifest.icons) {
+            manifest.icons.forEach((icon) => {
+              // eslint-disable-next-line no-param-reassign
               icon.src = project.publicPath + icon.src + VERSION;
-            }
+            });
 
+            // eslint-disable-next-line new-cap
             return new Buffer.from(JSON.stringify(manifest));
           } else if (contentPath.indexOf('browserconfig.xml') !== -1) {
             let xml;
@@ -159,6 +160,7 @@ const base = {
               config150.src = project.publicPath + config150.src + VERSION;
 
               const builder = new xml2js.Builder();
+              // eslint-disable-next-line new-cap
               xml = new Buffer.from(builder.buildObject(result));
             });
 
@@ -166,8 +168,8 @@ const base = {
           }
 
           return content;
-        }
-      }
+        },
+      },
     ]),
 
     InternalCSS,
@@ -175,16 +177,9 @@ const base = {
     new StyleExtPlugin({
       enabled: !DEVELOPMENT,
       filename: 'internal.css',
-      minify: true
-    })
-  ]
+      minify: true,
+    }),
+  ],
 };
 
-if (PRODUCTION || DEVELOPMENT) {
-  const merge = require('webpack-merge');
-  module.exports = merge(base, DEVELOPMENT ?
-    require('./webpack.dev.js') :
-    require('./webpack.prod.js'));
-} else {
-  module.exports = base;
-}
+module.exports = base;

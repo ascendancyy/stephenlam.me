@@ -3,8 +3,8 @@
   "version": "2.0.1",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./configs/webpack.base.js --hot --inline",
-    "build": "rimraf dist && cross-env NODE_ENV=production webpack --config ./configs/webpack.base.js --progress --hide-modules --color --display-optimization-bailout",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./configs/webpack.dev.js --hot --inline",
+    "build": "rimraf dist && cross-env NODE_ENV=production webpack --config ./configs/webpack.prod.js --progress --hide-modules --color --display-optimization-bailout",
     "test": "eslint src/**/*.js"
   },
   "browserslist": [

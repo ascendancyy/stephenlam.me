@@ -1,25 +1,27 @@
-/* eslint-disable object-curly-newline */
+const project = require('./project.js');
 
-const project = require('./project.js'),
-      settings = project.prod,
-      VERSION = require('../package.json').version.toString();
+const settings = project.prod;
+const VERSION = require('../package.json').version.toString();
 
-const webpack = require('webpack'),
-      HTMLWebpackPlugin = require('html-webpack-plugin'),
-      OfflinePlugin = require('offline-plugin');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const base = require('./webpack.base.js');
 
-const base = {
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+const OfflinePlugin = require('offline-plugin');
+
+module.exports = merge(base, {
   plugins: [
     new webpack.LoaderOptionsPlugin({
       minimize: true,
-      debug: false
+      debug: false,
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      filename: settings.outputFilename
+      filename: settings.outputFilename,
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest'
+      name: 'manifest',
     }),
     new HTMLWebpackPlugin({
       filename: 'index.html',
@@ -33,8 +35,8 @@ const base = {
         collapseWhitespace: true,
         collapseInlineTagWhitespace: true,
         sortAttributes: true,
-        sortClassName: true
-      }
+        sortClassName: true,
+      },
     }),
     new webpack.optimize.UglifyJsPlugin({
       comments: false,
@@ -42,12 +44,12 @@ const base = {
 
       compress: {
         warnings: true,
-        dead_code: true // eslint-disable-line camelcase
+        dead_code: true,
       },
       mangle: {
-        keep_fnames: false, // eslint-disable-line camelcase
-        except: ['exports', 'require']
-      }
+        keep_fnames: false,
+        except: ['exports', 'require'],
+      },
     }),
     new OfflinePlugin({
       version: VERSION,
@@ -56,17 +58,15 @@ const base = {
       AppCache: false,
       ServiceWorker: {
         output: 'jet-alone.js',
-        events: true
+        events: true,
       },
       caches: {
         main: ['index.html', 'main.*.js', 'manifest.*.js', 'main.*.css'],
         additional: [':rest:', 'ga.*.js'],
-        optional: [':externals:', 'background.svg?*']
+        optional: [':externals:', 'background.svg?*'],
       },
       excludes: ['**/.*', '**/*.map', 'internal.css', 'devdeps.*.js'],
-      safeToUseOptionalCaches: true
-    })
-  ]
-};
-
-module.exports = base;
+      safeToUseOptionalCaches: true,
+    }),
+  ],
+});

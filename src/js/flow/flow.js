@@ -5,29 +5,29 @@ const {
   abs,
   sin,
   cos,
-  floor
+  floor,
 } = Math;
 
 // =================
 // shared references
 // =================
 
-let flowTime = 0,
-    flowLastTime = 0,
-    flowHover = false;
+let flowTime = 0;
+let flowLastTime = 0;
+let flowHover = false;
 
 // The sin of milliseconds divided by ~318 will equal to 1 turn per second.
-const PER_SECOND = 318.571085,
-      pixelRatio = window.devicePixelRatio || 1,
-      reduceMotion = matchMedia('(prefers-reduced-motion)').matches;
+const PER_SECOND = 318.571085;
+const pixelRatio = window.devicePixelRatio || 1;
+const reduceMotion = matchMedia('(prefers-reduced-motion)').matches;
 
 const canvas = document.querySelector('.flow__canvas');
 
-canvas.addEventListener('mouseenter', function canvasHover () {
+canvas.addEventListener('mouseenter', () => {
   flowHover = true;
 }, { passive: true });
 
-canvas.addEventListener('mouseleave', function canvasLeave () {
+canvas.addEventListener('mouseleave', () => {
   flowHover = false;
 }, { passive: true });
 
@@ -36,13 +36,15 @@ try {
   ctx = canvas.getContext('2d');
   canvas.style.cursor = 'pointer';
 } catch (error) {
-  process.env.NODE_ENV === 'development' && console.log(error);
+  if (process.env.NODE_ENV === 'development') {
+    console.log(error);
+  }
 }
 
 let { width: parentWidth, height: parentHeight } = viewport();
 const initialHeight = parentHeight;
 
-function resizeCanvas (event) {
+function resizeCanvas() {
   const { width, height } = canvas.getBoundingClientRect();
 
   parentWidth = width;
@@ -52,183 +54,71 @@ function resizeCanvas (event) {
   canvas.height = parentHeight * pixelRatio;
 }
 
-window.addEventListener('resize', resizeCanvas);
-window.addEventListener('load', resizeCanvas, { once: true });
-
-canvas.addEventListener('click', respawnFlows);
-
 
 // =======
 // helpers
 // =======
 
 const getSpace = {
-  x (deviation, previous = 0) {
+  x(deviation, previous = 0) {
     const { min = 10, max = 100 } = deviation;
     const space = Math.min(Math.max(parentWidth * 0.064, min), max);
 
     return floor(random(1, 2) * space) + previous;
   },
 
-  y (deviation, previous = 0) {
+  y(deviation, previous = 0) {
     const { min = 10, max = 100 } = deviation;
 
-    let next = random(-0.5, 0.5) * initialHeight + max,
-        delta = next - previous;
+    let next = (random(-0.5, 0.5) * initialHeight) + max;
+    let delta = next - previous;
 
     while (abs(delta) > max ||
            abs(delta) <= min ||
            next <= 16 ||
            next >= initialHeight - 16) {
-      next = random(-0.5, 0.5) * initialHeight + max;
+      next = (random(-0.5, 0.5) * initialHeight) + max;
       delta = next - previous;
     }
 
     return floor(next);
-  }
+  },
 };
 
-function pointIsVisible (x) { return x < parentWidth + 16; }
+function pointIsVisible(x) { return x < parentWidth + 16; }
 
-
-// ==============
-// flow instances
-// ==============
-
-function updateAllFlows () {
-  flows.forEach(updatePoints);
-}
-
-function *createPoints (deviation, lastPoint) {
-  const last = {
-    x: lastPoint.x,
-    y: lastPoint.y
-  };
-
-  const padding = getSpace.x(deviation.x);
-  while (last.x < parentWidth + padding) {
-    ['x', 'y'].forEach(axis =>
-      last[axis] = getSpace[axis](deviation[axis], last[axis]));
-
-    yield Object.assign({}, last, {
-      visible: true,
-      variance: {
-        progress: 0,
-        x: random(0.5, 1),
-        y: random(0.008, 0.064)
-      }
-    });
-  }
-}
-
-function *initialPoints (deviation) {
-  const x = 0,
-        y = initialHeight * random(0.5, 0.6);
-
-  yield {
-    x,
-    y,
-    visible: true,
-    variance: {
-      progress: 0,
-      x: undefined,
-      y: random(0.008, 0.064)
-    }
-  };
-
-  yield {
-    x,
-    y: getSpace.y(deviation.y, y),
-    visible: true,
-    variance: {
-      progress: 0,
-      x: undefined,
-      y: random(0.008, 0.064)
-    }
-  };
-}
-
-function createFlow (deviation) {
-  const region = {
-    top: initialHeight,
-    bottom: 0
-  };
-
-  function addPoints () {
-    const lastPoint = points[points.length - 1];
-    if (lastPoint.x > parentWidth + 10) {
-      return;
-    }
-    const newPoints = Array.from(createPoints(deviation, lastPoint));
-    points.push(...newPoints);
-  }
-
-  const points = Array.from(initialPoints(deviation));
-  addPoints();
-
-  window.addEventListener('resize', addPoints);
-
-  return {
-    points,
-    region
-  };
-}
-
-function respawnFlows (event) {
-  event.preventDefault();
-  ctx.clearRect(0, 0, parentWidth, parentHeight);
-  flows.map(object => Object.assign(object, createFlow(object.deviation)));
-}
-
-const flows = [
-  {
-    alpha: 0.64,
-    speed: Math.PI * 1.61803398875,
-    deviation: {
-      x: {
-        min: 60,
-        max: 300
-      },
-      y: {
-        min: 25,
-        max: 200
-      }
-    }
-  }
-].map(object => Object.assign(createFlow(object.deviation), object));
 
 // =========
 // animation
 // =========
 
-function clearRegion (region) {
+function clearRegion(region) {
   const padding = 16;
   const height = region.bottom - region.top;
   ctx.clearRect(0, region.top - padding, parentWidth, height + (padding * 2));
 }
 
-function drawTriangle (context, points) {
+function drawTriangle(context, points) {
   context.beginPath();
-  points.forEach(function drawLine (point, index) {
+  points.forEach((point, index) => {
     const action = index === 0 ? 'moveTo' : 'lineTo';
     ctx[action](point.x, point.y);
   });
   context.closePath();
 }
 
-function updateTriangle (points, computed, end, speed) {
-  let min = Number.MAX_SAFE_INTEGER,
-      max = Number.MIN_SAFE_INTEGER;
+function updateTriangle(points, computed, end, speed) {
+  let min = Number.MAX_SAFE_INTEGER;
+  let max = Number.MIN_SAFE_INTEGER;
 
   const trPoints = [end - 2, end - 1, end];
-  const triangle = trPoints.reduce(function setPoint (collect, ptIdx, rdIdx) {
+  const triangle = trPoints.reduce((collect, ptIdx, rdIdx) => {
     const point = points[ptIdx];
-    let { x: pointX } = point,
-        pointY = computed[ptIdx];
+    let { x: pointX } = point;
+    let pointY = computed[ptIdx];
 
     if (!pointY) {
-      pointY = point.y +
-               (point.variance.y * point.variance.progress * initialHeight);
+      pointY = point.y + (point.variance.y * point.variance.progress * initialHeight);
       computed[ptIdx] = pointY;
     }
 
@@ -255,7 +145,7 @@ function updateTriangle (points, computed, end, speed) {
 
     collect.push({
       x: pointX,
-      y: pointY
+      y: pointY,
     });
 
     return collect;
@@ -264,12 +154,115 @@ function updateTriangle (points, computed, end, speed) {
   return [triangle, [min, max]];
 }
 
-// eslint-disable-next-line object-curly-newline
-function updatePoints ({ alpha, points, speed, region }) {
+
+// ==============
+// flow instances
+// ==============
+
+function* createPoints(deviation, lastPoint) {
+  const last = {
+    x: lastPoint.x,
+    y: lastPoint.y,
+  };
+
+  const padding = getSpace.x(deviation.x);
+  while (last.x < parentWidth + padding) {
+    ['x', 'y'].forEach((axis) => {
+      last[axis] = getSpace[axis](deviation[axis], last[axis]);
+    });
+
+    yield Object.assign({}, last, {
+      visible: true,
+      variance: {
+        progress: 0,
+        x: random(0.5, 1),
+        y: random(0.008, 0.064),
+      },
+    });
+  }
+}
+
+function* initialPoints(deviation) {
+  const x = 0;
+  const y = initialHeight * random(0.5, 0.6);
+
+  yield {
+    x,
+    y,
+    visible: true,
+    variance: {
+      progress: 0,
+      x: undefined,
+      y: random(0.008, 0.064),
+    },
+  };
+
+  yield {
+    x,
+    y: getSpace.y(deviation.y, y),
+    visible: true,
+    variance: {
+      progress: 0,
+      x: undefined,
+      y: random(0.008, 0.064),
+    },
+  };
+}
+
+function createFlow(deviation) {
+  const region = {
+    top: initialHeight,
+    bottom: 0,
+  };
+
+  const points = Array.from(initialPoints(deviation));
+
+  function addPoints() {
+    const lastPoint = points[points.length - 1];
+    if (lastPoint.x > parentWidth + 10) {
+      return;
+    }
+    const newPoints = Array.from(createPoints(deviation, lastPoint));
+    points.push(...newPoints);
+  }
+
+  addPoints();
+
+  window.addEventListener('resize', addPoints);
+
+  return {
+    points,
+    region,
+  };
+}
+
+const flows = [
+  {
+    alpha: 0.64,
+    speed: Math.PI * 1.61803398875,
+    deviation: {
+      x: {
+        min: 60,
+        max: 300,
+      },
+      y: {
+        min: 25,
+        max: 200,
+      },
+    },
+  },
+].map(object => Object.assign(createFlow(object.deviation), object));
+
+function updatePoints({
+  alpha,
+  points,
+  speed,
+  region,
+}) {
   const start = performance.now();
 
-  const delta = performance.now() - flowLastTime,
-        add = flowHover ? delta : delta * 0.4;
+  const delta = performance.now() - flowLastTime;
+  const add = flowHover ? delta : delta * 0.4;
 
   flowTime += Math.min(add, 17.77);
   flowLastTime = start;
@@ -284,7 +277,7 @@ function updatePoints ({ alpha, points, speed, region }) {
   region.top = Number.MAX_SAFE_INTEGER;
   region.bottom = Number.MIN_SAFE_INTEGER;
 
-  for (let index = 0; index < points.length; index++) {
+  for (let index = 0; index < points.length; index += 1) {
     const point = points[index];
     const { visible } = point;
 
@@ -314,21 +307,38 @@ function updatePoints ({ alpha, points, speed, region }) {
   ctx.restore();
 }
 
+function updateAllFlows() {
+  flows.forEach(updatePoints);
+}
+
+function respawnFlows(event) {
+  event.preventDefault();
+  ctx.clearRect(0, 0, parentWidth, parentHeight);
+  flows.map(object => Object.assign(object, createFlow(object.deviation)));
+}
+
 
 // ==========
 // initialize
 // ==========
 
-if (ctx) {
-  'requestIdleCallback' in window ?
-    requestIdleCallback(tick) :
-    tick();
-}
-
-function tick () {
+function tick() {
   updateAllFlows();
   if (reduceMotion) {
     return;
   }
   raf(tick);
 }
+
+if (ctx) {
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(tick);
+  } else {
+    tick();
+  }
+}
+
+window.addEventListener('resize', resizeCanvas);
+window.addEventListener('load', resizeCanvas, { once: true });
+
+canvas.addEventListener('click', respawnFlows);

@@ -1,12 +1,13 @@
-/* eslint-disable object-curly-newline */
+const pixrem = require('pixrem');
+const calc = require('postcss-calc');
+const flexbugs = require('postcss-flexbugs-fixes');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
   plugins: [
-    require('pixrem')(),
-    require('postcss-calc')({
-      precision: 3
-    }),
-    require('postcss-flexbugs-fixes')(),
-    require('autoprefixer')()
-  ]
+    pixrem(),
+    calc({ precision: 3 }),
+    flexbugs(),
+    autoprefixer(),
+  ],
 };

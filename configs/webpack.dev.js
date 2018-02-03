@@ -1,12 +1,14 @@
-/* eslint-disable object-curly-newline */
+const project = require('./project.js');
 
-const project = require('./project.js'),
-      settings = project.dev;
+const settings = project.dev;
 
-const webpack = require('webpack'),
-      HTMLWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const base = require('./webpack.base.js');
 
-module.exports = {
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = merge(base, {
   devServer: {
     port: settings.port,
     host: settings.host,
@@ -15,15 +17,15 @@ module.exports = {
 
     compress: true,
 
-    noInfo: true
+    noInfo: true,
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      filename: settings.outputFilename
+      filename: settings.outputFilename,
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest'
+      name: 'manifest',
     }),
     new HTMLWebpackPlugin({
       filename: 'index.html',
@@ -34,8 +36,8 @@ module.exports = {
       inject: true,
       minify: {
         collapseWhitespace: true,
-        collapseInlineTagWhitespace: true
-      }
-    })
-  ]
-};
+        collapseInlineTagWhitespace: true,
+      },
+    }),
+  ],
+});
