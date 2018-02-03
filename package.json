@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./configs/webpack.dev.js --hot --inline",
     "build": "rimraf dist && cross-env NODE_ENV=production webpack --config ./configs/webpack.prod.js --progress --hide-modules --color --display-optimization-bailout",
-    "test": "eslint src/**/*.js"
+    "lint:script": "eslint src/**/*.js",
+    "lint:style": "stylelint **/*.scss --config .stylelintrc.json"
   },
   "browserslist": [
     "> 2%",
