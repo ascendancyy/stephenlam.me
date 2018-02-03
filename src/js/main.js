@@ -1,15 +1,18 @@
-// styling
-import 'normalize.css';
-import 'critical/main.scss';
-import 'waves/waves.scss';
-import 'src/js/fonts';
-
 // flow
 import 'src/js/flow/flow';
 import 'src/js/flow/caption';
 
 // misc
 import 'src/js/blink';
+
+// styling
+import loadFonts from 'src/js/loadFonts';
+
+import 'normalize.css';
+import 'critical/main.scss';
+import 'waves/waves.scss';
+
+loadFonts();
 
 const PRODUCTION = process.env.NODE_ENV === 'production';
 
