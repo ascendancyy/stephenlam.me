@@ -1,34 +1,35 @@
-const DEVELOPMENT = process.env.NODE_ENV === 'development';
-const VERSION = require('../package.json').version.toString();
-
 const webpack = require('webpack');
 const path = require('path');
 const xml2js = require('xml2js');
 const bourbon = require('bourbon');
 
-const project = require('./project.js');
-
-const settings = DEVELOPMENT ?
-  project.dev :
-  project.prod;
-
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 const StyleExtPlugin = require('style-ext-html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+const PRODUCTION = process.env.NODE_ENV === 'production';
+const VERSION = require('../package.json').version.toString();
+
+const projectConfig = require('./project.js');
+
+const settings = PRODUCTION ?
+  projectConfig.prod :
+  projectConfig.dev;
+
 const InternalCSS = new ExtractTextPlugin({
   filename: 'internal.css',
   allChunks: true,
-  disable: DEVELOPMENT,
+  disable: !PRODUCTION,
 });
 
 const ExternalCSS = new ExtractTextPlugin({
   filename: settings.cssFilename,
   allChunks: true,
-  disable: DEVELOPMENT,
+  disable: !PRODUCTION,
 });
 
-const cssLoader = [
+const CSSLoader = [
   {
     loader: 'css-loader',
     options: {
@@ -45,18 +46,22 @@ const cssLoader = [
     },
   },
 ];
-const scssLoader = cssLoader.concat([{
-  loader: 'sass-loader',
-  options: {
-    includePaths: [bourbon.includePaths],
-    sourceMap: true,
-    indentedSyntax: false,
-    outputStyle: settings.scssOutputStyle,
+
+const SCSSLoader = [
+  ...CSSLoader,
+  {
+    loader: 'sass-loader',
+    options: {
+      includePaths: [bourbon.includePaths],
+      sourceMap: true,
+      indentedSyntax: false,
+      outputStyle: settings.scssOutputStyle,
+    },
   },
-}]);
+];
 
 const base = {
-  devtool: project.devtool,
+  devtool: settings.devtool,
   entry: {
     main: [
       './src/js/promise.js',
@@ -67,7 +72,7 @@ const base = {
     filename: settings.outputFilename,
     chunkFilename: settings.chunkOutputFilename,
     path: path.join(__dirname, '../dist'),
-    publicPath: project.publicPath,
+    publicPath: projectConfig.publicPath,
   },
   resolve: {
     alias: {
@@ -85,26 +90,26 @@ const base = {
       {
         test: /normalize\.css$/,
         use: InternalCSS.extract({
-          use: cssLoader,
+          use: CSSLoader,
           fallback: 'style-loader',
         }),
       }, {
         test: /critical\/[\w.-]+\.scss$/,
         use: InternalCSS.extract({
-          use: scssLoader,
+          use: SCSSLoader,
           fallback: 'style-loader',
         }),
       }, {
         test: /\.scss$/,
         use: ExternalCSS.extract({
-          use: scssLoader,
+          use: SCSSLoader,
           fallback: 'style-loader',
         }),
         exclude: path.resolve(__dirname, '../src/scss/critical'),
       }, {
         test: /\.css$/,
         use: ExternalCSS.extract({
-          use: cssLoader,
+          use: CSSLoader,
           fallback: 'style-loader',
         }),
         exclude: /normalize/,
@@ -124,15 +129,45 @@ const base = {
     ],
   },
   plugins: [
-    new webpack.NamedModulesPlugin(),
-    new webpack.NamedChunksPlugin(),
-    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         VERSION: JSON.stringify(VERSION),
       },
     }),
+
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filename: settings.outputFilename,
+      minChunks(module) {
+        // This prevents stylesheet resources with the .css or .scss extension
+        // from being moved from their original chunk to the vendor chunk
+        if (module.resource && (/^.*\.(css|scss)$/).test(module.resource)) {
+          return false;
+        }
+        return /node_modules/.test(module.context);
+      },
+    }),
+    new webpack.optimize.CommonsChunkPlugin({ name: 'manifest' }),
+
+    new webpack.NamedModulesPlugin(),
+    new webpack.NamedChunksPlugin(),
+
+    new HTMLWebpackPlugin({
+      filename: 'index.html',
+      template: './src/index.ejs',
+      title: projectConfig.title,
+      description: projectConfig.description,
+      chunksSortMode: 'dependency',
+      inject: true,
+      minify: PRODUCTION ? {
+        removeComments: true,
+        collapseWhitespace: true,
+        sortAttributes: true,
+        sortClassName: true,
+      } : false,
+    }),
+
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../src/favicons/'),
@@ -142,7 +177,7 @@ const base = {
             const manifest = JSON.parse(content.toString());
             manifest.icons.forEach((icon) => {
               // eslint-disable-next-line no-param-reassign
-              icon.src = project.publicPath + icon.src + VERSION;
+              icon.src = projectConfig.publicPath + icon.src + VERSION;
             });
 
             // eslint-disable-next-line new-cap
@@ -153,11 +188,11 @@ const base = {
             xml2js.parseString(content.toString(), options, (err, result) => {
               const config70 = result.browserconfig.msapplication.tile
                 .square70x70logo.$;
-              config70.src = project.publicPath + config70.src + VERSION;
+              config70.src = projectConfig.publicPath + config70.src + VERSION;
 
               const config150 = result.browserconfig.msapplication.tile
                 .square150x150logo.$;
-              config150.src = project.publicPath + config150.src + VERSION;
+              config150.src = projectConfig.publicPath + config150.src + VERSION;
 
               const builder = new xml2js.Builder();
               // eslint-disable-next-line new-cap
@@ -175,10 +210,12 @@ const base = {
     InternalCSS,
     ExternalCSS,
     new StyleExtPlugin({
-      enabled: !DEVELOPMENT,
+      enabled: PRODUCTION,
       filename: 'internal.css',
       minify: true,
     }),
+
+    new webpack.optimize.ModuleConcatenationPlugin(),
   ],
 };
 

@@ -1,13 +1,9 @@
-const project = require('./project.js');
-
-const settings = project.prod;
 const VERSION = require('../package.json').version.toString();
 
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const base = require('./webpack.base.js');
 
-const HTMLWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 
 module.exports = merge(base, {
@@ -15,28 +11,6 @@ module.exports = merge(base, {
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: settings.outputFilename,
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-    }),
-    new HTMLWebpackPlugin({
-      filename: 'index.html',
-      template: './src/index.ejs',
-      title: project.title,
-      description: project.description,
-      chunksSortMode: 'dependency',
-      inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        collapseInlineTagWhitespace: true,
-        sortAttributes: true,
-        sortClassName: true,
-      },
     }),
     new webpack.optimize.UglifyJsPlugin({
       comments: false,
