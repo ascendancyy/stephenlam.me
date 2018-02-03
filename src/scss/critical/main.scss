@@ -17,7 +17,7 @@ body {
 
   color: $black;
   font-weight: $base-font-weight;
-  font-family: 'Oxygen', $base-font-family;
+  font-family: Oxygen, sans-serif;
   line-height: $base-line-height;
   word-spacing: 0;
   letter-spacing: 0.2px;
@@ -34,12 +34,12 @@ body {
 
   @media (max-width: 525px) {
     margin-left: 20px;
-    width: calc(100% - 20px;);
+    width: calc(100% - 20px);
   }
 
   @media (max-width: 300px) {
     margin-left: 15px;
-    width: calc(100% - 15px;);
+    width: calc(100% - 15px);
   }
 }
 

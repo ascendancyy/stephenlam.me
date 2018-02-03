@@ -6,7 +6,11 @@
 }
 
 .flow__caption {
-  @include position(absolute, 0 null null 5px);
+  @include intro(caption);
+
+  position: absolute;
+  top: 0;
+  left: 5px;
 
   margin-top: -20px;  // compensate for letter-spacing
 
@@ -25,7 +29,6 @@
 
   transition: opacity 100ms linear;
 
-  @include intro(caption);
   animation-fill-mode: both;
 
   writing-mode: vertical-rl;
@@ -35,7 +38,11 @@
 }
 
 .flow__canvas {
-  @include position(absolute, 0 null null 50px);
+  @include intro(canvas);
+
+  position: absolute;
+  top: 0;
+  left: 50px;
   z-index: 130;
 
   width: calc(100% - 74px);
@@ -46,12 +53,10 @@
 
   background-color: $black;
 
-  transition: filter 240ms linear;
-
-  @include intro(canvas);
-  animation-fill-mode: backwards;
-
   filter: grayscale(100%);
+
+  transition: filter 240ms linear;
+  animation-fill-mode: backwards;
 
   &:hover { filter: none; }
 
@@ -62,6 +67,7 @@
 }
 
 .flow__canvas-fallback {
-  @include size(100%);
+  width: 100%;
+  height: 100%;
   background: url('../../img/background.svg') 50% 0% / cover no-repeat fixed;
 }

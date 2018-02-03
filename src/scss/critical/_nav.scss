@@ -1,14 +1,19 @@
 .header {
+  @include intro(header);
+
   position: relative;
 
-  @include intro(header);
   animation-fill-mode: both;
 
   &:before {
     content: '';
 
-    @include position(absolute, 50% null null 4px);
-    @include size(8px);
+    position: absolute;
+    top: 50%;
+    left: 4px;
+
+    width: 8px;
+    height: 8px;
 
     background: url('../../img/triangle.svg') center / cover no-repeat scroll;
 
@@ -37,6 +42,8 @@
   padding: 4px 24px 4px 0;
 
   &:after {
+    @include intro(links-border);
+
     content: '';
 
     flex-grow: 1;
@@ -47,7 +54,6 @@
 
     background-color: $accent;
 
-    @include intro(links-border);
     animation-fill-mode: both;
   }
 
@@ -86,7 +92,11 @@
   &:after {
     content: '';
 
-    @include position(absolute, 0 0 0 0);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: -1;
 
     pointer-events: none;

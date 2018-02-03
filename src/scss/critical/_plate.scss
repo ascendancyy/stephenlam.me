@@ -1,4 +1,6 @@
 .plate {
+  @include intro(plate);
+
   position: absolute;
   top: 90%;
   z-index: 131;
@@ -20,31 +22,35 @@
 
   overflow: hidden;
 
-  @include intro(plate);
   animation-fill-mode: both;
-
   will-change: transform;
 
   &:before {
+    @include intro(plate-background);
+
     content: '';
 
-    @include position(absolute, 0 0 0 0);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 
     background-color: $white;
 
     transform-origin: 0 0;
 
-    @include intro(plate-background);
     animation-fill-mode: both;
   }
 
   &:after {
+    @include intro(subtitle);
+
     content: 'A display for ants';
 
     display: none;
     color: $white;
 
-    @include intro(subtitle);
     animation-fill-mode: backwards;
   }
 
@@ -63,26 +69,22 @@
 }
 
 .title {
+  @include intro(title);
+
   margin: 0 0 0 6%;
 
   color: $white;
-  font: {
-    weight: $font-weight-bold;
-    size: $font-scale-7;
-    family: 'Lusitana', serif;
-  }
+  font-weight: $font-weight-bold;
+  font-size: $font-scale-7;
+  font-family: Lusitana, serif;
   line-height: $headings-line-height;
   letter-spacing: 0;
 
-  @include intro(title);
   animation-fill-mode: backwards;
 
   @include classless($font-loaded-class) {
-    font: {
-      size: $font-scale-7 / 1.02;
-      family: serif;
-    }
-
+    font-size: $font-scale-7;
+    font-family: serif;
     line-height: $headings-line-height * 1.01;
     word-spacing: 0.8px;
     letter-spacing: 3.5px;
@@ -106,22 +108,24 @@
 
     background-image: linear-gradient(-45deg, shade($white, 4%), lighten($white, 2%));
 
-            background-clip: text;
+    // stylelint-disable-next-line property-no-vendor-prefix
     -webkit-background-clip: text;
+    background-clip: text;
   }
 }
 
 // ----------------------------------------------------------------------------
 .subtitle {
+  @include intro(subtitle);
+
   position: relative;
 
   margin: 20px 0 0 6%;
 
   color: $white;
   font-size: $font-scale-1;
-  font-family: 'Oxygen', $base-font-family;
+  font-family: Oxygen, sans-serif;
 
-  @include intro(subtitle);
   animation-fill-mode: backwards;
 
   @include classless($font-loaded-class) {
