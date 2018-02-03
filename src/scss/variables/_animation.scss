@@ -1,6 +1,6 @@
 $intro-duration: 460ms;
 $intro-delay: 32ms;
-$intro-easing: cubic-bezier(0.31, 0.42, 0.26, 0.99);
+$intro-easing: cubic-bezier(0.1, 0, 0.25, 1); // ease-out
 
 $plate-intro: (
   name: plate-intro,
