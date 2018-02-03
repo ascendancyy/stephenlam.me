@@ -1,7 +1,3 @@
-// flow
-import 'src/js/flow/flow';
-import 'src/js/flow/caption';
-
 // styling
 import loadFonts from 'src/js/loadFonts';
 

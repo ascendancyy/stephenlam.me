@@ -18,12 +18,6 @@ $title-intro: (
 
 // stylelint-disable value-list-max-empty-lines, function-max-empty-lines
 $intro: (
-  canvas: (
-    name: (canvas-intro, fade-in),
-    duration: $intro-duration * 1.45,
-    delay: $intro-delay,
-    easing: cubic-bezier(0.215, 0.61, 0.355, 1)
-  ),
   caption: (
     name: fade-in,
     duration: $intro-duration * 1.45,

@@ -1,7 +1,5 @@
 const DEVELOPMENT = process.env.NODE_ENV === 'development';
 
-export { hsvToRgb } from 'src/js/color';
-
 export const raf = window.requestAnimationFrame ||
                    window.webkitRequestAnimationFrame ||
                    window.mozRequestAnimationFrame ||
