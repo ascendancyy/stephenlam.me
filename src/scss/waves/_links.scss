@@ -1,0 +1,88 @@
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.links {
+  margin-top: 8px;
+  min-width: 200px;
+
+  opacity: 0;
+
+  animation-name: fade-in;
+  animation-duration: 300ms;
+  animation-timing-function: $deceleration-curve;
+  animation-fill-mode: both;
+}
+
+.li + .li { margin-top: 4px; }
+
+.link {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  height: 38px;
+  padding: 4px 8px;
+
+  color: currentColor;
+  text-decoration: none;
+
+  overflow: hidden;
+
+  transition: color 225ms $acceleration-curve;
+
+  &:after {
+    content: '';
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+
+    pointer-events: none;
+
+    background-color: $black;
+
+    transform: translateX(-100%);
+
+    transition: transform 225ms $acceleration-curve;
+  }
+
+  &:hover,
+  &:hover:after {
+    transition-duration: 200ms;
+    transition-timing-function: $deceleration-curve;
+  }
+
+  &:hover { color: $white; }
+  &:hover:after { transform: translateX(0); }
+}
+
+.link-icon {
+  margin-right: 4px;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+
+  fill: currentColor;
+}
+
+.link-copy {
+  display: inline-block;
+
+  padding-top: 1px;
+
+  color: inherit;
+  font-size: $font-scale-1;
+  font-family: FuturaBT-Medium, sans-serif;
+
+  @include classless('.fonts-loaded') {
+    font-family: sans-serif;
+    word-spacing: -0.1px;
+    letter-spacing: 0.25px;
+  }
+}

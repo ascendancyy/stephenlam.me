@@ -1,7 +1,9 @@
 @import 'bourbon';
 
-@import '../variables/main';
-@import '../variables/animation';
-@import '../util';
+@import '../utils';
+@import 'variables';
 
+@import 'base';
+@import 'type';
+@import 'main';
 @import 'miscellaneous';
