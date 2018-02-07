@@ -1,3 +1,7 @@
+<%
+const spriteFileName = Object.keys(htmlWebpackPlugin.files.sprites)[0]
+%>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -28,38 +32,38 @@
     <meta name="robots" content="nofollow, noodp, noydir">
     <meta name="googlebot" content="index,follow">
 
-    <link href='https://fonts.gstatic.com' rel='preconnect' crossorigin>
+    <script type="text/javascript" src="fonts.js"></script>
   </head>
 
   <body>
-    <header class="header">
-      <nav>
-        <ul class="links">
-          <li>
-            <a href="https://blog.stephenlam.me" class="link">Blog</a>
-          </li>
-          <li>
-            <a href="https://github.com/ascendancyy"
-              target="_blank" rel="noopener noreferrer" class="link">
-              Github
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </header>
-
     <main class="main">
-      <div class="plate">
-        <h1 class="title">Stephen<br>Lam</h1>
-        <p class="subtitle">Design + Code</p>
+      <div class="content">
+        <h1 class="title">Stephen Lam</h1>
+        <nav>
+          <ul class="links">
+            <li class="li">
+              <a
+                href="https://github.com/ascendancyy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link">
+                <svg class="link-icon">
+                  <use xlink:href="/<%= spriteFileName %>#github">
+                </svg>
+                <span class="link-copy">Github</span>
+              </a>
+            </li>
+            <li class="li">
+              <a href="mailto:stephenlam.me@gmail.com" class="link">
+                <svg class="link-icon">
+                  <use xlink:href="/<%= spriteFileName %>#mail">
+                </svg>
+                <span class="link-copy">Email Me</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
-
-      <figure class="flow">
-        <canvas class="flow__canvas">
-          <div class="flow__canvas-fallback"></div>
-        </canvas>
-        <figcaption class="flow__caption">Flow</figcaption>
-      </figure>
     </main>
 
     <% if (process.env.NODE_ENV === 'production') { %>

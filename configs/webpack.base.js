@@ -4,7 +4,7 @@ const xml2js = require('xml2js');
 const bourbon = require('bourbon');
 
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const StyleExtPlugin = require('style-ext-html-webpack-plugin');
+const SpritePlugin = require('svg-sprite-loader/plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -16,12 +16,6 @@ const projectConfig = require('./project.js');
 const settings = PRODUCTION ?
   projectConfig.prod :
   projectConfig.dev;
-
-const InternalCSS = new ExtractTextPlugin({
-  filename: 'internal.css',
-  allChunks: true,
-  disable: !PRODUCTION,
-});
 
 const ExternalCSS = new ExtractTextPlugin({
   filename: settings.cssFilename,
@@ -77,48 +71,52 @@ const base = {
   resolve: {
     alias: {
       src: path.resolve(__dirname, '../src'),
+      public: path.resolve(__dirname, '../public'),
 
       scss: path.resolve(__dirname, '../src/scss'),
-      critical: path.resolve(__dirname, '../src/scss/critical'),
       waves: path.resolve(__dirname, '../src/scss/waves'),
-      variables: path.resolve(__dirname, '../src/scss/variables'),
     },
     extensions: ['*', '.js'],
   },
   module: {
     rules: [
       {
-        test: /normalize\.css$/,
-        use: InternalCSS.extract({
-          use: CSSLoader,
-          fallback: 'style-loader',
-        }),
-      }, {
-        test: /critical\/[\w.-]+\.scss$/,
-        use: InternalCSS.extract({
-          use: SCSSLoader,
-          fallback: 'style-loader',
-        }),
-      }, {
         test: /\.scss$/,
         use: ExternalCSS.extract({
           use: SCSSLoader,
           fallback: 'style-loader',
         }),
-        exclude: path.resolve(__dirname, '../src/scss/critical'),
       }, {
         test: /\.css$/,
         use: ExternalCSS.extract({
           use: CSSLoader,
           fallback: 'style-loader',
         }),
-        exclude: /normalize/,
       }, {
         test: /\.js$/,
         use: ['babel-loader'],
         exclude: /node_modules/,
       }, {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.svg$/,
+        use: [{
+          loader: 'svg-sprite-loader',
+          options: {
+            extract: true,
+            spriteFilename: 'icons.svg?[hash:8]',
+          },
+        }, {
+          loader: 'svgo-loader',
+          options: {
+            plugins: [
+              { removeTitle: true },
+              { convertPathData: true },
+              { convertTransform: true },
+              { removeUselessStrokeAndFill: true },
+            ],
+          },
+        }],
+      }, {
+        test: /\.(png|jpg|gif)$/,
         use: [
           {
             loader: 'file-loader',
@@ -170,7 +168,7 @@ const base = {
 
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, '../src/favicons/'),
+        from: path.resolve(__dirname, '../public/favicons/'),
         to: `[name].[ext]?v=${VERSION}`,
         transform(content, contentPath) {
           if (contentPath.indexOf('manifest.json') !== -1) {
@@ -206,14 +204,20 @@ const base = {
         },
       },
     ]),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../public/fonts.js'),
+        to: 'fonts.js',
+      },
+      {
+        from: path.resolve(__dirname, '../public/webfonts'),
+        to: '[name].[ext]',
+      },
+    ]),
 
-    InternalCSS,
     ExternalCSS,
-    new StyleExtPlugin({
-      enabled: PRODUCTION,
-      filename: 'internal.css',
-      minify: true,
-    }),
+
+    new SpritePlugin({ plainSprite: true }),
 
     new webpack.optimize.ModuleConcatenationPlugin(),
   ],

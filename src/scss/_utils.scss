@@ -1,0 +1,12 @@
+@mixin classless($class, $elm: 'body') {
+  @if is-superselector($elm, &) {
+    &:not(#{$class}) {
+      @content;
+    }
+  }
+  @else {
+    #{$elm}:not(#{$class}) & {
+      @content;
+    }
+  }
+}

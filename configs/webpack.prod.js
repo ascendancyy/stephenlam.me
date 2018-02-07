@@ -57,7 +57,7 @@ module.exports = merge(base, {
       caches: {
         main: ['index.html', 'main.*.js', 'manifest.*.js', 'main.*.css'],
         additional: [':rest:', 'ga.*.js'],
-        optional: [':externals:', 'background.svg?*'],
+        optional: [':externals:', 'icons.svg?*'],
       },
       excludes: ['**/.*', '**/*.map', 'internal.css', 'devdeps.*.js'],
       safeToUseOptionalCaches: true,

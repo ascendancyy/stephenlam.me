@@ -1,0 +1,13 @@
+@import 'variables/size';
+@import 'variables/color';
+
+// Easings
+$standard-curve: cubic-bezier(0.45, 0, 0.35, 1); // in-out
+$deceleration-curve: cubic-bezier(0.1, 0, 0.25, 1); // out
+$acceleration-curve: cubic-bezier(0.4, 0, 0.9, 1); // in
+$sharp-curve: cubic-bezier(0.35, 0, 0.65, 1); // in-out
+
+// Functions ------------------------------------------------------------------
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}

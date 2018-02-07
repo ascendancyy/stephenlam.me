@@ -1,0 +1,56 @@
+@import 'links';
+
+@keyframes drop {
+  0% {
+    opacity: 0.5;
+    transform: translateY(-33%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+
+  margin: 0 auto;
+  max-width: 666px;
+  height: 100%;
+  padding: 0 16px;
+}
+
+.content {
+  position: relative;
+
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+}
+
+.title {
+  position: relative;
+
+  margin: 0 0 8px;
+
+  font-weight: normal;
+  font-size: $font-scale-7;
+  font-family: FuturaBT-Bold, sans-serif;
+  line-height: 1;
+
+  animation-name: drop;
+  animation-duration: 300ms;
+  animation-timing-function: $deceleration-curve;
+  animation-fill-mode: both;
+
+  @include classless('.fonts-loaded') {
+    font-family: sans-serif;
+    word-spacing: -0.1px;
+    letter-spacing: 0.25px;
+  }
+}

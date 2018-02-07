@@ -1,15 +1,10 @@
-// flow
-import 'src/js/flow/flow';
-import 'src/js/flow/caption';
-
-// misc
-import 'src/js/blink';
+import 'public/images/mail.svg';
+import 'public/images/github.svg';
 
 // styling
 import loadFonts from 'src/js/loadFonts';
 
 import 'normalize.css';
-import 'critical/main.scss';
 import 'waves/waves.scss';
 
 loadFonts();
@@ -17,8 +12,10 @@ loadFonts();
 const PRODUCTION = process.env.NODE_ENV === 'production';
 
 if (PRODUCTION) {
-  import(/* webpackChunkName: "ga" */ 'src/js/ga')
-    .then(analytics => analytics.default());
+  (async function loadGoogleAnalytics() {
+    const { default: init } = await import(/* webpackChunkName: "ga" */ 'src/js/ga');
+    init();
+  }());
 }
 
 if (PRODUCTION) {
@@ -38,4 +35,3 @@ if (PRODUCTION) {
     },
   });
 }
-
