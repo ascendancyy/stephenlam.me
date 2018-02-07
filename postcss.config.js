@@ -7,7 +7,7 @@ module.exports = {
   plugins: [
     pixrem(),
     calc({ precision: 3 }),
-    flexbugs(),
     autoprefixer(),
+    flexbugs(),
   ],
 };
