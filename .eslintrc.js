@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   settings: {
     'import/extensions': ['.js'],
     'import/resolver': {
