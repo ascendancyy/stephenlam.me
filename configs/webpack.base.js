@@ -206,6 +206,9 @@ const base = {
     ]),
     new CopyWebpackPlugin([
       {
+        from: path.resolve(__dirname, '../public/check.js'),
+        to: 'check.js',
+      }, {
         from: path.resolve(__dirname, '../public/fonts.js'),
         to: 'fonts.js',
       }, {
