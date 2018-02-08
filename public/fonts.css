@@ -1,0 +1,71 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 3522735, 2018-02-07T22:46:48-0500
+ *
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are
+ * explicitly restricted from using the Licensed Webfonts(s).
+ *
+ * You may obtain a valid license at the URLs below.
+ *
+ * Webfont: FuturaBT-Medium by Bitstream
+ * URL: https://www.myfonts.com/fonts/bitstream/futura/medium/
+ *
+ * Webfont: FuturaBT-Bold by Bitstream
+ * URL: https://www.myfonts.com/fonts/bitstream/futura/bold/
+ *
+ * Webfont: FuturaBT-Book by Bitstream
+ * URL: https://www.myfonts.com/fonts/bitstream/futura/book/
+ *
+ *
+ * License: https://www.myfonts.com/viewlicense?type=web&buildid=3522735
+ * Licensed pageviews: 20,000
+ * Webfonts copyright: Copyright &#x00A9; 2015 Monotype Imaging Inc. All rights reserved.
+ *
+ * © 2018 MyFonts Inc
+*/
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url('/count/35c0af');
+
+@font-face {
+  font-family: FuturaBT-Medium;
+  src: url('medium.eot');
+  src: url('medium.eot?#iefix') format('embedded-opentype'),
+       url('medium.woff2') format('woff2'),
+       url('medium.woff') format('woff'),
+       url('medium.ttf') format('truetype'),
+       url('medium.svg#wf') format('svg');
+
+  src: url('medium_unhinted.woff2') format('woff2'),
+       url('medium_unhinted.woff') format('woff'),
+       url('medium_unhinted.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: FuturaBT-Bold;
+  src: url('bold.eot');
+  src: url('bold.eot?#iefix') format('embedded-opentype'),
+       url('bold.woff2') format('woff2'),
+       url('bold.woff') format('woff'),
+       url('bold.ttf') format('truetype'),
+       url('bold.svg#wf') format('svg');
+
+  src: url('bold_unhinted.woff2') format('woff2'),
+       url('bold_unhinted.woff') format('woff'),
+       url('bold_unhinted.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: FuturaBT-Book;
+  src: url('book.eot');
+  src: url('book.eot?#iefix') format('embedded-opentype'),
+       url('book.woff2') format('woff2'),
+       url('book.woff') format('woff'),
+       url('book.ttf') format('truetype'),
+       url('book.svg#wf') format('svg');
+
+  src: url('book_unhinted.woff2') format('woff2'),
+       url('book_unhinted.woff') format('woff'),
+       url('book_unhinted.ttf') format('truetype');
+}

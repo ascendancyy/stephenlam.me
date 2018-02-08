@@ -1,11 +1,11 @@
 @mixin classless($class, $elm: 'body') {
   @if is-superselector($elm, &) {
-    &:not(#{$class}) {
+    .js &:not(#{$class}) {
       @content;
     }
   }
   @else {
-    #{$elm}:not(#{$class}) & {
+    .js #{$elm}:not(#{$class}) & {
       @content;
     }
   }

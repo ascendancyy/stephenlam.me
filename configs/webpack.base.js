@@ -208,8 +208,10 @@ const base = {
       {
         from: path.resolve(__dirname, '../public/fonts.js'),
         to: 'fonts.js',
-      },
-      {
+      }, {
+        from: path.resolve(__dirname, '../public/fonts.css'),
+        to: 'fonts.css',
+      }, {
         from: path.resolve(__dirname, '../public/webfonts'),
         to: '[name].[ext]',
       },

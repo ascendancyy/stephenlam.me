@@ -4,7 +4,7 @@ const spriteFileName = Object.keys(htmlWebpackPlugin.files.sprites)[0]
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" class="no-js">
   <head>
     <meta charset="utf-8">
 
@@ -33,6 +33,12 @@ const spriteFileName = Object.keys(htmlWebpackPlugin.files.sprites)[0]
     <meta name="googlebot" content="index,follow">
 
     <script type="text/javascript" src="fonts.js"></script>
+    <script>
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+    </script>
+    <noscript>
+      <link rel="stylesheet" type="text/css" href="fonts.css">
+    </noscript>
   </head>
 
   <body>
@@ -65,6 +71,10 @@ const spriteFileName = Object.keys(htmlWebpackPlugin.files.sprites)[0]
         </nav>
       </div>
     </main>
+
+    <figure>
+      <canvas class="flow"></canvas>
+    </figure>
 
     <% if (process.env.NODE_ENV === 'production') { %>
       <script async src="https://www.google-analytics.com/analytics.js"></script>
