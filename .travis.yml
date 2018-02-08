@@ -10,10 +10,8 @@ addons:
   ssh_known_hosts:
     - stephenlam.me
 
-before_install:
-  - openssl aes-256-cbc -K $encrypted_11309f95a964_key -iv $encrypted_11309f95a964_v -in public/webfonts/webfonts.zip.enc -out public/webfonts/webfonts.zip -d
-
 before_script:
+  - openssl aes-256-cbc -K $encrypted_11309f95a964_key -iv $encrypted_11309f95a964_v -in ./public/webfonts/webfonts.zip.enc -out ./public/webfonts/webfonts.zip -d
   - npm run webfonts
 
 script:
