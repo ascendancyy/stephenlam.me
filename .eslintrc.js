@@ -30,6 +30,10 @@ module.exports = {
     'no-console': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 
+    'no-use-before-define': ['error', {
+      functions: false,
+    }],
+
     'no-unused-vars': 'warn',
     'no-param-reassign': ['error', {
       props: true,
