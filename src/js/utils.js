@@ -1,3 +1,13 @@
+export const raf = window.requestAnimationFrame ||
+                   window.webkitRequestAnimationFrame ||
+                   window.mozRequestAnimationFrame ||
+                   window.msRequestAnimationFrame ||
+                   function raf(callback) { return setTimeout(callback, 16); };
+
+export function random(lower = 0, upper = 1) {
+  return Math.random() * (upper - lower) + lower;
+}
+
 export function addClass(elm, cls) {
   // eslint-disable-next-line no-param-reassign, no-cond-assign
   if (!cls || !(cls = cls.trim())) {

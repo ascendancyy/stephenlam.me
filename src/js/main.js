@@ -3,6 +3,7 @@ import 'public/images/github.svg';
 
 // styling
 import loadFonts from 'src/js/loadFonts';
+import 'src/js/flow';
 
 import 'normalize.css';
 import 'waves/waves.scss';
