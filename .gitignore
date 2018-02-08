@@ -16,4 +16,9 @@ yarn-error.log
 # Sublime
 *.sublime*
 
-webfonts/
+# Fonts
+**/*.ttf
+**/*.woff
+**/*.woff2
+**/*.eot
+**/*.svg
