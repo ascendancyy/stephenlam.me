@@ -11,7 +11,7 @@ addons:
     - stephenlam.me
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_11309f95a964_key -iv $encrypted_11309f95a964_v -in ./public/webfonts/webfonts.zip.enc -out ./public/webfonts/webfonts.zip -d
+  - openssl aes-256-cbc -K $encrypted_11309f95a964_key -iv $encrypted_11309f95a964_iv -in webfonts.zip.enc -out public/webfonts/webfonts.zip -d
 
 script:
   - npm test
