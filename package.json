@@ -8,7 +8,7 @@
     "lint:script": "eslint src/**/*.js",
     "lint:style": "stylelint **/*.scss --config .stylelintrc.json",
     "lint:all": "npm run lint:script && npm run lint:style",
-    "webfonts": "unzip -fuoq public/webfonts/webfonts.zip -d public/webfonts && rimraf public/webfonts/webfonts.zip",
+    "webfonts": "unzip -uoq public/webfonts/webfonts.zip -d public/webfonts && rimraf public/webfonts/webfonts.zip",
     "test": "npm run lint:all"
   },
   "browserslist": [
