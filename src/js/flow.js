@@ -41,7 +41,6 @@ function leave() {
 let ctx;
 try {
   ctx = canvas.getContext('2d');
-  canvas.style.cursor = 'pointer';
 } catch (error) {
   if (process.env.NODE_ENV === 'development') {
     console.log(error);
