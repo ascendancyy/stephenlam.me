@@ -15,7 +15,7 @@ const {
 
 let flowTime = 0;
 let flowLastTime = 0;
-let flowFast = true;
+let flowFast = false;
 
 // The sin of milliseconds divided by ~318 will equal to 1 turn per second.
 const PER_SECOND = 318.571085;
@@ -25,11 +25,11 @@ const reduceMotion = matchMedia('(prefers-reduced-motion)').matches;
 const canvas = document.querySelector('.flow');
 
 function hover() {
-  flowFast = false;
+  flowFast = true;
   addClass(canvas, 'hover');
 }
 function leave() {
-  flowFast = true;
+  flowFast = false;
   removeClass(canvas, 'hover');
 }
 
